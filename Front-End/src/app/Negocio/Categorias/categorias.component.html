@@ -1,0 +1,202 @@
+<app-page-title class="d-none d-sm-block" [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;">
+  <div class="col-6" *ngIf="sucursalesArray$.length > 0">
+    <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+      Sucursal:
+    </label>
+    <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+      <label (click)="seleccionarSucursal()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+        {{ buscador$.nombre }}
+        <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+      </label>
+    </div>
+  </div>
+  <div class="col-6" *ngIf="buscador$._id && currentUser$.negocio.categoria_id === '5ee410fe31a9c57966bf37c4'">
+    <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+      Peluquero:
+    </label>
+    <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+      <label (click)="consultarPeluqueros()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+        {{ buscadorUsuario$.nombre }}
+        <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="page-title-actions mb-3 text-center" *ngIf="sucursalesArray$.length > 0 || isAdminNeg">
+  <ul class="header-megamenu nav">
+    <li class="nav-item">
+      <button (click)="nuevoRegistro()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+        Crear nuevo tipo de reserva
+        <!-- {{
+          currentUser$.negocio.categoria_id === "5ee410ec31a9c57966bf37c3" ? "nueva cancha" :
+          currentUser$.negocio.categoria_id === "5ee410fe31a9c57966bf37c4" ? "nuevo servicio" :
+          currentUser$.negocio.categoria_id === "5ee4110b31a9c57966bf37c5" ? "nueva mesa" :
+          currentUser$.negocio.categoria_id === "5ee410dc31a9c57966bf37c2" ? "nuevo servicio" :
+          "------"
+        }} -->
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row mt-3" style="font-family: codigeekfont;">
+  <div class="col-12 col-sm-6" *ngFor="let registro_t of mainArray$; index as i">
+    <div class="card main-card mb-3">
+      <div class="row m-0">
+        <div class="col-12">
+          <h5 style="font-size: 14px;text-transform: none;color: black; font-weight:bold;margin:10px 0px 5px 0px;">
+            {{i+1}}. {{ registro_t.servicio.nombre }}
+            <i (click)="borrarRegistro(registro_t)" class="lnr-trash" style="float: right; color: #a60909; cursor: pointer;"></i>
+          </h5>
+        </div>
+        <div class="col-6" style="padding:5px 15px 10px 15px;border: none;">
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;" *ngIf="!(buscador$.categoria_id === '5ee4110b31a9c57966bf37c5')">
+            Precio: {{ registro_t.costo }}
+          </h5>
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;">
+            Anticipación: {{ registro_t.tiempo.nombre }}
+          </h5>
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;">
+            Cita: {{ registro_t.tiempo_alquilacion.nombre }}
+          </h5>
+        </div>
+        <div class="col-6" style="padding:5px 15px 10px 15px;border: none;">
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;" *ngIf="registro_t.especialidad">
+            Especialidad: {{ registro_t.especialidad.nombre }}
+          </h5>
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;" *ngIf="registro_t.promocion">
+            Promoción:
+            <span *ngIf="registro_t.aplica_porcentaje">
+              {{ registro_t.porcentaje_descuento }}%
+            </span>
+            <span *ngIf="!registro_t.aplica_porcentaje">
+              {{ registro_t.detalle_promocion }}
+            </span>
+          </h5>
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;" *ngIf="registro_t.anticipo">
+            Anticipo: {{ registro_t.anticipo_cantidad }}
+          </h5>
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;" *ngIf="registro_t.decoracion === 1">
+            <span (click)="getDecoraciones(registro_t)" style="background: #07416e; color: white; padding: 2px 5px; border-radius: 5px; cursor:pointer;">
+              Decoración
+            </span>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<ng-template #mDecoracion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Decoración</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row m-0 mt-3">
+      <div class="col-2 mt-3">
+        <h5 class="custom-label-cg">
+          Desde # Personas
+        </h5>
+      </div>
+      <div class="col-2 mt-3">
+        <h5 class="custom-label-cg">
+          Hasta # Personas
+        </h5>
+      </div>
+      <div class="col-4 mt-3">
+        <h5 class="custom-label-cg">
+          Precio
+        </h5>
+      </div>
+      <div class="col-4 mt-3">
+        <h5 class="custom-label-cg">
+          Anticipo
+        </h5>
+      </div>
+    </div>
+    <div class="row m-0 mt-3" *ngFor="let registro_t of mesa$.precio_decoracion; index as i">
+      <div class="col-2 mt-3">
+        <div class="text-center">
+          {{ registro_t.numero_personas_desde }}
+        </div>
+      </div>
+      <div class="col-2 mt-3">
+        <div class="text-center">
+          {{ registro_t.numero_personas_hasta }}
+        </div>
+      </div>
+      <div class="col-4 mt-3">
+        <div class="text-center">
+          {{ registro_t.costo }}
+        </div>
+      </div>
+      <div class="col-4 mt-3">
+        <div class="text-center">
+          {{ registro_t.anticipo }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+<ng-template #mSucursales let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Sucursales</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <!-- <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c('General')" *ngFor="let registro_t of sucursalesArray$; index as i">
+      <i class="pe-7s-angle-right"></i>General
+    </p> -->
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of sucursalesArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mProfesionales let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Peluqueros</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <!-- <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c('General')" *ngFor="let registro_t of sucursalesArray$; index as i">
+      <i class="pe-7s-angle-right"></i>General
+    </p> -->
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of peluquerosArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>

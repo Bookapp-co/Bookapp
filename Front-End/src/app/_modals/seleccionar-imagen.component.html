@@ -1,0 +1,28 @@
+<form style="margin-top: 15px;">
+  <div class="custom-file mb-3">
+    <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+    <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+  </div>
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="1 / 1"
+    [resizeToWidth]="128"
+    [cropperMinWidth]="128"
+    [onlyScaleDown]="true"
+    [roundCropper]="false"
+    format="png"
+    outputType="base64"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+    [style.display]="showCropper ? null : 'none'"
+  ></image-cropper>
+
+  <div class="text-right mt-3" style="background: none;">
+    <button type="button" class="btn btn-secondary mr-2">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+
+</form>

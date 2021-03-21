@@ -1,0 +1,82 @@
+<div class="h-100">
+  <div class="col-12 mt-4" style="text-align: left;font-weight:bold;width:100%;">
+    <i (click)="irA()" class="lnr-chevron-left" style="font-weight: bold;font-size: 20px;color: #169a52;"></i>
+  </div>
+  <div class="row no-gutters" style="font-family: codigeekfont;">
+    <div style="text-align: center;padding: 0px;z-index: 1;background: white;width: 100%;">
+      <img class="d-sm-none d-block" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 40%;margin: auto;" />
+      <img class="d-sm-block d-none" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 15%;margin: auto;" />
+    </div>
+    <div class="h-50 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-12">
+      <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-12 row" style="margin-bottom: 50px !important;">
+        <div class="col-sm-4 offset-sm-4 col-12">
+           <div *ngIf="step$ === 1" class="col-12 text-center mt-1 mb-3" style="color: #4c4c4c;font-weight: bold;">
+              <h6 style="font-size: 12px;font-weight:bold;margin-bottom: 5px;">
+                Para recuperar tu contraseña
+              </h6>
+              <h6 style="font-size: 12px;font-weight:bold;">
+                ingresa tu correo electrónico
+              </h6>
+           </div>
+           <div *ngIf="step$ === 2" class="col-12 text-center mt-1 mb-3" style="color: #4c4c4c;font-weight: bold;">
+              <h6 style="font-size: 12px;font-weight:bold;margin-bottom: 5px;">
+                Ingresa tu código de seguridad
+              </h6>
+              <h6 style="font-size: 12px;font-weight:bold;">
+                enviado a tu correo electrónico
+              </h6>
+           </div>
+           <div *ngIf="step$ === 3" class="col-12 text-center mt-1 mb-3" style="color: #4c4c4c;font-weight: bold;">
+              <h6 style="font-size: 12px;font-weight:bold;margin-bottom: 5px;">
+                Reestablece tu contraseña
+              </h6>
+           </div>
+           <div class="mt-5" *ngIf="step$ === 1">
+             <div class="position-relative form-group" >
+               <h5 class="custom-label-cg">
+                 Correo electrónico
+               </h5>
+               <input [(ngModel)]="mainObj$.correo" name="correo" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+             </div>
+             <div class="text-center mt-4">
+               <button (click)="recuperar()" class="boton-confirmar-morado" style="margin: 5px 0px 0px 0px;">
+                 Continuar
+               </button>
+             </div>
+            </div>
+            <div class="mt-5" *ngIf="step$ === 2">
+              <div class="divider"></div>
+              <input class="cg-input-adicional" [(ngModel)]="mainObj$.codigo_seguridad" name="codigo_seguridad" style="font-size: 20px;color: #6d6d6d;background: #e0e0e0;border-radius: 4px;width: 50% !important;padding: 5px;text-align: center;margin: auto;margin-bottom: 30px;" type="text">
+              <div class="text-center">
+                <button (click)="validarCodigo()" class="boton-confirmar-morado mt-4">
+                  Continuar
+                </button>
+              </div>
+            </div>
+            <div class="mt-4" *ngIf="step$ === 3">
+              <div class="divider"></div>
+              <div class="position-relative form-group" style="margin-top: 30px;">
+                <div class="position-relative form-group" >
+                  <h5 class="custom-label-cg">
+                    Nueva contraseña
+                  </h5>
+                  <input [(ngModel)]="mainObj$.contrasena" name="contrasena" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+                </div>
+                <div class="position-relative form-group" >
+                  <h5 class="custom-label-cg">
+                    Repetir contraseña
+                  </h5>
+                  <input [(ngModel)]="mainObj$.contrasena_verifica" name="contrasena_verifica" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+                </div>
+              </div>
+              <div class="text-center">
+                <button (click)="cambiarContrasena()" class="boton-confirmar-morado mt-4">
+                  Continuar
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

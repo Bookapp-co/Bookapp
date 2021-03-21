@@ -1,0 +1,365 @@
+<div class="col-12 mt-4 mb-2" style="text-align: left;font-weight: bold;width: 100%;display: flex;justify-content: center;color: #169a52;font-family: codigeekfont;">
+  <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+  ¡Pide lo que quieras!
+</div>
+
+<div class="row m-0 mb-4" style="font-family: codigeekfont;">
+
+  <form style="margin-top: 15px;padding: 15px;">
+    <div class="position-relative form-group">
+
+      <div class="cg-input" style="margin-bottom: 15px;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          ¿Dónde encontramos tus productos?
+        </label>
+        <input (click)="cambiarUbicacion($event, 1)" readonly="true" [(ngModel)]="mainObj$.origen_direccion" name="origen" type="text" class="custom-input-cg-np" placeholder="" required >
+      </div>
+
+      <div class="cg-input" style="margin-bottom: 15px;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          ¿En dónde entregaremos tus productos?
+        </label>
+        <input (click)="cambiarUbicacion($event, 2)" readonly="true" [(ngModel)]="mainObj$.destino_direccion" name="destino" type="text" class="custom-input-cg-np" placeholder="" required >
+      </div>
+
+      <div (click)="setCurrentPosition()" class="cg-input" style="margin-bottom: 10px;" *ngIf="mostrarFoto$">
+        <label class="cg-label-input" style="font-size: 12px;color: #e30f68;position: relative;width: 100%;right: 0px;top: 0px;margin-bottom: 5px;font-weight: normal;text-align: right;">
+          <i class="lnr-location mr-1"></i>
+          <span style="border-bottom: 1px solid; cursor: pointer;z-index: 9;">
+            Usar mi ubicación actual
+          </span>
+        </label>
+      </div>
+
+      <div class="cg-input" style="margin-bottom: 15px;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          Describe lo que necesitas
+        </label>
+        <textarea placeholder="Cuéntanos a detalle lo que necesita, toma en cuenta el costo de tus productos :)" [(ngModel)]="mainObj$.descripcion" rows="6" class="custom-input-cg-np" name="descripcion" required="" type="text" style="border: none;line-height: 1.2;color: #9e9e9e;padding: 10px;background: #f0f0f0;font-size: 12px;">
+        </textarea>
+      </div>
+
+      <div class="cg-input" style="margin-bottom: 15px;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          Referencia de tu ubicación
+        </label>
+        <textarea placeholder="Describe que calles o referencias hay cerca de tí para que el repartidor pueda encontrarte más rápido" [(ngModel)]="mainObj$.referencia" rows="6" class="custom-input-cg-np" name="referencia" required="" type="text" style="border: none;line-height: 1.2;color: #9e9e9e;padding: 10px;background: #f0f0f0;font-size: 12px;">
+        </textarea>
+      </div>
+
+      <div class="cg-input" style="margin-bottom: 15px;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          Confirma tu teléfono
+        </label>
+        <input [(ngModel)]="mainObj$.telefono" name="telefono" type="text" class="custom-input-cg-np" placeholder="" required >
+      </div>
+
+      <div class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;">
+        <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+          Medios de pago
+        </label>
+        <button (click)="seleccionarFormaDePago()" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;box-shadow: 0 0.125rem 0.5rem rgb(20, 33, 93), 0 0.0625rem 0.1rem rgb(9, 18, 58);" type="button">
+          {{ mainObj$.forma_pago_id ? mainObj$.forma_pago.descripcion : "Agregar" }}
+        </button>
+        <button (click)="seleccionarTarjeta()" *ngIf="mainObj$.forma_pago_id === '5e0a904ece07baeb91675dbe'" class="btn-shadow btn btn-success mt-2" style="width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;box-shadow: 0 0.125rem 0.5rem rgb(20, 33, 93), 0 0.0625rem 0.1rem rgb(9, 18, 58);" type="button">
+          <span *ngIf="!mainObj$.tarjeta">
+            Seleccionar tarjeta
+          </span>
+          <span *ngIf="mainObj$.tarjeta">
+            {{ mainObj$.tarjeta.brand }} {{ mainObj$.tarjeta.last4 }}
+          </span>
+        </button>
+      </div>
+
+      <div class="cg-input" style="margin-bottom: 35px;" *ngIf="mostrarFoto$">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;left: 2px;top: 5px;margin-bottom: 5px;font-weight: bold;">
+          Subir foto (opcional):
+        </label>
+        <img (click)="subirImagen()" *ngIf="!mainObj$.foto" src="https://codigeek.com/projects/vieneviene/cameraicon.png" style="width: 12%; float: right;">
+        <img (click)="subirImagen()" *ngIf="mainObj$.foto" src="{{ mainObj$.foto }}" style="width: 35%; float: right; border-radius:5px;">
+      </div>
+
+      <div class="text-center mt-4 mb-3">
+        <button (click)="hacerPedido()" class="boton-confirmar-morado" style="margin: 0px 0px 20px 0px;">
+          Hacer mi pedido
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+
+
+
+<!-- MODALS -->
+
+<ng-template #mNuevaTarjeta let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Nuevo método
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;padding: 0px; font-family:codigeekfont;">
+      <div class="position-relative form-group row m-0">
+        <div class="col-8 p-0">
+          <div class="cg-input" style="margin-bottom: 10px;">
+            <label style="color: black; font-weight: normal; font-size: 13px;">
+              Número de tarjeta
+            </label>
+            <input [(ngModel)]="tarjetaObject$.number" name="number" type="text" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+          </div>
+        </div>
+        <div class="col-4 p-0">
+          <div class="cg-input" style="margin-bottom: 10px;">
+            <label style="color: black; font-weight: normal; font-size: 13px;">
+              CVC
+            </label>
+            <input [(ngModel)]="tarjetaObject$.cvc" name="cvc" type="number" required style=" width: 85%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+          </div>
+        </div>
+        <div class="col-6 p-0">
+          <div class="cg-input" style="margin-bottom: 30px;">
+            <label style="color: black; font-weight: normal; font-size: 13px;">
+              Mes de expiración
+            </label>
+            <input [(ngModel)]="tarjetaObject$.exp_month" name="exp_month" type="number" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+          </div>
+        </div>
+        <div class="col-6 p-0">
+          <div class="cg-input" style="margin-bottom: 30px;">
+            <label style="color: black; font-weight: normal; font-size: 13px;">
+              Año de expiración
+            </label>
+            <input [(ngModel)]="tarjetaObject$.exp_year" name="exp_year" type="number" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="text-center">
+      <button (click)="guardarTarjeta()" class="btn-shadow btn btn-success mt-2" style="width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+        Guardar
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mTarjetas let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family: codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Selecciona un método
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [ngStyle]="{ 'height' : modalMaxHeight$, 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '0px 15px 10px 15px' }">
+    <div class="text-right">
+      <button (click)="nuevaTarjeta()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success mb-3">
+
+        Agregar
+      </button>
+    </div>
+    <div *ngIf="tarjetas$.length === 0">
+      <div class="text-center pb-5">
+        No hay tarjetas registradas
+      </div>
+    </div>
+    <div class="row pb-4" *ngIf="tarjetas$.length > 0">
+      <div style="color: black; padding: 0px 15px;" class="mt-3 mb-3" (click)="returnTarjeta(tarjeta_t)" *ngFor="let tarjeta_t of tarjetas$; index as i">
+        <img src="https://codigeek.com/projects/rivasgrill/creditcard-outline-filled.png" style="width: 10%; margin-right: 10px;">
+        {{tarjeta_t.brand}}
+        <span style="">**** {{tarjeta_t.last4}}</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mTipoPago let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Tipo de pago
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;margin-bottom: 30px;">
+    <div class="row text-center">
+      <div class="col-12 mb-2 text-left" style="font-weight:bold;" (click)="returnFormaDePago(tipo_t)" *ngFor="let tipo_t of tiposPago$; index as i">
+        <i class="lnr-star mr-1" ></i>
+        {{ tipo_t.descripcion }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mTipoServicio let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Tipo de entrega
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;margin-bottom: 30px;">
+    <div class="row text-center">
+      <div class="col-12 mb-2 text-left" style="font-weight:bold;" (click)="returnTipoServicio(1)" *ngIf="negocioObj$.entrega_en_tienda">
+        <i class="lnr-chevron-right mr-1" ></i>
+        Entrega en tienda
+      </div>
+      <div class="col-12 mb-2 text-left" style="font-weight:bold;" (click)="returnTipoServicio(2)" *ngIf="negocioObj$.delivery && (negocioObj$.kms_delivery >= (negocioObj$.distance))">
+        <i class="lnr-chevron-right mr-1" ></i>
+        Entrega a domicilio
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mMensaje let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+      Alerta
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family: codigeekfont;">
+    <p>
+      {{mensaje$}}
+    </p>
+  </div>
+  <button (click)="c('ok')" class="btn-shadow btn btn-success" style="font-family: codigeekfont;width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+    Continuar
+  </button>
+</ng-template>
+
+<ng-template #mOpciones let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-body" [ngStyle]="{ 'min-height' : '200px', 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '0px 15px 10px 15px', 'display' : 'block', 'padding-top' : '0px', 'background' : 'white', 'padding-bottom' : '0px' }">
+    <div class="col-12 mt-4 mb-2" style="text-align: left; font-weight: bold; width: 100%; display: flex; justify-content: center; color: #169a52; font-family: codigeekfont;">
+      <i (click)="d('Cross click')" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+      Pedido
+    </div>
+    <div class="row" style="padding: 0px 15px;">
+      <div class="col-sm-12 p-0 text-center" style="font-size: 12px;color: black;">
+        <img *ngIf="platilloSeleccionado$.foto" src="{{ platilloSeleccionado$.foto }}" style="width: 60%;">
+      </div>
+    </div>
+    <div class="row" style="background: #f4f4f4;padding: 0px 15px;box-shadow: 0px -6px 10px 0px #d9d9d9;border-radius: 10px 10px 0px 0px;margin-top: 35px;min-height: 55vh;">
+      <div class="row m-0 pt-2 pb-2" style="padding: 0px 15px;border-radius: 10px;margin-top: -3px;width: 100%;">
+        <div class="row pt-2 pb-2" style="padding: 0px 15px;width: 60%;margin: auto;background: #169a52;align-items: center;justify-content: center;border-radius: 30px;margin-top: -25px;">
+          <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center;">
+            <i *ngIf="platilloSeleccionado$.cantidad > 1" class="pe-7s-less" (click)="triggerCantidadPlatillo(0)" style="font-size: 25px; color:white;"></i>
+          </div>
+          <div class="col-4 text-center text-success" style="font-size: 25px; line-height: 1; color:white;display: flex; align-items: center; justify-content: center;">
+            <span style="color: white;">
+              {{ platilloSeleccionado$.cantidad }}
+            </span>
+          </div>
+          <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center;">
+            <i class="pe-7s-plus" (click)="triggerCantidadPlatillo(1)" style="font-size: 25px; color:white;"></i>
+          </div>
+        </div>
+        <div class="col-12 text-center">
+          <p style="margin: 20px 0px 10px 0px;color: #20284c;font-weight: bold;">
+            {{platilloSeleccionado$.nombre}}
+          </p>
+          <p style="margin: 0px 0px 0px 0px;padding-bottom: 20px;color: #888c9a;font-size: 10px;line-height: 1.3;font-weight: normal;border-bottom: 1px solid #e4e4e4;">
+            {{platilloSeleccionado$.descripcion}}
+          </p>
+        </div>
+      </div>
+      <div class="row m-0" *ngFor="let grupo_t of platilloSeleccionado$.grupo_ingrediente; index as i" style="padding: 0px 20px;padding-bottom: 15px;border-bottom: 1px solid #e4e4e4;margin-bottom: 10px !important;">
+        <div class="col-sm-12 p-0" style="border-bottom: antiquewhite;margin: 3% 0% 3% 0%;font-size: 13px;color: #169a52;font-weight: bold;text-transform: uppercase;">
+          {{ grupo_t.nombre }}
+          <span style="float: right;font-size: 10px;" *ngIf="grupo_t.genera_costo">
+            Costo adicional
+          </span>
+        </div>
+        <div *ngIf="!grupo_t.seleccion_multiple" class="row p-0 m-0 custom-checkbox custom-control custom-control-inline">
+          <div class="col-sm-12 p-0">
+            <mat-radio-group aria-label="Selecciona una opción" [(ngModel)]="grupo_t.ingrediente_seleccionado">
+              <mat-radio-button *ngFor="let ingrediente_t of grupo_t.ingredientes; index as j" [value]="ingrediente_t.id" [checked]="ingrediente_t.id === grupo_t.ingrediente_seleccionado" style="font-weight: bold; color: #5e5e5e;">
+                {{ ingrediente_t.nombre }}
+                <span class="float-right" *ngIf="grupo_t.genera_costo" style="color: black; font-weight: bold; font-size: 14px;">
+                  {{ ingrediente_t.extra }}
+                </span>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div *ngIf="grupo_t.seleccion_multiple" class="row p-0 m-0 custom-checkbox custom-control custom-control-inline" style="width: 100%;">
+          <div class="col-sm-12 p-0" *ngFor="let ingrediente_t of grupo_t.ingredientes; index as j">
+            <mat-checkbox class="example-margin" [(ngModel)]="ingrediente_t.seleccionado">
+              {{ ingrediente_t.nombre }}
+              <span class="float-right" *ngIf="grupo_t.genera_costo" style="color: black; font-weight: bold; font-size: 14px;">
+                {{ ingrediente_t.extra }}
+              </span>
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="row m-0 text-center" style="width: 100%; padding: 15px 0px 25px 0px;">
+        <div class="col-6 text-center" style="display: flex; align-items: center; justify-content: center; font-size: 20px; color: #169a52; font-weight: bold;">
+          <button (click)="eliminarPlatillo()" class="boton-confirmar-morado" style="margin: 0px; width:100%;">
+            Eliminar
+          </button>
+        </div>
+        <div class="col-6 text-center" style="display: flex; align-items: center; justify-content: center;">
+          <button (click)="returnOpciones()" class="boton-confirmar-morado" style="margin: 0px; width:100%;">
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mCambiarUbicacion let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family: codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Selecciona una ubicación</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family: codigeekfont;">
+    <seleccionar-direccion (seleccionarDireccion)="seleccionarDireccion($event)" [locationParam]="ubicacionObj$"></seleccionar-direccion>
+  </div>
+</ng-template>
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <seleccionar-imagen (seleccionarImagen)="seleccionarImagen($event)"></seleccionar-imagen>
+  </div>
+</ng-template>
+
+<ng-template #mMensaje let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Alerta</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{mensaje$}}
+    </p>
+  </div>
+  <button (click)="c('ok')" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+    ACEPTAR
+  </button>
+</ng-template>
+
+<!-- MODALS -->

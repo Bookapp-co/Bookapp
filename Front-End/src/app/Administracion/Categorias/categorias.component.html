@@ -1,0 +1,172 @@
+
+<!-- <div class="page-title-actions mb-3 text-center" >
+  <ul class="header-megamenu nav">
+    <li class="nav-item">
+      <div class="search-wrapper" [class.active]="isActive" style="display: inline-block;">
+        <div class="input-holder">
+          <input [(ngModel)]="searchText" name="searchText" type="text" placeholder="¿Qué deseas buscar?" class="search-input">
+          <button class="search-icon" (click)="isActive = true"><span></span></button>
+        </div>
+        <button class="close" (click)="isActive = false"></button>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button (click)="nuevoRegistro()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+
+        Crear nuevo
+      </button>
+    </li>
+  </ul>
+</div> -->
+
+<div class="row m-0" style="font-family: codigeekfont;">
+  <div class="col-12 col-sm-4" *ngFor="let registro_t of mainArray$ | filter : searchText : 'nombre'; index as i">
+    <div class="card main-card mb-3" style="padding: 10px;">
+      <div class="row">
+        <div class="col-3">
+          <img *ngIf="!registro_t.foto" width="42" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;width:100%;">
+          <img *ngIf="registro_t.foto" width="42" src="{{ registro_t.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;width:100%;">
+        </div>
+        <div class="col-9">
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;">
+            {{ registro_t.nombre }}
+          </h5>
+          <div class="text-right">
+            <button (click)="verEspecialidades()" *ngIf="registro_t._id === '5ee410dc31a9c57966bf37c2'" class="boton-confirmar-morado">
+              Especialidades
+            </button>
+            <button (click)="verServicios(registro_t)" class="boton-confirmar-morado">
+              Servicios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Alerta</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <div class="text-center mt-3 mb-3">
+      ¿Deseas borrar este registro?
+    </div>
+    <div class="text-right mb-3">
+      <button (click)="c()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-secondary mr-2">
+        Cerrar
+      </button>
+      <button (click)="c()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+        Continuar
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mServicios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Servicios</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <div class="text-right mb-3">
+      <button (click)="modalServicio()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+        Crear servicio
+      </button>
+    </div>
+    <div class="row m-0" *ngFor="let registro_t of servicios$; index as i" style="margin-bottom: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid gainsboro;">
+      <div class="col-2">
+        <i class="lnr-trash" (click)="eliminarServicio(registro_t)" style="cursor:pointer;color:#169a52;"></i>
+      </div>
+      <div class="col-2">
+        <i class="lnr-pencil" (click)="modalServicio(registro_t)" style="cursor:pointer;color:#169a52;"></i>
+      </div>
+      <div class="col-8">
+        {{ registro_t.nombre }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mEspecialidades let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Especialidades</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <div class="text-right mb-3">
+      <button (click)="modalEspecialidad()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+        Crear especialidad
+      </button>
+    </div>
+    <div class="row m-0" *ngFor="let registro_t of especialidades$; index as i" style="margin-bottom: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid gainsboro;">
+      <div class="col-2">
+        <i class="lnr-trash" (click)="eliminarEspecialidad(registro_t)" style="cursor:pointer;color:#169a52;"></i>
+      </div>
+      <div class="col-2">
+        <i class="lnr-pencil" (click)="modalEspecialidad(registro_t)" style="cursor:pointer;color:#169a52;"></i>
+      </div>
+      <div class="col-8">
+        {{ registro_t.nombre }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mServicio let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Nuevo Servicio</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;">
+    <form style="margin-top: 15px;">
+      <div class="position-relative form-group">
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="servicio$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Nombre</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="returnServicio()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mEspecialidad let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Nueva Especialidad</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;">
+    <form style="margin-top: 15px;">
+      <div class="position-relative form-group">
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="especialidad$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Nombre</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="returnEspecialidad()">Guardar</button>
+  </div>
+</ng-template>

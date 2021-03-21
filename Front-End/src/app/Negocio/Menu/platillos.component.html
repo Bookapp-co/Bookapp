@@ -1,0 +1,118 @@
+
+
+<div class="page-title-actions mb-3 text-center" >
+  <ul class="header-megamenu nav">
+    <li class="nav-item">
+      <div class="search-wrapper" [class.active]="isActive" style="display: inline-block;">
+        <div class="input-holder">
+          <input type="text" placeholder="¿Qué deseas buscar?" class="search-input">
+          <button class="search-icon" (click)="isActive = true"><span></span></button>
+        </div>
+        <button class="close" (click)="isActive = false"></button>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button (click)="nuevoRegistro()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+
+        Crear nuevo
+      </button>
+    </li>
+  </ul>
+</div>
+
+<!-- <div class="card main-card mb-3" *ngFor="let categoria_t of mainArray$; index as i">
+  <div class="col-12 p-0">
+    <ngb-accordion>
+      <ngb-panel id="{{categoria_t._id}}">
+        <ng-template ngbPanelTitle>
+          <span class="card-header--title" style="color:black;">{{ categoria_t.nombre }}</span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="col-12 mt-2 mb-2 p-0 " (click)="editarRegistro(registro_t)" *ngFor="let registro_t of categoria_t.platillos; index as j">
+            <div class="main-card card">
+              <div class="widget-content p-2">
+                <div [ngClass]="( registro_t.disponible )?'status-active-codigeek':'status-inactive-codigeek'" ></div>
+                <div class="widget-content-wrapper">
+                  <div class="widget-content-left mr-3">
+                    <div class="widget-content-left">
+                      <img *ngIf="!registro_t.foto" width="52" class="rounded-circle" src="./assets/images/avatars/nophoto.png" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+                      <img *ngIf="registro_t.foto" width="52" class="rounded-circle" src="{{ registro_t.foto }}" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+                    </div>
+                  </div>
+                  <div class="widget-content-left flex2">
+                    <div class="widget-heading" style="font-size: 12px;">
+                      <div style="font-weight: bold; color: #169a52;">
+                        {{ registro_t.nombre }}
+                      </div>
+                      <div style="font-size: 9px;">
+                        {{ registro_t.marca }}
+                      </div>
+                      <div style="font-size: 9px;">
+                        {{ registro_t.presentacion }} {{ registro_t.capacidad }}{{ registro_t.unidad }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="widget-content-left flex">
+                    <div class="widget-heading" style="font-size: 12px;color: #e00303;">
+                      {{ registro_t.costo | number : '1.2-2' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div> -->
+
+<ul class="list-group list-group-flush mt-2" *ngFor="let categoria_t of mainArray$; index as i" style="padding: 0px 10px;">
+  <li class="list-group-item mb-2" style="background: transparent; padding: 10px 0px 0px 0px; border: none;">
+      <button type="button" class="btn btn-outline-primary" (click)="seleccionarCategoria(i)"
+              [attr.aria-expanded]="!categoria_t.expand" aria-controls="categoria_t._id" style="width: 100%;text-align: left;display: flex;align-items: center;background:#169a52;color: white;box-shadow: 0px 1px 4px 0px #929292;">
+        {{ categoria_t.nombre | uppercase }}
+        <i class="lnr-chevron-down" style="position: absolute; right: 10px; font-weight: bold;"></i>
+      </button>
+  </li>
+  <li class="list-group-item" style="padding: 5px 0px;border: none;background: transparent;" id="categoria_t._id" [ngbCollapse]="!categoria_t.expand">
+    <div class="row m-0">
+      <div class="col-6 col-sm-3 mb-2 pr-2 pl-2" *ngFor="let platillo_t of categoria_t.platillos; index as j" >
+        <div class="row m-0 pl-3 pr-3 pt-2 pb-2" *ngIf="platillo_t.disponible" style="border: none; background: white; box-shadow: 0px 0px 3px 0px #d1d1d1; border-radius: 4px;">
+          <div class="col-12 pr-3 pt-2 pb-2 text-right" *ngIf="eliminarProductos$">
+            <mat-checkbox class="example-margin" [(ngModel)]="platillo_t.seleccionar_para_eliminar" name="seleccionar_para_eliminar" style="color: #c70201">
+            </mat-checkbox>
+          </div>
+          <div class="col-12 p-0" (click)="editarRegistro( platillo_t )">
+            <div class="col-12 p-0 text-center">
+              <img *ngIf="platillo_t.foto" width="60" class="rounded-circle" src="{{ platillo_t.foto }}" style="border-radius: 50px !important;box-shadow: 0px 0px 10px 0px #dadada;">
+              <img *ngIf="!platillo_t.foto" width="60" class="rounded-circle" src="{{ categoria_t.foto }}" style="border-radius: 50px !important;box-shadow: 0px 0px 10px 0px #dadada;">
+            </div>
+            <div class="col-12 p-0 mt-1 mb-1 text-center">
+              <div class="widget-heading" style="font-size: 10px;font-weight: bold;color: #525252;line-height: 1.2;margin-top: 3px;">
+                {{ platillo_t.nombre }}
+              </div>
+              <p *ngIf="platillo_t.marca" style="margin: 5px 0px 0px 0px;text-align: center;font-size: 9px;line-height: 1;color: #989898;">
+                {{ platillo_t.marca | limitTo : 20 }}
+              </p>
+              <p style="margin: 0px 0px 0px 0px;text-align: center;font-size: 9px;line-height: 1;color: #989898;">
+                {{ platillo_t.presentacion ? platillo_t.presentacion : "" | limitTo : 20 }} {{ platillo_t.capacidad ? platillo_t.capacidad : "" | limitTo : 20 }} {{ platillo_t.unidad ? platillo_t.unidad : "" | limitTo : 20 }}
+              </p>
+            </div>
+            <div class="col-12 p-0 text-center">
+              <div class="descuento" *ngIf="platillo_t.promocion">
+                {{ platillo_t.promocion_total }}% descuento
+              </div>
+              <div class="price-tag">
+                {{ configuracion$.tipo_de_moneda.descripcion }}{{ platillo_t.costo | number : '1.2-2' }}
+              </div>
+              <div *ngIf="platillo_t.promocion" class="cross-price">
+                {{ platillo_t.calculado_descuento | number : '1.2-2' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

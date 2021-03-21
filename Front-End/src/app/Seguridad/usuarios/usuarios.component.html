@@ -1,0 +1,28 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="card main-card mb-12">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Correo</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Empresa</th>
+      <th scope="col">Tipo Usuario</th>
+      <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let usuario_t of usuarios$; index as i">
+      <th scope="row">{{ usuario_t.correo }}</th>
+      <td>
+        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2"
+             style="width: 20px">
+        {{ usuario_t.nombre }}
+      </td>
+      <td>{{ usuario_t.empresa[0].descripcion }}</td>
+      <td>{{ usuario_t.tipo_usuario[0].descripcion }}</td>
+      <td>{{ usuario_t.status }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,22 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="card main-card mb-12">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Descripción</th>
+      <th scope="col">Permisos</th>
+      <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let acceso_t of accesos$; index as i">
+      <th scope="row">{{ acceso_t.descripcion }}</th>
+      <td>
+        <button class="btn-wide btn-shadow btn btn-danger btn-sm">Permisos</button>
+      </td>
+      <td>{{acceso_t.status }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

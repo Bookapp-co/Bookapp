@@ -1,0 +1,60 @@
+<div class="row" style="margin-top: 8%;font-family:codigeekfont;">
+
+  <h3 class="text-center" style="width: 100%; margin-bottom: 8%; font-size: 17px; color: #5a5a5a; font-weight: bold;">
+    Hola {{ currentUser$.nombre }}!
+    <i class="pe-7s-smile"></i>
+  </h3>
+
+  <div *ngIf="pedidosArray$?.length > 0" (click)="irAPedidos()" class="col-md-12 mb-2" style="padding: 0px 15px;">
+    <h6 class="text-center" style="margin: 0px;font-size: 15px;padding: 15px;border-radius: 5px;background: #e00000;color: white;box-shadow: 0px 0px 5px 0px #cacaca;">
+      <span class="mr-2" style="padding: 5px 10px;background: white;color: #e00000;font-weight: bold;border-radius: 50px;text-align: center;">
+        {{ pedidosArray$?.length }}
+      </span>
+      Pedido(s) en curso
+    </h6>
+  </div>
+
+  <div class="col-md-3" *ngFor="let registro_t of mainArray$; index as i">
+
+    <!-- Pide lo que quieras -->
+    <!-- <div (click)="seleccionarServicio(registro_t)" class="dropdown-menu-header mt-2" *ngIf="registro_t._id === '5c48462e593631d8929d0a6b'">
+      <div class="dropdown-menu-header-inner background-vieneviene" style="min-height:175px;border-radius: 5px;box-shadow: 0px 0px 8px 0px #858585;">
+        <div  class="menu-header-image"
+              [ngStyle]=" { 'background-image' : 'url(' + registro_t.cover + ')' , 'border-radius' : '5px' }" >
+        </div>
+        <div class="menu-header-content">
+          <div>
+            <h5 class="menu-header-title" style="margin-top: 13%;font-weight: bold;color: #f1f4f6;text-shadow: 1px 1px 8px black;text-align: left;margin-left: 5%;font-size: 25px;">
+              {{ registro_t.nombre }}
+            </h5>
+            <h6 class="menu-header-subtitle">
+              {{ registro_t.descripcion }}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Restaurantes -->
+    <div (click)="seleccionarServicio(registro_t)" class="dropdown-menu-header mt-2" *ngIf="registro_t._id === '5d4defcb4d02a3094d57091a'">
+      <div class="dropdown-menu-header-inner background-vieneviene" style="min-height:175px;border-radius: 5px;box-shadow: 0px 0px 8px 0px #858585;">
+        <div  class="menu-header-image"
+              [ngStyle]=" { 'background-image' : 'url(' + registro_t.cover + ')' , 'border-radius' : '5px', 'background-position' : 'center' }" >
+        </div>
+        <div class="menu-header-content">
+          <div>
+            <h5 class="menu-header-title" style="margin-top: 13%;font-weight: bold;color: #f1f4f6;text-shadow: 1px 1px 8px black;text-align: left;margin-left: 5%;font-size: 25px;">
+              {{ registro_t.nombre }}
+            </h5>
+            <h6 class="menu-header-subtitle">
+              {{ registro_t.descripcion }}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

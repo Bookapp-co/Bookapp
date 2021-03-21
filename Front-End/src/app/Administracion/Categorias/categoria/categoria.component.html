@@ -1,0 +1,110 @@
+
+
+<!-- <div class="page-title-actions" style="padding: 10px 0px; text-align: right;">
+  <button (click)="guardar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+    Guardar
+  </button>
+</div> -->
+
+<div class="row m-0 mb-4">
+
+  <form style="padding: 5px 10px;width: 100%;">
+
+    <div class="col-12 text-center">
+      <img (click)="subirImagen(2)" *ngIf="!mainObj$.foto" width="70" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+      <img (click)="subirImagen(2)" *ngIf="mainObj$.foto" width="70" src="{{ mainObj$.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+    </div>
+
+    <div class="col-12 mt-4 position-relative form-group">
+      <div class="position-relative form-group mt-2 mb-2" style="width: 100%;">
+        <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="custom-input-cg" required style="font-size: 13px; padding: 10px 15px 10px 15px;">
+      </div>
+    </div>
+
+    <div class="row m-0"style="padding: 0px 20px;padding-bottom: 15px;border-bottom: 1px solid #e4e4e4;margin-bottom: 10px !important;">
+      <div class="col-sm-12 p-0" style="border-bottom: antiquewhite;margin: 3% 0% 3% 0%;font-size: 13px;color: #169a52;font-weight: bold;text-transform: uppercase;">
+        Tipo de listado
+      </div>
+      <div class="row p-0 m-0 custom-checkbox custom-control custom-control-inline">
+        <div class="col-sm-12 p-0">
+          <mat-radio-group aria-label="Selecciona una opción" name="tipo_listado" [(ngModel)]="mainObj$.tipo_listado">
+            <mat-radio-button [value]="1" [checked]="mainObj$.tipo_listado === 1" style="font-weight: bold; color: #5e5e5e;">
+              Un registro por renglón
+            </mat-radio-button>
+            <mat-radio-button [value]="2" [checked]="mainObj$.tipo_listado === 2" style="font-weight: bold; color: #5e5e5e;">
+              Dos registros por renglón
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="col-12 text-center">
+    <button (click)="guardar()" class="boton-confirmar-morado">
+      Guardar
+    </button>
+  </div>
+
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

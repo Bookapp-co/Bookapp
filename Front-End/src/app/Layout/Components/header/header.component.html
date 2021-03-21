@@ -1,0 +1,140 @@
+<div class="app-header header-shadow"
+  style="font-family: codigeekfont;height: auto;box-shadow: none;background: transparent;position: relative;">
+
+  <div *ngIf="currentUser$" class="app-header__mobile-menu d-none d-sm-block" style="display: block;width: 100%;height: auto;padding: 1rem;flex: 0 0 20em;background: white;margin-left: 300px;">
+    <div class="row" style="align-items: center;display: block;margin: 0px;">
+      <div class="col-12 p-0">
+        <h5 class="m-0" style="font-size: 14px;font-weight: bold;display: flex;color: black;">
+          Hola {{ currentUser$.nombre }}
+        </h5>
+        <span *ngIf="!currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0" style="font-size: 12px;padding-bottom: 1px;color: #169a52;cursor:pointer;">
+          Ingresa dirección de entrega
+          <i class="lnr-chevron-down"></i>
+        </span>
+        <div *ngIf="currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0 mt-1" style="font-size: 12px;padding-bottom: 1px;color: #169a52;line-height: 1;cursor:pointer;">
+          {{ currentUser$.direccion }}
+          <i class="lnr-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentUser$" class="app-header__mobile-menu d-block d-sm-none mt-2" style="display: block;width: 100%;height: auto;padding: 15px 10px;margin: 0px !important;">
+    <div class="row" style="align-items: center;display: block;margin: 0px;width:100%;">
+      <div class="row m-0" style="width:100%;">
+        <div class="col-6 text-left" style="display: flex; align-items: center;">
+          <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+                   (click)="irAPerfil()" [ngClass]="{'is-active' : currentUrl$ === '/usuario/menu' ? true : false }">
+              <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+              </span>
+          </button>
+        </div>
+        <div class="col-6" style="text-align: right; display: flex; align-items: center; justify-content: flex-end; padding-right: 0px;">
+          <i (click)="irANotificaciones()" class="pe-7s-bell" style="background: #535e7a; font-size: 20px; color: white; border-radius: 20px; padding: 5px; border: 1px solid #169a52;"></i>
+          <!-- <img src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 65px;"> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <h5 class="m-0 mt-4" style="font-size: 16px;font-weight: bold;display: flex;color: #20284c;">
+          {{ currentUser$.nombre }}
+        </h5>
+        <span *ngIf="!currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0 mt-3" style="font-size: 12px; padding-bottom: 1px; color: #169a52; line-height: 1;">
+          <div class="mt-1" style="font-weight: bold; color: #717171;cursor:pointer;">
+            <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1">
+            Ingresa dirección de entrega
+            <i class="lnr-chevron-down"></i>
+          </div>
+        </span>
+        <div *ngIf="currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0 mt-3" style="font-size: 12px; padding-bottom: 1px; color: #169a52; line-height: 1;cursor:pointer;">
+          <span style="font-size: 10px; color: #b1b1b1;">
+            Tu ubicación
+          </span>
+          <br/>
+          <div class="mt-1" style="font-weight: bold; color: #717171;">
+            <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1">
+            {{ currentUser$.direccion | limitTo : 25 }}..
+            <i class="lnr-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- INVITADO -->
+
+  <div *ngIf="!currentUser$" class="app-header__mobile-menu d-none d-sm-block" style="display: block;width: 100%;height: auto;padding: 1rem;flex: 0 0 20em;background: white;margin-left: 300px;">
+    <div class="row" style="align-items: center;display: block;margin: 0px;">
+      <div class="col-12 p-0">
+        <h5 class="m-0" style="font-size: 14px;font-weight: bold;display: flex;color: black;">
+          Hola invitado
+        </h5>
+        <!-- <span *ngIf="!currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0" style="font-size: 12px;padding-bottom: 1px;color: #169a52;cursor:pointer;"> -->
+          <!-- Ingresa dirección de entrega -->
+          <!-- <i class="lnr-chevron-down"></i> -->
+        <!-- </span> -->
+        <!-- <div *ngIf="currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0 mt-1" style="font-size: 12px;padding-bottom: 1px;color: #169a52;line-height: 1;cursor:pointer;"> -->
+          <!-- {{ currentUser$.direccion }} -->
+          <!-- <i class="lnr-chevron-down"></i> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!currentUser$" class="app-header__mobile-menu d-block d-sm-none mt-2" style="display: block;width: 100%;height: auto;padding: 15px 10px;margin: 0px !important;">
+    <div class="row" style="align-items: center;display: block;margin: 0px;width:100%;">
+      <div class="row m-0" style="width:100%;">
+        <div class="col-6 text-left" style="display: flex; align-items: center;">
+          <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+                   (click)="irAPerfil()" [ngClass]="{'is-active' : currentUrl$ === '/usuario/menu' ? true : false }">
+              <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+              </span>
+          </button>
+        </div>
+        <div class="col-6" style="text-align: right; display: flex; align-items: center; justify-content: flex-end; padding-right: 0px;">
+          <i (click)="irANotificaciones()" class="pe-7s-bell" style="background: #535e7a; font-size: 20px; color: white; border-radius: 20px; padding: 5px; border: 1px solid #169a52;"></i>
+          <!-- <img src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 65px;"> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <h5 class="m-0 mt-4" style="font-size: 16px;font-weight: bold;display: flex;color: #20284c;">
+          Hola invitado
+        </h5>
+        <!-- <span *ngIf="!currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0 mt-3" style="font-size: 12px; padding-bottom: 1px; color: #169a52; line-height: 1;"> -->
+          <!-- <div class="mt-1" style="font-weight: bold; color: #717171;cursor:pointer;"> -->
+            <!-- <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1"> -->
+            <!-- Ingresa dirección de entrega -->
+            <!-- <i class="lnr-chevron-down"></i> -->
+          <!-- </div> -->
+        <!-- </span> -->
+        <!-- <div *ngIf="currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="m-0 mt-3" style="font-size: 12px; padding-bottom: 1px; color: #169a52; line-height: 1;cursor:pointer;"> -->
+          <!-- <span style="font-size: 10px; color: #b1b1b1;"> -->
+            <!-- Tu ubicación -->
+          <!-- </span> -->
+          <!-- <br/> -->
+          <!-- <div class="mt-1" style="font-weight: bold; color: #717171;"> -->
+            <!-- <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1"> -->
+            <!-- {{ currentUser$.direccion | limitTo : 25 }}.. -->
+            <!-- <i class="lnr-chevron-down"></i> -->
+          <!-- </div> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+   
+</div>
+
+<ng-template #mDireccion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Dirección</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [ngStyle]="{ 'max-height' : modalMaxHeight$, 'min-height' : '200px', 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '0px 15px 10px 15px' }">
+
+    <seleccionar-direccion (seleccionarDireccion)="seleccionarDireccion($event)" [locationParam]="ubicacion$"></seleccionar-direccion>
+
+  </div>
+</ng-template>

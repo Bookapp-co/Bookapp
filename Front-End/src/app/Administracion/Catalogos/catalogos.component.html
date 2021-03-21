@@ -1,0 +1,41 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="page-title-actions mb-3 text-center" >
+  <ul class="header-megamenu nav">
+    <li class="nav-item">
+      <div class="search-wrapper" [class.active]="isActive" style="display: inline-block;">
+        <div class="input-holder">
+          <input [(ngModel)]="searchText" name="searchText" type="text" placeholder="¿Qué deseas buscar?" class="search-input">
+          <button class="search-icon" (click)="isActive = true"><span></span></button>
+        </div>
+        <button class="close" (click)="isActive = false"></button>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button (click)="nuevoRegistro()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+        
+        Crear nuevo
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row m-0" style="font-family: codigeekfont;">
+  <div class="col-12 col-sm-4" *ngFor="let registro_t of mainArray$ | filter : searchText : 'nombre'; index as i">
+    <div class="card main-card mb-3" (click)="editarRegistro(registro_t)" style="padding: 10px;">
+      <div class="card-header" style="padding: 0px;border:none;">
+        <div class="position-relative d-flex justify-content-center align-items-center" style="padding: 10px 0px;">
+          <div class="slider-content text-light" style="width: 100%;">
+            <div class="d-flex" style="padding: 0px 15px;font-family: codigeekfont;">
+              <div class="header-btn-md" style="margin: 0px;padding: 0px;display: flex;align-items: center;position: relative; margin-left:15px;">
+                <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: black;">
+                  {{ registro_t.nombre }}
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

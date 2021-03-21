@@ -1,0 +1,108 @@
+
+<!-- <div class="col-12 mt-3" style="text-align: left;font-weight:bold;width:100%;"> -->
+  <!-- <i (click)="irA()" class="lnr-chevron-left" style="font-weight: bold;font-size: 20px;color: #169a52;"></i> -->
+<!-- </div> -->
+
+<div class="row m-0 mt-3">
+  <div class="col-sm-4 offset-sm-4 col-12">
+    <div class="text-center mb-4" style="font-family:codigeekfont;">
+      <div class="col-12 text-center" style="color: #545454; font-weight: bold;">
+        <div style="text-align: center; padding: 0px; z-index: 1; width: 100%; margin-bottom: 15px;">
+          <img class="d-sm-none d-block" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 40%;margin: auto;" />
+          <img class="d-sm-block d-none" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 20%;margin: auto;" />
+        </div>
+         <h6 style="margin-bottom: 10px;font-weight: bold;font-size: 18px;">
+           <span *ngIf="!currentUser$">
+             Bienvenido
+           </span>
+           <span *ngIf="!currentUser$">
+             a BookApp Business
+           </span>
+           <span *ngIf="currentUser$">
+             Hola
+           </span>
+           <span *ngIf="currentUser$">
+             {{ currentUser$.nombre }}
+           </span>
+         </h6>
+         <!-- <h6 *ngIf="!currentUser$" style="font-size: 12px;margin-bottom: 3px;">
+           Para buscar negocios
+         </h6>
+         <h6 *ngIf="!currentUser$" style="font-size: 12px;">
+           ingresa tu ubicación
+         </h6> -->
+         <h6 style="font-size: 12px;margin-bottom: 3px;">
+           Registra la zona donde te encontrarás en un futuro y así poder descubrir comercios cercanos a ti
+         </h6>
+      </div>
+      <div class="col-12">
+        <div class="divider"></div>
+      </div>
+      <div class="col-12 pr-4 pl-4 text-center" style="color: #169a52; font-weight: bold;">
+        <div class="col-12 p-0">
+          <!-- <div class="position-relative form-group" (click)="abrirUbicacion(null,true)" >
+            <input placeholder="Usar ubicación actual" name="nombre" type="text" class="custom-input-cg" required style="font-size: 13px; pointer-events:none;">
+            <img src="https://codigeek.com/projects/bookapp/icon_ubication.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+          </div> -->
+          <div class="position-relative form-group mt-2" (click)="abrirUbicacion(null,false)" >
+            <input placeholder="Registra la zona donde deseas reservar" name="nombre" type="text" class="custom-input-cg" required style="font-size: 13px; pointer-events:none;">
+            <img src="https://codigeek.com/projects/bookapp/icon_diretion.png" style="width: 15px; position: absolute; bottom: 10px; left: 12px;">
+          </div>
+        </div>
+      </div>
+	  <div *ngIf="!currentUser$" class="col-12 pr-4 pl-4 text-center" style="color: #26357a; font-weight: bold;">
+        <div class="divider"></div>
+        <div class="col-12 text-center mt-4" style="color: #545454;">
+           <h6 class="red-border-button" style="background: #169a52;color: white;">
+             ¿No tienes cuenta?
+             <span (click)="irARegistroCliente()" class="bold-label-brand" style="color: white;">
+               Regístrate
+             </span>
+           </h6>
+        </div>
+        <div class="col-12 text-center mt-3" style="color: #545454;">
+           <h6 class="brand-full-bg-button">
+             Ya tienes una cuenta
+             <span (click)="irAInicioSesion()" style="font-weight: bold;">
+               Inicia sesión
+             </span>
+           </h6>
+        </div>
+      </div>
+    </div>
+    <div class="row m-0 mt-4" style="width:100%;">
+      <div class="row m-0" (click)="abrirUbicacion(registro_t,false)" *ngFor="let registro_t of mainArray$; index as i" style="padding: 0px 15px;font-family: codigeekfont;width: 90%;">
+        <div class="row m-0 p-3 mb-2" [ngClass]="{ 'seleccionado' : currentUser$.direccion_id === registro_t._id }" style="width: 100%;background: white;box-shadow: 0px 0px 4px -1px #aeaeae; border-radius: 3px;">
+          <div class="col-1" style="display: flex;align-items: center;justify-content: center;padding: 3px;">
+            <img src="https://codigeek.com/projects/bookapp/pin_ubicatio_icon.png" style="width:100%;" />
+          </div>
+          <div class="col-11">
+            <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: #545454;">
+              {{ registro_t.direccion }}
+            </h5>
+            <h5 style="margin: 0px;font-size: 10px;text-transform: none;">
+              {{ registro_t.referencia }}
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: right;position: fixed;bottom: 0;z-index: -1;">
+      <img src="https://codigeek.com/projects/bookapp/ilustracion_ubocation.png" style="width: 70%;">
+    </div>
+  </div>
+</div>
+
+<ng-template #mDireccion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background:transparent; border:none;">
+    <div class="col-12 mt-3" style="text-align: left; font-weight: bold; width: 100%; display: flex; justify-content: center; color: #169a52; font-family: codigeekfont;">
+      <i (click)="d('Cross click')" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+      Ubicaciones
+    </div>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;padding:0px;">
+
+    <seleccionar-direccion (seleccionarDireccion)="seleccionarDireccion($event)" (cambiarDireccion)="cambiarDireccion($event)" (eliminarDireccion)="eliminarDireccion($event)" [locationParam]="ubicacion$" [currentLocation]="myLocation$"></seleccionar-direccion>
+
+  </div>
+</ng-template>

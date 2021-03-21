@@ -1,0 +1,54 @@
+<form >
+
+  <agm-map [hidden]="!ubicacionObj$.latitude"
+    style="height: 200px;"
+    [latitude]="ubicacionObj$.latitude"
+    [longitude]="ubicacionObj$.longitude"
+    [zoom]="zoom"
+    [disableDefaultUI]="true"
+    [zoomControl]="false"
+    (mapClick)="mapClicked($event)"
+    [gestureHandling]="'greedy'"
+    >
+
+    <agm-marker
+      [iconUrl]="icon$"
+      [latitude]="ubicacionObj$.latitude"
+      [longitude]="ubicacionObj$.longitude"
+      (dragEnd)="markerDragEnd(ubicacionObj$, $event)">
+
+    </agm-marker>
+
+  </agm-map>
+
+  <div class="pl-3 pr-3 mt-4 pb-1">
+    <div class="position-relative form-group" >
+      <h5 class="custom-label-cg">
+        Busca una dirección
+      </h5>
+      <input autocorrect="off" autocapitalize="off" spellcheck="off" #search placeholder="" [(ngModel)]="ubicacionObj$.direccion" name="direccion" type="text" class="custom-input-cg" required style="font-size: 13px; padding-right:35px;">
+      <img src="https://codigeek.com/projects/bookapp/icon_diretion.png" style="width: 15px; position: absolute; bottom: 10px; left: 12px;">
+      <img *ngIf="ubicacionObj$.direccion != ''" (click)="ubicacionObj$.direccion = ''" src="https://codigeek.com/projects/bookapp/close_icon.png" style="width: 15px; position: absolute; bottom: 10px; right: 12px;">
+    </div>
+
+    <!-- <div class="position-relative form-group" >
+      <h5 class="custom-label-cg">
+        Piso, departamento o referencia para el repartidor
+      </h5>
+      <input [(ngModel)]="ubicacionObj$.referencia" name="referencia" type="text" class="custom-input-cg" required style="font-size: 13px; padding: 10px 15px 10px 15px;">
+    </div> -->
+  </div>
+
+  <div class="text-center mt-2 mb-3 pb-2 pr-3 pl-3" *ngIf="!ubicacionObj$._id" style="background: none;">
+    <!-- <button class="mr-2 btn-transition btn btn-outline-success" type="button" (click)="setCurrentPosition()">Ubicación actual</button> -->
+    <!-- <button type="button" class="btn btn-info" (click)="ubicacionChange()">Guardar</button> -->
+    <button (click)="ubicacionChange()" class="boton-confirmar-morado" style="margin: 5px 0px 0px 0px;">
+      Guardar
+    </button>
+  </div>
+  <div class="text-right mt-2 mb-3 pb-2 pr-3 pl-3" *ngIf="ubicacionObj$._id" style="background: none;">
+    <button class="mr-2 btn-transition btn btn-outline-success" type="button" (click)="eliminarDireccionT()">Eliminar</button>
+    <button type="button" class="btn btn-info" (click)="cambiarDireccionT()">Seleccionar</button>
+  </div>
+
+</form>

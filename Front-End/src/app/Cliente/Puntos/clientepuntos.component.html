@@ -1,0 +1,39 @@
+<div class="col-12 mt-4 mb-4" style="text-align: left;font-weight: bold;width: 100%;display: flex;justify-content: center;color: #169a52;font-family: codigeekfont;">
+  <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+  Mis puntos
+</div>
+
+<div class="row" style="font-family:codigeekfont;margin: 0px -5px;">
+    <!-- <div @restaurantes class="col-4" *ngFor="let registro_t of mainArray$; index as i" style="padding: 0px 5px 0px 5px;">
+      <div (click)="seleccionarRestaurante(registro_t)" class="dropdown-menu-header mt-2" >
+        <div class="dropdown-menu-header-inner" style="min-height: 105px;border-radius: 5px;box-shadow: 0px 0px 8px 0px #858585;">
+          <div  class="menu-header-image"
+                [ngStyle]=" { 'background-image' : 'url(' + registro_t.foto + ')' , 'border-radius' : '5px' , 'filter' : 'none', 'opacity' : 1 }" >
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="pl-2 pr-2 card-body mb-5" style="font-family:codigeekfont;">
+      <ul class="list-group list-group-flush mb-3" *ngFor="let registro_t of mainArray$ | filter : searchText : 'nombre'; index as i" (click)="seleccionarRestaurante(registro_t.negocio)">
+          <li  @restaurantes class="list-group-item" style="padding: 0.75rem 0.5rem 0.95rem 0.5rem;border: none;background: white;border-bottom: 1px solid #e2e2e2;">
+              <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                      <div class="widget-content-left mr-3">
+                          <div class="widget-content-left">
+                            <img width="90" class="rounded-circle" src="{{ registro_t.negocio.foto }}" style="border-radius: 5% !important;box-shadow: 0px 0px 5px 0px #b8b8b8;">
+                          </div>
+                      </div>
+                      <div class="widget-content-left flex2">
+                          <div class="widget-heading" style="font-size: 15px;color: black;margin-bottom: 5px;">
+                            {{ registro_t.negocio.nombre }}
+                          </div>
+                          <p style="margin: 0px; text-align: justify; font-size: 10px; line-height: 1; color: #989898;margin-bottom: 2px;">
+                            Puntos: {{ registro_t.puntos }}
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </li>
+      </ul>
+    </div>
+</div>

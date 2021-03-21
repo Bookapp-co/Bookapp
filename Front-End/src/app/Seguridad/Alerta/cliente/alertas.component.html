@@ -1,0 +1,20 @@
+<app-page-title [heading]="heading" [subheading]="" [icon]="icon"></app-page-title>
+
+<div
+  class="mb-3 pb-3 card text-white card-body bg-danger"
+  *ngFor="let registro_t of mainArray$; index as i"
+  style="
+    margin-right: -15px;
+    background: #b60310 !important;
+    border-radius: 4px 0px 0px 4px;
+    box-shadow: -1px 0px 5px 1px #505050;">
+
+  <h5 class="text-white card-title mt-3 mb-1">
+    {{ registro_t.titulo }}
+  </h5>
+  {{ registro_t.mensaje }}
+  <p style="margin: 0px;font-size: 11px;line-height: 1;text-transform:uppercase;position: absolute;right: 10px;bottom: 5px;color: #d8767d;">
+    {{ registro_t.fecha_alta | date:'dd/MM/yyyy' }}
+  </p>
+
+</div>

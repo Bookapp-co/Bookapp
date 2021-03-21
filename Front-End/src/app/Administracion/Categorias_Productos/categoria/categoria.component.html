@@ -1,0 +1,100 @@
+
+
+<div class="page-title-actions" style="padding: 10px 0px; text-align: right;">
+  <button *ngIf="mainObj$._id" (click)="borrar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-danger mr-2">
+    
+    Borrar
+  </button>
+  <button (click)="guardar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+    
+    Guardar
+  </button>
+</div>
+
+<div class="card main-card mb-4">
+
+  <form style="margin-top: 15px;padding: 15px;">
+
+    <!-- <div class="col-xs-12 text-center">
+      <img (click)="subirImagen(2)" *ngIf="!mainObj$.foto" width="70" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+      <img (click)="subirImagen(2)" *ngIf="mainObj$.foto" width="70" src="{{ mainObj$.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+    </div> -->
+
+    <div class="position-relative form-group" style="margin-top: 15px;">
+      <div class="cg-input" style="margin-bottom: 25px;">
+        <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="cg-label-input">Nombre de la categoría</label>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<div class="page-title-actions" style="padding: 0px; text-align: right;" *ngIf="mainObj$._id">
+  <button (click)="irAArticulos()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-dark">
+    Ir a artículos
+    <i class="lnr-arrow-right"></i>
+  </button>
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

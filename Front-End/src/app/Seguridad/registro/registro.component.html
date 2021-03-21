@@ -1,0 +1,167 @@
+<div class="row m-0">
+  <div class="col-12 mt-4" style="text-align: left;font-weight:bold;width:100%;">
+    <i (click)="regresar()" class="lnr-chevron-left" style="font-weight: bold;font-size: 20px;color: #169a52;"></i>
+  </div>
+  <div class="row no-gutters" style="font-family: codigeekfont;width: 100%;">
+    <div style="text-align: center;padding: 0px;z-index: 1;background: white;width: 100%;">
+      <img class="d-sm-none d-block mt-4 mb-2" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 40%;margin: auto;" />
+      <img class="d-sm-block d-none mt-5 mb-2" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 15%;margin: auto;" />
+    </div>
+    <div class="row m-0 pr-3 pl-3 pb-5" style="width: 100%;">
+      <div class="col-sm-4 offset-sm-4 col-12" *ngIf="tipoVista$ === 1">
+        <div class="col-12 text-center mt-1" style="color: #545454; font-weight: bold; margin-bottom: 25px;">
+           <h6 style="margin-bottom: 5px;font-weight: bold;font-size: 18px;">
+             ¡Hola!
+           </h6>
+           <h6 style="font-size: 12px;font-weight: bold;">
+             Ingresa tus datos:
+           </h6>
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Nombre completo
+          </h5>
+          <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Teléfono
+          </h5>
+          <input [(ngModel)]="mainObj$.telefono" name="telefono" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/telefono_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Correo electrónico
+          </h5>
+          <input [(ngModel)]="mainObj$.correo" name="correo" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/icon_correo.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Contraseña
+          </h5>
+          <input [(ngModel)]="mainObj$.contrasena" name="contrasena" type="password" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/icon_contrasena.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="row p-0 m-0 mb-3 custom-checkbox custom-control custom-control-inline" style="width: 100%;">
+           <div class="col-sm-12 p-0">
+             <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.terminos">
+               <span>
+                 Acepto los
+                 <span (click)="abrirLink(1)" style="text-decoration:underline; cursor:pointer;">
+                  términos y condiciones
+                 </span>
+               </span>
+             </mat-checkbox>
+             <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.aviso">
+               <span>
+                 Acepto el
+                 <span (click)="abrirLink(2)" style="text-decoration:underline; cursor:pointer;">
+                  aviso de privacidad
+                 </span>
+               </span>
+             </mat-checkbox>
+           </div>
+        </div>
+        <div class="text-center mt-4">
+          <button (click)="registrarme()" class="boton-confirmar-morado">
+            Registrarme
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-4 offset-sm-4 col-12" *ngIf="tipoVista$ === 2">
+         <div class="col-12 text-center mt-1" style="color: #545454; font-weight: bold; margin-bottom: 25px;">
+           <h6 style="margin-bottom: 5px;font-weight: bold;font-size: 18px;">
+             ¡Hola!
+           </h6>
+           <h6 style="font-size: 12px;font-weight: bold;">
+             Ingresa tus datos:
+           </h6>
+         </div>
+         <div class="position-relative form-group" >
+           <h5 class="custom-label-cg">
+             Nombre del negocio
+           </h5>
+           <input [(ngModel)]="negocioObj$.nombre_negocio" name="nombre_negocio" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+           <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+         </div>
+         <div class="position-relative form-group" >
+           <h5 class="custom-label-cg">
+             Nombre del propietario
+           </h5>
+           <input [(ngModel)]="negocioObj$.nombre" name="nombre" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+           <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+         </div>
+         <div class="position-relative form-group" >
+           <h5 class="custom-label-cg">
+             Teléfono
+           </h5>
+           <input [(ngModel)]="negocioObj$.telefono" name="telefono" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+           <img src="https://codigeek.com/projects/bookapp/telefono_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+         </div>
+         <div class="position-relative form-group" >
+           <h5 class="custom-label-cg">
+             Correo electrónico
+           </h5>
+           <input [(ngModel)]="negocioObj$.correo" name="correo" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+           <img src="https://codigeek.com/projects/bookapp/icon_correo.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+         </div>
+         <div class="position-relative form-group" >
+           <h5 class="custom-label-cg">
+             Contraseña
+           </h5>
+           <input [(ngModel)]="negocioObj$.contrasena" name="contrasena" type="password" class="custom-input-cg" required style="font-size: 13px; ">
+           <img src="https://codigeek.com/projects/bookapp/icon_contrasena.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+         </div>
+         <div class="col-12 mt-4 mb-3 selector-catalogo" (click)="seleccionarCategoria()">
+           <label class="m-0" style="font-size: 14px;color: #7d7d7d;font-weight: bold;position: relative;">
+             Categoría
+           </label>
+           <label class="m-0" style="position: relative;float: right;color: #999;">
+             {{ negocioObj$.categoria_id ? negocioObj$.categoria.nombre : "Selecciona" }}
+             <i class="lnr-chevron-down ml-1"></i>
+           </label>
+         </div>
+         <div class="col-sm-12 p-0">
+           <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.terminos">
+             <span>
+               Acepto los
+               <span (click)="abrirLink(1)" style="text-decoration:underline; cursor:pointer;">
+                términos y condiciones
+               </span>
+             </span>
+           </mat-checkbox>
+           <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.aviso">
+             <span>
+               Acepto el
+               <span (click)="abrirLink(2)" style="text-decoration:underline; cursor:pointer;">
+                aviso de privacidad
+               </span>
+             </span>
+           </mat-checkbox>
+         </div>
+         <div class="text-center mt-4">
+           <button (click)="registrarmeNegocio()" class="boton-confirmar-morado">
+             Registrarme
+           </button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #listadoCategorias let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Categoría</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll; font-family:codigeekfont;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of categoriasArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>

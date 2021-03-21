@@ -1,0 +1,394 @@
+<div style="font-family: codigeekfont;">
+
+  <div class="row mb-4">
+
+    <div class="mb-3" *ngIf="mainObj$.perfil_completo && mainObj$.status != 4" [type]="info" style="width: 100%;color: #155724; background-color: #d4edda; border-color: #c3e6cb;padding: 10px;">
+      Sucursal activada
+    </div >
+    <div class="mb-3" *ngIf="mainObj$.status === 4" [type]="info" style="width: 100%;color: #948112; background-color: #fff7c9; border-color: #f0e49a;padding: 10px;">
+      Sucursal desactivada
+    </div >
+
+    <ngb-tabset class="tabs-animated tabs-animated-line" style="width: 100%;">
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <span>
+            Información de la sucursal
+          </span>
+        </ng-template>
+        <ng-template ngbTabContent>
+
+          <form style="margin-top: 15px;padding: 15px;">
+
+            <div class="position-relative form-group">
+
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Nombre del negocio
+                </h5>
+                <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Descripción
+                </h5>
+                <input [(ngModel)]="mainObj$.descripcion" name="descripcion" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Teléfono
+                </h5>
+                <input [(ngModel)]="mainObj$.telefono" name="telefono" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;" *ngIf="mainObj$.categoria_id === '5ee410dc31a9c57966bf37c2'">
+                <label style="font-size: 14px;color: #169a52;margin-bottom: 10px;font-weight: 600;width: 100%;">
+                  <i (click)="agregarEspecialidad()" class="lnr-plus-circle mr-2" style="cursor:pointer;"></i>
+                  Especialidades
+                </label>
+                <div class="col-12 mb-3 mt-3">
+                  <span class="mr-2" (click)="borrarEspecialidad(registro_t)" *ngFor="let registro_t of mainObj$.especialidades; index as i" style="padding: 5px 15px;font-size: 12px;background: #169a52;color: white;border-radius: 15px;cursor:pointer;">
+                    <i class="lnr-trash mr-1"></i> {{ registro_t.especialidad.nombre }}
+                  </span>
+                </div>
+              </div>
+              <div class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;" *ngIf="currentUser$.negocio.main">
+                <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+                  Administrador (Opcional, si eres el administrador de la sucursal no es necesario capturarlo)
+                </label>
+                <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+                  <label (click)="seleccionarAdministrador()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                    {{ mainObj$.usuario_id ? mainObj$.usuario.nombre : "Selecciona" }}
+                    <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+                  </label>
+                </div>
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Busca una dirección
+                </h5>
+                <input [(ngModel)]="mainObj$.direccion" name="direccion" autocorrect="off" autocapitalize="off" spellcheck="off" #search type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+
+              <agm-map
+                style="height: 200px;"
+                [latitude]="mainObj$.latitude"
+                [longitude]="mainObj$.longitude"
+                [zoom]="zoom"
+                [disableDefaultUI]="true"
+                [zoomControl]="false"
+                (mapClick)="mapClicked($event)"
+                [gestureHandling]="'greedy'"
+                >
+
+                <agm-marker
+                  [latitude]="mainObj$.latitude"
+                  [longitude]="mainObj$.longitude"
+                  [label]="mainObj$.nombre" >
+
+                  <!-- <agm-info-window>
+                    <strong>InfoWindow content</strong>
+                  </agm-info-window> -->
+
+                </agm-marker>
+
+                <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng"
+                            [radius]="5000"
+                            [fillColor]="'red'"
+                            [circleDraggable]="true"
+                            [editable]="true">
+                </agm-circle> -->
+
+              </agm-map>
+
+            </div>
+
+          </form>
+        </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <span>
+              Información adicional
+            </span>
+          </ng-template>
+          <ng-template ngbTabContent>
+
+            <form style="margin-top: 15px;padding: 15px;">
+
+              <div class="col-sm-12 p-0">
+                <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+                  Métodos de pago de la reserva
+                </label>
+              </div>
+              <div class="col-12 mb-3 mt-3 p-0">
+                <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.pago_efectivo" name="pago_efectivo">
+                  Pago en establecimiento
+                </mat-checkbox>
+              </div>
+              <div class="col-12 mb-3 p-0">
+                <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.pago_tarjeta" name="pago_tarjeta">
+                  Pago online
+                </mat-checkbox>
+              </div>
+              <div class="position-relative form-group" *ngIf="mainObj$.categoria_id === '5ee4110b31a9c57966bf37c5'">
+                <h5 class="custom-label-cg">
+                  Número de mesas
+                </h5>
+                <input [(ngModel)]="mainObj$.numero_de_mesas" name="numero_de_mesas" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="col-sm-12 mb-3 p-0">
+                <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+                  Horario laboral
+                </label>
+              </div>
+              <div class="row m-0">
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="lunes_trabaja" class="example-margin" [(ngModel)]="mainObj$.lunes_trabaja">
+                      Lunes
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.lunes_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.lunes_inicia" [hourStep]="1" [minuteStep]="15" name="lunes_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.lunes_termina" [hourStep]="1" [minuteStep]="15" name="lunes_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="martes_trabaja" class="example-margin" [(ngModel)]="mainObj$.martes_trabaja">
+                      Martes
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.martes_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.martes_inicia" [hourStep]="1" [minuteStep]="15" name="martes_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.martes_termina" [hourStep]="1" [minuteStep]="15" name="martes_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="miercoles_trabaja" class="example-margin" [(ngModel)]="mainObj$.miercoles_trabaja">
+                      Miércoles
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.miercoles_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.miercoles_inicia" [hourStep]="1" [minuteStep]="15" name="miercoles_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.miercoles_termina" [hourStep]="1" [minuteStep]="15" name="miercoles_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="jueves_trabaja" class="example-margin" [(ngModel)]="mainObj$.jueves_trabaja">
+                      Jueves
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.jueves_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.jueves_inicia" [hourStep]="1" [minuteStep]="15" name="jueves_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.jueves_termina" [hourStep]="1" [minuteStep]="15" name="jueves_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="viernes_trabaja" class="example-margin" [(ngModel)]="mainObj$.viernes_trabaja">
+                      Viernes
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.viernes_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.viernes_inicia" [hourStep]="1" [minuteStep]="15" name="viernes_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.viernes_termina" [hourStep]="1" [minuteStep]="15" name="viernes_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="sabado_trabaja" class="example-margin" [(ngModel)]="mainObj$.sabado_trabaja">
+                      Sábado
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.sabado_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.sabado_inicia" [hourStep]="1" [minuteStep]="15" name="sabado_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.sabado_termina" [hourStep]="1" [minuteStep]="15" name="sabado_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="col-12 p-0" style="">
+                  <div>
+                    <mat-checkbox name="domingo_trabaja" class="example-margin" [(ngModel)]="mainObj$.domingo_trabaja">
+                      Domingo
+                    </mat-checkbox>
+                  </div>
+                  <div *ngIf="mainObj$.domingo_trabaja" style="display: inline-flex;padding: 10px; background: #f6f6f6; border-radius: 10px;">
+                    <label style="font-size: 13px;">
+                      Inicia
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.domingo_inicia" [hourStep]="1" [minuteStep]="15" name="domingo_inicia"></ngb-timepicker>
+                    <label style="font-size: 13px;">
+                      Termina
+                    </label>
+                    <ngb-timepicker [meridian]="false" [(ngModel)]="mainObj$.domingo_termina" [hourStep]="1" [minuteStep]="15" name="domingo_termina"></ngb-timepicker>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+              </div>
+            </form>
+
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+
+      <div class="col-12 col-sm-4 offset-sm-4 text-center">
+        <button *ngIf="mainObj$._id" (click)="borrar()" class="boton-confirmar-morado">
+          Borrar
+        </button>
+      </div>
+      <div class="col-12 col-sm-4 offset-sm-4 text-center">
+        <button (click)="guardarNegocio()" class="boton-confirmar-morado">
+          Actualizar
+        </button>
+      </div>
+
+  </div>
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mEspecialidades let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Especialidades</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <div class="row m-0" *ngFor="let registro_t of especialidades$; index as i" style="margin-bottom: 10px !important; padding-bottom: 10px !important; border-bottom: 1px solid gainsboro;">
+      <div class="col-12" style="cursor:pointer;" (click)="returnEspecialidad(registro_t)">
+        {{ registro_t.nombre }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #listadoUsuarios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Administrador</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of usuariosArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #listadoCategorias let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Categoría</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of categoriasArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

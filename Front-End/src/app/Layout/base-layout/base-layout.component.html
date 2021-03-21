@@ -1,0 +1,88 @@
+<div [ngClass]="{
+'closed-sidebar' : globals.toggleSidebar,
+'closed-sidebar-md' : globals.toggleSidebarMobile,
+'settings-open' : globals.toggleThemeOptions,
+'closed-sidebar-open': globals.sidebarHover || globals.toggleSidebarMobile,
+'header-menu-open' : globals.toggleHeaderMobile,
+'drawer-open' : globals.toggleDrawer,
+'fixed-footer' : globals.toggleFixedFooter
+}" [class]="'app-container app-theme-white'" style="height: 100%;">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  <div class="app-main__outer" style="height: 100%;">
+    <div class="app-main__inner" style="font-family:codigeekfont;height: 100%;">
+      <div style="height: 100%;">
+         <!-- [@architectUIAnimation]="o.isActivated ? o.activatedRoute : ''" -->
+        <router-outlet #o="outlet"></router-outlet>
+      </div>
+    </div>
+    <!-- <app-footer></app-footer> -->
+  </div>
+  <!-- <app-options-drawer></app-options-drawer> -->
+  <app-drawer></app-drawer>
+  <div class="d-sm-none sidebar-menu-overlay" (click)="toggleSidebarMobile()"></div>
+
+</div>
+<ngx-loading-bar [color]="'var(--primary)'"></ngx-loading-bar>
+
+<ng-template #mPedidosPendientes let-c="close" let-d="dismiss">
+
+  <div [ngClass]="classNotificacion$" (click)="gestionarPedido()">
+    <h3 class="text-center text-white" style="margin-top: 30vh;">
+      <span *ngIf="tipoNotificacion$ === 1">{{ mensajeNotificacion$ }}</span>
+      <span *ngIf="tipoNotificacion$ === 2">{{cantidadNotificacion$}} {{ mensajeNotificacion$ }}</span>
+      <div class="loader-wrapper d-flex justify-content-center align-items-center" style="float: none !important; margin: auto; margin-top: 15px;">
+        <div class="loader">
+          <div class="ball-scale-multiple">
+            <div *ngIf="tipoNotificacion$ === 1" style="background-color: #006c35; width: 100px; height: 100px;"></div>
+            <div *ngIf="tipoNotificacion$ === 1" style="background-color: #006c35; width: 100px; height: 100px;"></div>
+            <div *ngIf="tipoNotificacion$ === 1" style="background-color: #006c35; width: 100px; height: 100px;"></div>
+            <div *ngIf="tipoNotificacion$ === 2" style="background-color: #443000; width: 100px; height: 100px;"></div>
+            <div *ngIf="tipoNotificacion$ === 2" style="background-color: #443000; width: 100px; height: 100px;"></div>
+            <div *ngIf="tipoNotificacion$ === 2" style="background-color: #443000; width: 100px; height: 100px;"></div>
+          </div>
+        </div>
+      </div>
+    </h3>
+  </div>
+
+</ng-template>
+
+<ng-template #mPromocion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px; font-family: codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">{{promocion$.mensaje_inicio}}</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-xs-12 text-center" *ngIf="promocion$.foto">
+      <img *ngIf="promocion$.foto" width="200" src="{{ promocion$.foto }}" alt="" style="border: 2px solid white; box-shadow: 0px 0px 5px 0px #acacac;">
+    </div>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #mMensajeGeneral let-c="close" let-d="dismiss">
+  <div class="modal-body" style="font-family:codigeekfont;">
+    <div class="text-center">
+      <div class="col-12 text-center mt-3 mb-3" style="color: #169a52; font-weight: bold;">
+         <i *ngIf="mostrarIcono$" class="lnr-checkmark-circle" style="font-size: 50px;color: #169a52;"></i>
+         <img *ngIf="mostrarImagen$" style="width: 100%;" src="{{ urlImagen$ }}" />
+         <h6 style="margin-bottom: 5px;margin-top: 15px;font-weight: bold;font-size: 20px;">
+           {{ tituloModal$ }}
+         </h6>
+         <h6 style="margin: 20px 30px 0px 30px;font-size: 12px;color: #818181;">
+           {{ mensajeModal$ }}
+         </h6>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="font-family:codigeekfont;">
+    <button (click)="closeModal()" class="boton-confirmar-morado" style="margin: auto;">
+      Continuar
+    </button>
+  </div>
+</ng-template>

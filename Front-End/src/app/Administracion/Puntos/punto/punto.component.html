@@ -1,0 +1,56 @@
+
+
+<div class="page-title-actions" style="padding: 10px 0px; text-align: right;">
+  <button *ngIf="mainObj$._id" (click)="borrar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-danger mr-2">
+    
+    Borrar
+  </button>
+  <button (click)="guardar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+    
+    Guardar
+  </button>
+</div>
+
+<div class="card main-card mb-4">
+
+  <form style="margin-top: 15px;padding: 15px;">
+    <div class="position-relative form-group" style="margin-top: 50px;">
+      <div class="cg-input" style="margin-bottom: 25px;">
+        <input [(ngModel)]="mainObj$.mayor_a" name="mayor_a" type="text" class="cg-input-adicional" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="cg-label-input">Mayor a:</label>
+      </div>
+      <div class="cg-input" style="margin-bottom: 25px;">
+        <input [(ngModel)]="mainObj$.puntos" name="puntos" type="text" class="cg-input-adicional" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="cg-label-input">Puntos</label>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

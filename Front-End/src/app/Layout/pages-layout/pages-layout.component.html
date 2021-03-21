@@ -1,0 +1,27 @@
+<!-- [@architectUIAnimation]="o.isActivated ? o.activatedRoute : ''" -->
+<div style="height: 100%;">
+  <router-outlet #o="outlet"></router-outlet>
+</div>
+<ngx-loading-bar [color]="'var(--primary)'"></ngx-loading-bar>
+
+<ng-template #mMensajeGeneral let-c="close" let-d="dismiss">
+  <div class="modal-body" style="font-family:codigeekfont;">
+    <div class="text-center">
+      <div class="col-12 text-center mt-3 mb-3" style="color: #169a52; font-weight: bold;">
+        <i *ngIf="mostrarIcono$" class="lnr-checkmark-circle" style="font-size: 50px;color: #169a52;"></i>
+        <img *ngIf="mostrarImagen$" style="width: 100%;" src="{{ urlImagen$ }}" />
+         <h6 style="margin-bottom: 5px;margin-top: 15px;font-weight: bold;font-size: 20px;">
+           {{ tituloModal$ }}
+         </h6>
+         <h6 style="margin: 20px 30px 0px 30px;font-size: 12px;color: #818181;">
+           {{ mensajeModal$ }}
+         </h6>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="font-family:codigeekfont;">
+    <button (click)="closeModal()" class="boton-confirmar-morado" style="margin: auto;">
+      Continuar
+    </button>
+  </div>
+</ng-template>

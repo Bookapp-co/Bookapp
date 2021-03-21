@@ -1,0 +1,414 @@
+<div style="height: 100%;">
+
+  <div class="col-12 col-sm-6 offset-sm-3 p-0" style="font-family: codigeekfont;display: flex;flex-flow: column;height: 100%;">
+
+    <div class="pt-4 mb-4" style="text-align: left; font-weight: bold; width: 100%; display: flex; justify-content: center; color: #169a52; font-family: codigeekfont;">
+      <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+      Comercios
+    </div>
+
+    <div class="page-title-actions text-center pl-3 pr-3" >
+      <ul class="header-megamenu nav">
+        <li class="nav-item">
+          <div class="search-wrapper" [class.active]="isActive" style="display: inline-block; width: 200px;">
+            <div class="input-holder">
+              <input [(ngModel)]="searchText" name="searchText" type="text" placeholder="Buscar comercio.." class="search-input">
+              <button class="search-icon" (click)="isActive = true"><span></span></button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="pl-2 pr-2 mt-2" style="font-family:codigeekfont;">
+      <ul class="list-group list-group-flush mt-2 mb-4">
+        <li class="list-group-item" style="padding: 5px;border: none;">
+          <div class="row m-0">
+            <div class="col-3 pl-2 pr-2 text-center" style="display: flex; align-items: center; justify-content: center;">
+                <div class="widget-content-left">
+                  <img width="60" class="rounded-circle" src="{{ negocioObj$.foto }}" style="border-radius: 5% !important;box-shadow: 0px 0px 5px 0px #b8b8b8;width: 100%;">
+                  <img *ngIf="!negocioObj$.foto" width="60" class="rounded-circle" src="{{ negocioObj$.categoria.foto }}" style="width: 100%;">
+                </div>
+            </div>
+            <div class="col-6 pl-1">
+                <div class="widget-heading" style="font-size: 14px;color: #20284c;margin-bottom: 2px;font-weight: 600;">
+                  {{ negocioObj$.nombre }}
+                </div>
+                <div (click)="abrirUbicacion()" class="m-0" style="font-size: 12px; padding-bottom: 1px; color: #169a52; line-height: 1;">
+                  <span style="font-size: 10px; color: #b1b1b1;">
+                    Tu ubicación
+                  </span>
+                  <br/>
+                  <div class="mt-1" style="font-weight: bold; color: #717171;font-size: 11px;">
+                    <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1">
+                    {{ currentUser$.direccion | limitTo : 15 }}..
+                    <i class="lnr-chevron-down"></i>
+                  </div>
+                </div>
+            </div>
+            <div class="col-3 pl-0 text-center">
+              <div style="text-align: right;">
+                <div style="font-size: 9px;font-weight: bold;background: #02b53d;color: white;text-align: center;border-radius: 3px;padding: 4px;">
+                  ABIERTO
+                </div>
+                <span style="font-size: 10px; font-weight:bold;">
+                  5.0
+                  <img src="https://codigeek.com/projects/bookapp/estrella_amarilla.png" style="width: 14px;" />
+                </span>
+                <p *ngIf="negocioObj$.costo_minimo" class="mt-1" style="margin: 0px 0px 4px;text-align: justify;font-size: 9px;line-height: 1;color: rgb(140, 140, 140);">
+                  Pedido mínimo: {{ configuracion$.tipo_de_moneda.descripcion }}{{ negocioObj$.costo_minimo }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row m-0 mt-1" style="display: block; font-family: codigeekfont;background: #f4f4f4;padding-top: 15px;border-radius: 20px 20px 0px 0px;box-shadow: 0px -1px 5px 1px #d3d3d3;flex: 1 1 auto;">
+      <div class="pr-2 pb-2 pl-2 pt-0 card-body" style="font-family:codigeekfont; padding-bottom: 90px !important;">
+
+      <!-- VISTA 1 DE LISTADO -->
+      <!-- (click)="seleccionarCategoria(categoria_t,i,1)" -->
+        <ngx-slick-carousel class="slick-slider slick-dotted"
+            #slickModal="slick-carousel"
+            (init)="slickInit($event)"
+            (afterChange)="afterChange($event)"
+            [config]="slideConfig4">
+              <div ngxSlickItem
+
+                   *ngFor="let categoria_t of negocioObj$.categorias; index as i"
+                   class="text-center"
+                   style="padding: 12px 0px;"
+              >
+                  <span [ngClass]="( index$ === i )?'item-slick-slide-text-active':'item-slick-slide-text-inactive'">
+                    {{ categoria_t.nombre | uppercase | limitTo : 8 }}{{ categoria_t.nombre.length > 8 ? ".." : "" }}
+                  </span>
+              </div>
+        </ngx-slick-carousel>
+
+        <div class="row m-0 mt-2">
+          <div class="col-12 col-sm-6 mb-2 pr-2 pl-2" *ngFor="let platillo_t of categoriaSeleccionada$.platillos; index as j" >
+            <div @restaurantes class="row m-0 pl-3 pr-3 pt-2 pb-2 mb-2" (click)="opcionesPlatillo( platillo_t )" *ngIf="platillo_t.disponible" style="border: none;background: white;box-shadow: 0px 7px 15px 0px #e4e4e4;border-radius: 4px;">
+              <img *ngIf="platillo_t.promocion" src="https://codigeek.com/projects/bookapp/descuento_icon.png" style="position: absolute;z-index: 9;top: 0px;left: 6px;width: 40px;">
+              <span *ngIf="platillo_t.promocion" style="font-size: 7px; position: absolute; z-index: 9; top: 12px; left: 19px; color: white;">
+                {{ platillo_t.promocion_total }}%
+              </span>
+              <div class="widget-content p-0" style="width:100%;">
+                <div class="widget-content-wrapper" style="width:100%;">
+                  <div class="widget-content-left mr-3">
+                      <div class="widget-content-left">
+                        <img *ngIf="platillo_t.foto" width="70" class="rounded-circle" src="{{ platillo_t.foto }}">
+                        <img *ngIf="!platillo_t.foto" width="70" class="rounded-circle" src="{{ negocioObj$.categoria.foto }}">
+                      </div>
+                  </div>
+                  <div class="widget-content-left flex2">
+                    <div class="widget-heading" style="font-size: 14px;color: #20284c;margin-bottom: 2px;font-weight: 600;">
+                      <div class="row mb-1" style="align-items: center;">
+                        <div class="col-6 pr-0">
+                          {{ platillo_t.nombre }}
+                        </div>
+                        <div class="col-6 p-0 text-center">
+                          <div class="price-tag" style="line-height: 1;font-size: 14px;font-weight: bold;">
+                            {{ configuracion$.tipo_de_moneda.descripcion }}{{ platillo_t.costo | number : '1.2-2' }}
+                          </div>
+                          <div *ngIf="platillo_t.promocion" class="cross-price">
+                            {{ configuracion$.tipo_de_moneda.descripcion }}{{ platillo_t.calculado_descuento | number : '1.2-2' }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="platillo_t.descripcion" class="widget-heading" style="font-size: 10px;text-align: justify;color: #acacac;margin-bottom: 2px;font-weight: normal;opacity: 1;line-height: 1.2;">
+                      {{ platillo_t.descripcion | limitTo : 70 }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VISTA 1 DE LISTADO -->
+
+
+        <!-- VISTA 2 DE LISTADO -->
+
+        <!-- <div *ngIf="negocioObj$.categoria.tipo_listado === 2">
+
+          <ul class="list-group list-group-flush mt-2" *ngFor="let categoria_t of negocioObj$.categorias; index as i" style="padding: 0px 10px;">
+            <li class="list-group-item" style="background: transparent; padding: 10px 0px 0px 0px; border: none;">
+                <button type="button" class="btn btn-outline-primary" (click)="seleccionarCategoria(categoria_t,i,2)"
+                        [attr.aria-expanded]="!categoria_t.expand" aria-controls="categoria_t._id" style="width: 100%;text-align: left;display: flex;align-items: center;background-image: linear-gradient(to right, #169a52 35%, #535e7a 100%);color: white;box-shadow: 0px 1px 4px 0px #929292;">
+                  {{ categoria_t.nombre | uppercase }}
+                  <i class="lnr-chevron-down" style="position: absolute; right: 10px; font-weight: bold;"></i>
+                </button>
+            </li>
+            <li class="list-group-item mb-2" style="padding: 5px 0px;border: none;background: transparent;" id="categoria_t._id" [ngbCollapse]="!categoria_t.expand">
+              <div class="row m-0">
+                <div class="col-6 mb-2 pr-2 pl-2" *ngFor="let platillo_t of categoria_t.platillos; index as j" >
+                  <div class="row m-0 pl-3 pr-3 pt-2 pb-2" (click)="opcionesPlatillo( platillo_t )" *ngIf="platillo_t.disponible" style="border: none; background: white; box-shadow: 0px 0px 3px 0px #d1d1d1; border-radius: 4px;">
+                    <div class="col-12 p-0 text-center">
+                      <img *ngIf="platillo_t.foto" width="60" class="rounded-circle" src="{{ platillo_t.foto }}" style="border-radius: 50px !important;box-shadow: 0px 0px 10px 0px #dadada;">
+                      <img *ngIf="!platillo_t.foto" width="60" class="rounded-circle" src="{{ categoria_t.foto }}" style="border-radius: 50px !important;box-shadow: 0px 0px 10px 0px #dadada;">
+                    </div>
+                    <div class="col-12 p-0 mt-1 mb-1 text-center">
+                      <div class="widget-heading" style="font-size: 10px;font-weight: bold;color: #525252;line-height: 1.2;margin-top: 3px;">
+                        {{ platillo_t.nombre }}
+                      </div>
+                      <p *ngIf="platillo_t.marca" style="margin: 5px 0px 0px 0px;text-align: center;font-size: 9px;line-height: 1;color: #989898;">
+                        {{ platillo_t.marca | limitTo : 20 }}
+                      </p>
+                      <p style="margin: 0px 0px 0px 0px;text-align: center;font-size: 9px;line-height: 1;color: #989898;">
+                        {{ platillo_t.presentacion ? platillo_t.presentacion : "" | limitTo : 20 }} {{ platillo_t.capacidad ? platillo_t.capacidad : "" | limitTo : 20 }} {{ platillo_t.unidad ? platillo_t.unidad : "" | limitTo : 20 }}
+                      </p>
+                    </div>
+                    <div class="col-12 p-0 text-center">
+                      <div class="descuento" *ngIf="platillo_t.promocion">
+                        {{ platillo_t.promocion_total }}% descuento
+                      </div>
+                      <div class="price-tag">
+                        S/ {{ platillo_t.costo | number : '1.2-2' }}
+                      </div>
+                      <div *ngIf="platillo_t.promocion" class="cross-price">
+                        {{ platillo_t.calculado_descuento | number : '1.2-2' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+      <div (click)="abrirDetallePedido()" style="width: 100%;padding: 12px 5px;bottom: 0;left: 0;background: #20284c;font-family: codigeekfont;box-shadow: 0px 2px 5px 0px #424242;text-align: center;color: white;font-size: 12px;display: flex !important;align-items: center;justify-content: center;position: fixed;">
+        <img src="https://codigeek.com/projects/bookapp/carrito_icon.png" style="width: 24px; margin-right: 8px;">
+        <span class="mr-1" style="font-size: 20px;">
+          {{ mainObject$.platillos.length }}
+        </span>
+        <span style="line-height: 1; font-size: 9px;">
+          Productos
+          <br>
+          Agregados
+        </span>
+        <span class="ml-3" style="background: white; color: #20284c; padding: 2px 15px; border-radius: 30px;">
+          {{ configuracion$.tipo_de_moneda.descripcion }}{{ mainObject$.total | number : '1.2-2' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mCambiarUbicacion let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Selecciona una ubicación</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <seleccionar-direccion (seleccionarDireccion)="seleccionarDireccion($event)" [locationParam]="ubicacionObj$"></seleccionar-direccion>
+  </div>
+</ng-template>
+
+<ng-template #mFinalizacionPedido let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family: codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Información adicional</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family: codigeekfont;">
+    <div class="cg-input" style="margin-bottom: 15px;">
+      <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+        Referencia de tu ubicación
+      </label>
+      <textarea placeholder="Describe que calles o referencias hay cerca de tí para que el repartidor pueda encontrarte más rápido" [(ngModel)]="mainObject$.referencia" rows="6" class="cg-input-adicional" name="referencia" required="" type="text" style="border: none;line-height: 1.2;color: #9e9e9e;padding: 10px;background: #f0f0f0;font-size: 12px;">
+      </textarea>
+    </div>
+    <div class="cg-input" style="margin-bottom: 15px;">
+      <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+        Confirma tu teléfono
+      </label>
+      <input [(ngModel)]="mainObject$.telefono" name="telefono" type="text" class="cg-input-adicional" placeholder="" required style="background: #f0f0f0; border-radius: 3px; border: none !important; padding: 10px; color: #909090;">
+    </div>
+
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+      <label style="position: relative;font-size: 13px;color: #505050;font-weight: bold;">
+        Forma de pago
+      </label>
+      <label class="text-success" (click)="seleccionarFormaDePago()" style="position: relative;float: right;">
+        {{ mainObject$.forma_pago_id ? mainObject$.forma_pago.descripcion : "Selecciona" }}
+        <i class="lnr-chevron-down"></i>
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer" style="background: none;font-family: codigeekfont;">
+
+    <button (click)="hacerPedido()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+      Confirmar pedido
+    </button>
+
+  </div>
+</ng-template>
+
+<ng-template #mTuPedido let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family: codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Detalle de tu pedido</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span class="fa fa-plus text-success" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="modal-body" [ngStyle]="{ 'max-height' : modalMaxHeight$, 'min-height' : '200px', 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '10px' }">
+    <div class="widget-content p-0" *ngFor="let platillo_t of mainObject$.platillos; index as i">
+        <div class="widget-content-wrapper">
+            <div class="widget-content-left mr-1">
+                <div class="widget-content-left">
+                  <span class="mr-2" style="color: black;">
+                    <i (click)="triggerCantidadPlatillo(2,platillo_t,i)" class="lnr-chevron-down mr-2" style="font-size: 16px;"></i>
+                    <span style="font-size: 15px; padding: 2px 10px; background: #cdcdcd; border-radius: 3px;">
+                      {{ platillo_t.cantidad }}
+                    </span>
+                    <i (click)="triggerCantidadPlatillo(1,platillo_t,i)" class="lnr-chevron-up ml-2" style="font-size: 16px;"></i>
+                  </span>
+                </div>
+            </div>
+            <div class="widget-content-left flex2">
+                <div class="widget-heading" style="font-size: 10px;color: black;line-height: 1;font-weight: normal; padding-bottom: 5px;">
+                  {{ platillo_t.nombre }}
+                </div>
+                <div *ngFor="let ingrediente_t of platillo_t.ingredientes; index as i" class="widget-heading" style="font-size: 10px;color: #858585;line-height: 1;font-weight: normal;padding: 0px 10px;">
+                  > {{ingrediente_t.nombre}}
+                </div>
+            </div>
+            <div class="widget-content-right" style="padding: 10px;font-size: 14px;">
+              <span style="color: black;">
+                {{ configuracion$.tipo_de_moneda.descripcion }}{{ platillo_t.total }}
+              </span>
+            </div>
+        </div>
+    </div>
+    <p *ngIf="mainObject$.platillos.length === 0" style="margin: 8px 0px;cursor:pointer;padding-top: 20px;text-align: center;font-size: 12px;">
+      Selecciona platillos para agregarlos a tu pedido
+    </p>
+  </div>
+  <div *ngIf="mainObject$.platillos.length > 0" class="modal-footer" style="background: none;font-family: codigeekfont;">
+
+    <button (click)="finalizacionPedido()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+      Hacer pedido {{ configuracion$.tipo_de_moneda.descripcion }}{{ mainObject$.total }}
+    </button>
+
+  </div>
+</ng-template>
+
+<ng-template #mMensaje let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Alerta</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{mensaje$}}
+    </p>
+  </div>
+  <button (click)="c('ok')" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+    ACEPTAR
+  </button>
+</ng-template>
+
+
+<ng-template #mOpciones let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+  <div class="modal-body" [ngStyle]="{ 'min-height' : '200px', 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '0px 15px 10px 15px', 'display' : 'block', 'padding-top' : '0px', 'background' : 'white', 'padding-bottom' : '0px' }">
+    <div class="row">
+      <div class="col-sm-4 offset-sm-4 col-12">
+        <div class="col-12 mt-4 mb-2" style="text-align: left; font-weight: bold; width: 100%; display: flex; justify-content: center; color: #169a52; font-family: codigeekfont;">
+          <i (click)="d('Cross click')" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+          Pedido
+        </div>
+        <div class="row" style="padding: 0px 15px;">
+          <div class="col-sm-12 p-0 text-center" style="font-size: 12px;color: black;">
+            <ngx-slick-carousel class="slick-slider slick-dotted"
+              #slickModal="slick-carousel"
+              (init)="slickInit2($event)"
+              [config]="slideGaleria">
+              <div *ngIf="platilloSeleccionado$.foto" ngxSlickItem >
+                  <img class="imagen_catalogo" src="{{platilloSeleccionado$.foto }}" style="border-radius: 0px !important;width: 80%;margin: auto;">
+              </div>
+              <div
+                ngxSlickItem
+                *ngFor="let registro_t of platilloSeleccionado$.galeria; index as i">
+                  <img class="imagen_catalogo" src="{{registro_t.foto }}" style="border-radius: 0px !important;width: 80%;margin: auto;">
+              </div>
+            </ngx-slick-carousel>
+          </div>
+        </div>
+        <div class="row" style="background: #f4f4f4;padding: 0px 15px;box-shadow: 0px -6px 10px 0px #d9d9d9;border-radius: 10px 10px 0px 0px;margin-top: 35px;min-height: 55vh;">
+          <div class="row m-0 pt-2 pb-2" style="padding: 0px 15px;border-radius: 10px;margin-top: -3px;width: 100%;">
+            <div class="row pt-2 pb-2" style="padding: 0px 15px;width: 60%;margin: auto;background: #169a52;align-items: center;justify-content: center;border-radius: 30px;margin-top: -25px;">
+              <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center;">
+                <i *ngIf="platilloSeleccionado$.cantidad > 1" class="pe-7s-less" (click)="triggerCantidadPlatillo(0)" style="font-size: 25px; color:white;"></i>
+              </div>
+              <div class="col-4 text-center text-success" style="font-size: 25px; line-height: 1; color:white;display: flex; align-items: center; justify-content: center;">
+                <span style="color: white;">
+                  {{ platilloSeleccionado$.cantidad }}
+                </span>
+              </div>
+              <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center;">
+                <i class="pe-7s-plus" (click)="triggerCantidadPlatillo(1)" style="font-size: 25px; color:white;"></i>
+              </div>
+            </div>
+            <div class="col-12 text-center">
+              <p style="margin: 20px 0px 10px 0px;color: #20284c;font-weight: bold;">
+                {{platilloSeleccionado$.nombre}}
+              </p>
+              <p style="margin: 0px 0px 0px 0px;padding-bottom: 20px;color: #888c9a;font-size: 10px;line-height: 1.3;font-weight: normal;border-bottom: 1px solid #e4e4e4;">
+                {{platilloSeleccionado$.descripcion}}
+              </p>
+            </div>
+          </div>
+          <div class="row m-0" *ngFor="let grupo_t of platilloSeleccionado$.grupo_ingrediente; index as i" style="padding: 0px 20px;padding-bottom: 15px;border-bottom: 1px solid #e4e4e4;margin-bottom: 10px !important;">
+            <div class="col-sm-12 p-0" style="border-bottom: antiquewhite;margin: 3% 0% 3% 0%;font-size: 13px;color: #169a52;font-weight: bold;text-transform: uppercase;">
+              {{ grupo_t.nombre }}
+              <span style="float: right;font-size: 10px;" *ngIf="grupo_t.genera_costo">
+                Costo adicional
+              </span>
+            </div>
+            <div *ngIf="!grupo_t.seleccion_multiple" class="row p-0 m-0 custom-checkbox custom-control custom-control-inline">
+              <div class="col-sm-12 p-0">
+                <mat-radio-group aria-label="Selecciona una opción" [(ngModel)]="grupo_t.ingrediente_seleccionado" (change)="platilloPropiedadesCambio()">
+                  <mat-radio-button *ngFor="let ingrediente_t of grupo_t.ingredientes; index as j" [value]="ingrediente_t.id" [checked]="ingrediente_t.id === grupo_t.ingrediente_seleccionado" style="font-weight: bold; color: #5e5e5e;">
+                    {{ ingrediente_t.nombre }}
+                    <span class="float-right" *ngIf="grupo_t.genera_costo" style="color: black; font-weight: bold; font-size: 14px;">
+                      {{ configuracion$.tipo_de_moneda.descripcion }}{{ ingrediente_t.extra }}
+                    </span>
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div *ngIf="grupo_t.seleccion_multiple" class="row p-0 m-0 custom-checkbox custom-control custom-control-inline" style="width: 100%;">
+              <div class="col-sm-12 p-0" *ngFor="let ingrediente_t of grupo_t.ingredientes; index as j">
+                <mat-checkbox class="example-margin" [(ngModel)]="ingrediente_t.seleccionado" (change)="platilloPropiedadesCambio()">
+                  {{ ingrediente_t.nombre }}
+                  <span class="float-right" *ngIf="grupo_t.genera_costo" style="color: black; font-weight: bold; font-size: 14px;">
+                    {{ configuracion$.tipo_de_moneda.descripcion }}{{ ingrediente_t.extra }}
+                  </span>
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="row m-0 text-center" style="width: 100%; padding: 15px 0px 25px 0px;">
+            <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center; font-size: 20px; color: #169a52; font-weight: bold;">
+              {{ configuracion$.tipo_de_moneda.descripcion }} {{ platilloSeleccionadoVista$.costo }}
+            </div>
+            <div class="col-8 text-center" style="display: flex; align-items: center; justify-content: center;">
+              <button (click)="returnOpciones()" class="boton-confirmar-morado" style="margin: 0px; width:100%;">
+                Agregar al carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

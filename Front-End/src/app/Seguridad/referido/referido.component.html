@@ -1,0 +1,45 @@
+<div class="row m-0" style="font-family: codigeekfont;">
+  <div class="col-12 mt-4" style="text-align: left;font-weight: bold;width: 100%;color: #169a52;">
+    <i (click)="regresar()" class="lnr-chevron-left" style="font-weight: bold;font-size: 20px;color: #169a52;"></i>
+    Referidos
+  </div>
+  <div class="row no-gutters" style="font-family: codigeekfont;width: 100%;margin-top: 40px;">
+    <div class="row m-0 pr-3 pl-3 pb-5" style="width: 100%;">
+      <div class="col-sm-4 offset-sm-4 col-12">
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Nombre
+          </h5>
+          <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Contacto
+          </h5>
+          <input [(ngModel)]="mainObj$.contacto" name="contacto" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/telefono_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Teléfono
+          </h5>
+          <input [(ngModel)]="mainObj$.telefono" name="telefono" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Dirección
+          </h5>
+          <input [(ngModel)]="mainObj$.direccion" name="direccion" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+          <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+        </div>
+        <div class="text-center mt-4">
+          <button (click)="guardarReferido()" class="boton-confirmar-morado">
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

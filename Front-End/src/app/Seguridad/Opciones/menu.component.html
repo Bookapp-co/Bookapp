@@ -1,0 +1,261 @@
+
+<div class="pt-4 pb-3 pr-4 pl-4" style="font-family: codigeekfont;">
+  <div class="row mb-3">
+    <div class="col-12" style="z-index:9;text-align: right;font-weight: bold;width: 100%;color: #169a52;position: absolute;right: 10px;">
+      <span (click)="cerrarMenu()" style="color: #c80908;">
+        <img src="https://codigeek.com/projects/bookapp/close_icon.png" class="mr-1" style="width:5%;" />
+        Cerrar
+      </span>
+    </div>
+    <app-user-box style="width:100%;"></app-user-box>
+  </div>
+
+  <div *ngIf="currentUser$">
+    <!-- General -->
+    <div class="row">
+      <div class="col-12 p-0">
+        <div (click)="irA('/cliente/perfil')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-user" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mi información personal
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Administración -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c4050f358209844a83c8622'">
+      <div class="col-12 p-0">
+        <div (click)="irAPedidos()" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-book" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Reservas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/configuraciones')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-cog" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Configuraciones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/categorias')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-database" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Categorías
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/usuarios')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-user" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mis Colaboradores
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/negocios')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-apartment" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Negocios
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" >
+        <div (click)="irA('/administracion-negocio/publicidades')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-picture" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Publicidades
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/dashboard')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-chart-bars" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Estadísticas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/seguridad/alertas')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-alarm" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Alertas
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Administración Negocio -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c4050fa58209844a83c8623'">
+      <div class="col-12 p-0">
+        <div (click)="irA('/pedidos/admin')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-book" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mis reservas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="!currentUser$.negocio.main">
+        <div (click)="irA('/pedidos/checkout')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-pencil" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Registrar reserva
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irAMiComercio()" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-apartment" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mi Comercio
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-12 p-0">
+        <div (click)="irAPedidos()" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-cart" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Bookwork
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 p-0" *ngIf="currentUser$.negocio.main">
+        <div (click)="irA('/negocio/usuarios')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-user" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mis Colaboradores
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" >
+        <div (click)="irA('/administracion-negocio/categorias')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-database" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Tipo de reserva
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="currentUser$.negocio.main" >
+        <div (click)="irA('/administracion/sucursales')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-map" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Sucursales
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="currentUser$.negocio.main" >
+        <div (click)="irA('/administracion-negocio/publicidades')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-picture" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Publicidades
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/dashboard')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-chart-bars" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Estadísticas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" >
+        <div (click)="irA('/general/ayuda')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-bubble" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Ayuda y soporte técnico
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Cliente -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'">
+      <div class="col-12 p-0">
+        <div (click)="irA('/cliente/promociones')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-tag" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Promociones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/pages/ubicaciones')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-map-marker" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mis direcciones
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-12 p-0">
+        <div (click)="irA('/cliente/seleccion-categoria')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="pe-7s-home" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            ¡Pide ahora!
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 p-0">
+        <div (click)="irAPedidos()" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-book" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mis reservas
+            <!-- <span style="position: absolute;right: 10px;background: #e90f0f;color: white;padding: 4px 8px;line-height: 1;top: 13px;font-size: 9px;font-weight: normal;border-radius: 3px;">
+              {{ contadorPedidosPendientes$ }} pendientes
+            </span> -->
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-12 p-0">
+        <div (click)="irA('/cliente/puntos')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;ma rgin-left: 20px;font-size:12px;">
+            <i class="lnr-tag" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mis puntos
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 p-0">
+        <div (click)="irA('/general/ayuda')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="pe-7s-star" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Ayuda y soporte técnico
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repartidor -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c40513658209844a83c862a'">
+    </div>
+    <!-- Repartidor -->
+
+    <!-- General -->
+    <div class="row">
+      <div class="col-12 p-0">
+        <div (click)="irA('/general/notificaciones')" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-alarm" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Notificaciones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="userLogout()" class="card-header" style="color: #169a52 !important;border-bottom: none;cursor:pointer;padding: 0.60rem 1.5rem;">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;font-size:12px;">
+            <i class="lnr-exit" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Cerrar sesión
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

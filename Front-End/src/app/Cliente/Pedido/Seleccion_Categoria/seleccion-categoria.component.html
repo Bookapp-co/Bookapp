@@ -1,0 +1,100 @@
+
+<div class="pb-4">
+  <!-- <ul class="header-megamenu nav mb-2 ">
+    <li class="nav-item">
+      <div class="search-wrapper" [class.active]="isActive" style="display: inline-block;">
+        <div class="input-holder">
+          <input [(ngModel)]="searchText" name="searchText" type="text" placeholder="¿Qué deseas buscar?" class="search-input">
+          <button class="search-icon" (click)="isActive = true"><span></span></button>
+        </div>
+      </div>
+    </li>
+  </ul> -->
+  
+  <div *ngIf="ubicacion$" (click)="irAUbicaciones()" style="color: #20284c; font-size: 12px; line-height: 1; margin-bottom: 15px;">
+	Dirección: {{ ubicacion$.direccion }}
+  </div>
+
+  <div @categorias class="col-12 col-sm-4 mb-4" style="padding: 0px 5px 0px 5px;background-image: linear-gradient(to right, #535e7a 35%, #169a52 100%);border-radius: 8px;box-shadow: 0px 2px 4px 0px #acacac;">
+    <div (click)="seleccionarCategoria(null)" class="row m-0" style="border-radius: 3px; padding: 10px 0px; color:white;">
+      <div class="col-5" style="display:flex; align-items:center; justify-content: center;padding: 0px;">
+        <img src="https://codigeek.com/projects/bookapp/ilustracion_comercios_cercanos.png" style="width:100%;"/>
+      </div>
+      <div class="col-7" style="display: flex; align-items: center;">
+        <h5 style="font-size: 14px;font-weight: bold;margin-bottom: 5px;">
+          Comercios cercanos
+          <br/>
+          <span style="font-size: 9px;margin: 0px;font-weight: normal;">
+            Conoce los {{negociosCercanos$.length}} comercios disponibles cerca de tí
+          </span>
+        </h5>
+      </div>
+    </div>
+  </div>
+
+  <!-- <ul class='circle-container'>
+    <li (click)="seleccionarCategoria(registro_t)" *ngFor="let registro_t of mainArray$; index as i">
+      <img src="{{ registro_t.foto }}" alt="..." />
+      <div class="text-center mt-1" style="font-size: 13px;font-weight: bold;">
+        {{ registro_t.nombre }}
+      </div>
+    </li>
+  </ul> -->
+
+  <div class="row mb-3" style="margin-top: 8%;font-family:codigeekfont;margin: 0px;">
+    <div @categorias (click)="seleccionarCategoria(registro_t)" class="col-4 col-sm-2 mb-3" *ngFor="let registro_t of mainArray$; index as i" style="width: 50%;padding: 0px 5px 0px 5px;">
+      <div class="text-center">
+        <img class="imagen-categoria-inicio" src="{{ registro_t.foto }}" alt="..." style="width: 80%;margin: auto;border-radius: 10% !important;"/>
+        <div class="text-center mt-1" style="font-size: 12px;font-weight: bold;">
+          {{ registro_t.nombre }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 p-0 pl-2 m-0 mb-2 mt-4 d-sm-block d-none" style="border-radius: 3px;">
+    <div class="mt-2 mb-4" style="text-align: left;font-weight: bold;width: 100%;color: #169a52;font-family: codigeekfont;">
+      Promociones destacadas
+    </div>
+    <ngx-slick-carousel class="carousel banners" #slickModal="slick-carousel" [config]="bannersSlidesConfig" >
+      <div ngxSlickItem class="slide" *ngFor="let registro_t of publicidadesArray$; index as i">
+        <div class="text-center" (click)="seleccionarPublicidad(registro_t)" >
+          <img src="{{ registro_t.foto }}" style="width:100%;margin: auto;border-radius: 3% !important;">
+        </div>
+      </div>
+    </ngx-slick-carousel>
+  </div>
+  <div class="col-sm-12 p-0 pl-2 m-0 mb-2 mt-4 d-sm-none d-block" style="border-radius: 3px;">
+    <ngx-slick-carousel class="carousel banners" #slickModal="slick-carousel" [config]="bannersSlidesConfigMobile" >
+      <div ngxSlickItem class="slide" *ngFor="let registro_t of publicidadesArray$; index as i">
+        <div class="text-center" (click)="seleccionarPublicidad(registro_t)" >
+          <img src="{{ registro_t.foto }}" style="width:100%;margin: auto;border-radius: 3% !important;">
+        </div>
+      </div>
+    </ngx-slick-carousel>
+  </div>
+
+  <!-- <div class="row mb-3" style="margin-top: 8%;font-family:codigeekfont;margin: 0px;">
+    <div class="mt-2 mb-4" style="text-align: left;font-weight: bold;width: 100%;color: #169a52;font-family: codigeekfont;">
+      Promociones
+    </div>
+    <div class="col-12 col-sm-3" *ngFor="let registro_t of promocionesArray$; index as i">
+      <div class="card main-card mb-3" style="padding: 10px;">
+        <div class="row m-0" (click)="seleccionarPromocion(registro_t)" style="cursor:pointer;">
+          <div class="col-12 p-0 mt-2">
+            <img src="{{ registro_t.foto_promocion }}" style="width:100%;">
+          </div>
+          <div class="col-12 p-0 pt-2 mt-2" style="border-top: 1px solid #e4e4e4;">
+            <h5 class="text-center" style="margin: 0px;font-size: 12px;text-transform: none;color: black;">
+              {{ registro_t.servicio.nombre }}
+            </h5>
+            <h5 class="text-center" style="margin: 2px 0px 0px 0px;font-size: 12px;text-transform: none;color: black;font-weight: bold;">
+              {{ registro_t.porcentaje_descuento }}% de descuento
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+</div>

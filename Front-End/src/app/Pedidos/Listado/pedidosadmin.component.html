@@ -1,0 +1,111 @@
+<div class="row m-0" style="width: 100%;font-family:codigeekfont;">
+  <div class="col-sm-4">
+    <label class="mt-2" style="font-size: 12px;position: relative;width:100%;pointer-events: all;margin-bottom: 5px;text-align: left;">
+      De fecha:
+    </label>
+    <div class="input-group">
+      <input
+        class="form-control"
+        placeholder="yyyy-mm-dd"
+        name="de_fecha"
+        [(ngModel)]="filtros$.de_fecha"
+        ngbDatepicker
+        #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-success calendar" (click)="d.toggle()" type="button">
+          <i class="fa text-white lnr-calendar-full pr-1 pl-1"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <label class="mt-2" style="font-size: 12px;position: relative;width:100%;pointer-events: all;margin-bottom: 5px;text-align: left;">
+      Hasta fecha:
+    </label>
+    <div class="input-group mb-3">
+      <input
+        class="form-control"
+        placeholder="yyyy-mm-dd"
+        name="hasta_fecha"
+        [(ngModel)]="filtros$.hasta_fecha"
+        ngbDatepicker
+        #d2="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-success calendar" (click)="d2.toggle()" type="button">
+          <i class="fa text-white lnr-calendar-full pr-1 pl-1"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-4 text-left">
+    <div class="text-left mt-1">
+      <mat-checkbox class="example-margin" [(ngModel)]="filtros$.filtrar_por_fechas" name="filtrar_por_fechas" style="color: #169a52; font-weight:bold;">
+        Filtrar por fechas
+      </mat-checkbox>
+    </div>
+    <button (click)="limpiarFiltros()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-secondary mr-2" style="display: inline-block; margin-top: 5px;">
+      Limpiar filtros
+    </button>
+    <button (click)="getRegistros()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+      Filtrar
+    </button>
+  </div>
+</div>
+
+<div class="row" style="font-family: codigeekfont; display: flex; flex-flow: column; height: 100%;">
+
+  <mat-tab-group #tabGroup (selectedTabChange)="cambioTab($event)">
+    <!-- <mat-tab label="Pendientes"  >
+    </mat-tab> -->
+    <mat-tab label="Confirmados" >
+    </mat-tab>
+    <mat-tab label="Completados"  >
+    </mat-tab>
+    <mat-tab label="Cancelados"  >
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="row m-0 mt-5" style="width: 100%;background: #f4f4f4;padding: 15px 8px;border-radius: 20px 20px 0px 0px;box-shadow: 0px -1px 5px 1px #d3d3d3;flex: 1 1 auto;">
+    <div class="mt-2" style="font-family:codigeekfont;width:100%;">
+      <div class="row" style="font-family: codigeekfont;margin: 0px;width: 100%;">
+        <div class="col-12 col-sm-4 mb-3" @restaurantes *ngFor="let pedido_t of mainArray$; index as i">
+          <div class="card main-card" (click)="gestionarPedido(pedido_t)" style="padding: 15px;background: #f9f9f9;box-shadow: 0px 3px 10px 0px #bebebe;">
+            <div class="row m-0 p-0">
+              <div class="col-9 pl-0 pr-2" style="align-items: center; display: flex;">
+                  <div class="widget-heading" style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600;line-height: 1;">
+                    {{ pedido_t.usuario.nombre }}/ {{ pedido_t._id | limitTo : 8 }}
+                    <div style="color: #9e9e9e;font-weight: normal;font-size: 10px;margin-top: 8px;">
+                      <div style="color: #909090;font-weight: normal;font-size: 12px;margin-top: 8px;">
+                        {{ pedido_t.inicio_cita | date:'dd/MM/yyyy' }}
+                      </div>
+                      <div style="color: #909090;font-weight: normal;font-size: 12px;margin-top: 3px;">
+                        De:
+                        <b>{{ pedido_t.inicio_cita | date:'hh:mm' }}</b>
+                        A:
+                        <b>{{ pedido_t.fin_cita | date:'hh:mm' }}</b>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-3 pl-0 pr-2" style="align-items: center; display: flex;" *ngIf="!(currentUser$.negocio.categoria_id === '5ee4110b31a9c57966bf37c5')">
+                <div style="color: #169a52;font-weight: bold;font-size: 15px;margin-top: 5px;">
+                  <span style="font-size: 15px;">
+                    {{ pedido_t.total | number }}
+                  </span>
+                </div>
+              </div>
+              <div class="col-12 pl-0 pr-2 mt-2" style="align-items: center; display: flex;" *ngIf="isAdmin">
+                <div class="widget-heading" style="font-size: 12px;color: #169a52;margin-bottom: 2px;font-weight: 600;line-height: 1;">
+                  Negocio: {{ pedido_t.negocio.nombre }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-3 mb-3 text-center" *ngIf="mainArray$.length < pagRegistros$">
+          <i (click)="agregarRegistros()" class="lnr-plus-circle" style="font-size: 30px; font-weight: bold;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

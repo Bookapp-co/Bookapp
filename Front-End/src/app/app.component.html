@@ -1,0 +1,44 @@
+<router-outlet></router-outlet>
+
+<div *ngIf="showOverlay$" style="width: 100%;height: 100%;background: white;position: fixed;z-index: 99999;display: flex;align-items: center;justify-content: center;top: 0;">
+  <img src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 50%;">
+</div>
+
+<ng-template #mMensajeGeneral let-c="close" let-d="dismiss">
+  <div class="modal-body" style="font-family:codigeekfont;">
+    <div class="text-center">
+      <div class="col-12 text-center mt-3 mb-3" style="color: #169a52; font-weight: bold;">
+         <i *ngIf="mostrarIcono$" class="lnr-checkmark-circle" style="font-size: 50px;color: #169a52;"></i>
+         <img *ngIf="mostrarImagen$" style="width: 100%;" src="{{ urlImagen$ }}" />
+         <h6 style="margin-bottom: 5px;margin-top: 15px;font-weight: bold;font-size: 20px;">
+           {{ tituloModal$ }}
+         </h6>
+         <h6 style="margin: 20px 30px 0px 30px;font-size: 12px;color: #818181;">
+           {{ mensajeModal$ }}
+         </h6>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="font-family:codigeekfont;">
+    <button (click)="closeModal()" class="boton-confirmar-morado" style="margin: auto;">
+      Continuar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #mPromocion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px; font-family: codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">{{promocion$.mensaje_inicio}}</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-xs-12 text-center" *ngIf="promocion$.foto">
+      <img *ngIf="promocion$.foto" width="200" src="{{ promocion$.foto }}" alt="" style="border: 2px solid white; box-shadow: 0px 0px 5px 0px #acacac;">
+    </div>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+  </div>
+</ng-template>

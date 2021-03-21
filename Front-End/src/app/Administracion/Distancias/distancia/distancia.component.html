@@ -1,0 +1,61 @@
+
+<div class="row m-0 mb-4">
+
+  <form style="margin-top: 15px;padding: 15px; width: 100%;">
+    <div class="position-relative form-group">
+      <div class="position-relative form-group" >
+        <h5 class="custom-label-cg">
+          Mínimo
+        </h5>
+        <input [(ngModel)]="mainObj$.minimo" name="minimo" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+      <div class="position-relative form-group" >
+        <h5 class="custom-label-cg">
+          Máximo
+        </h5>
+        <input [(ngModel)]="mainObj$.maximo" name="maximo" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+      <div class="position-relative form-group" >
+        <h5 class="custom-label-cg">
+          Costo
+        </h5>
+        <input [(ngModel)]="mainObj$.costo" name="costo" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+    </div>
+  </form>
+
+  <div class="col-12 col-sm-6 offset-sm-3 text-center">
+    <button *ngIf="mainObj$._id" (click)="borrar()" class="boton-confirmar-morado">
+      Borrar
+    </button>
+  </div>
+  <div class="col-12 col-sm-6 offset-sm-3 mb-4 text-center">
+    <button (click)="guardar()" class="boton-confirmar-morado">
+      Actualizar
+    </button>
+  </div>
+
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

@@ -1,0 +1,887 @@
+<div style="height: 100%;">
+
+    <div class="col-12 col-sm-4 offset-sm-4 p-0" style="font-family: codigeekfont;display: flex;flex-flow: column;height: 100%;">
+      <div class="mt-4 mb-4" style="text-align: left;font-weight: bold;width: 100%;display: flex;justify-content: center;color: #169a52;font-family: codigeekfont;">
+        <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+        Detalle del pedido
+      </div>
+
+      <div class="row m-0">
+        <div class="pl-3 pr-3 mt-2" style="font-family:codigeekfont;width: 100%;">
+          <ul class="list-group list-group-flush mb-3 pb-2" style="border-bottom: 2px solid #dedede;">
+            <li class="list-group-item" style="padding: 5px;border: none;">
+              <div class="row m-0 p-0">
+                <div class="col-4 col-sm-2 pl-0">
+                    <img *ngIf="negocioObj$.foto" width="60" class="rounded-circle" src="{{ negocioObj$.foto }}" style="border-radius: 5% !important;box-shadow: 0px 0px 5px 0px #b8b8b8;width: 100%;">
+                    <img *ngIf="!negocioObj$.foto" width="60" class="rounded-circle" src="{{ negocioObj$.categoria.foto }}" style="width: 80%;">
+                </div>
+                <div class="col-6 pl-0 pr-2" style="align-items: center; display: flex;">
+                    <div class="widget-heading" style="font-size: 14px;color: #20284c;margin-bottom: 2px;font-weight: 600;line-height: 1;">
+                      {{ negocioObj$.nombre }}
+                    </div>
+                </div>
+                <div class="col-2 pr-0" style="align-items: center; justify-content: center; display: flex;">
+                  <!-- <div style="text-align: center;">
+                    <div style="font-size: 9px; font-weight: bold; text-align: right; border-radius: 3px; align-items: center; justify-content: center;" class="row m-0">
+                    <div style="color: #169a52; font-weight: bold; font-size: 20px; text-align: center; line-height: 1;" class="col-5 p-0">
+                      {{ negocioObj$.tiempo_estimado }}
+                      <div style="font-size: 11px;">MIN</div>
+                    </div>
+                    <div class="col-6 p-0" style="text-align: left; font-size: 8px; color: gray; line-height: 1;">
+                      Tiempo de entrega aproximado
+                    </div>
+                  </div>
+                  </div> -->
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="row mb-3" style="padding: 0px 15px;" *ngIf="negocioObj$.galeria.length > 0">
+            <label class="mt-2" style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+              Imágenes del negocio
+            </label>
+            <div class="col-sm-12 p-0 text-center" style="font-size: 12px;color: black;">
+              <ngx-slick-carousel class="slick-slider slick-dotted"
+                #slickModal="slick-carousel"
+                (init)="slickInit2($event)"
+                [config]="slideGaleria">
+                <div
+                  ngxSlickItem
+                  *ngFor="let registro_t of negocioObj$.galeria; index as i">
+                    <img (click)="verFoto(registro_t)" class="imagen_catalogo" src="{{registro_t.foto }}" style="width: 10%;border-radius: 100px;">
+                </div>
+              </ngx-slick-carousel>
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" >
+            <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;" mat-raised-button matTooltip="Fecha en la cual requieres programar esta cita, de acuerdo a esta fecha te enlistaremos los horarios disponibles" matTooltipClass="tooltip-brand" >
+              <i class="lnr-question-circle"></i>
+              Fecha de la cita
+            </label>
+            <div class="input-group" style="width:100%">
+              <input style="border: none;background:#f2f2f2;color: #858585;font-weight: bold;font-size:0.88rem;"
+                (dateSelect)="cambioFecha(mainObject$.fecha_cita)"
+                class="form-control"
+                name="fecha_cita"
+                [(ngModel)]="mainObject$.fecha_cita"
+                ngbDatepicker
+                #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-dark calendar" (click)="d.toggle()" type="button" style="background: #169a52; border: 1px solid #169a52; display: flex; align-items: center; justify-content: center;">
+                  <i class="text-white lnr-calendar-full pr-1 pl-1" style="font-size: 16px;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" *ngIf="mainObject$.fecha_cita">
+            <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;" mat-raised-button matTooltip="Diferentes tipos de servicios que ofrece el negocio" matTooltipClass="tooltip-brand" >
+              <i class="lnr-question-circle"></i>
+              {{
+                negocioObj$.categoria_id === "5ee410ec31a9c57966bf37c3" ? "Cancha" :
+                negocioObj$.categoria_id === "5ee410fe31a9c57966bf37c4" ? "Servicio" :
+                negocioObj$.categoria_id === "5ee4110b31a9c57966bf37c5" ? "Mesa" :
+                negocioObj$.categoria_id === "5ee410dc31a9c57966bf37c2" ? "Servicio" :
+                "------"
+              }}
+            </label>
+            <div class="col-12 mt-1 mb-1 selector-catalogo" style="padding: 9px 15px;">
+              <label *ngIf="!mainObject$.servicio_id" (click)="seleccionarServicio()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                Selecciona
+                <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+              </label>
+              <label *ngIf="mainObject$.servicio_id" (click)="seleccionarServicio()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                {{ mainObject$.servicio.servicio.nombre }} / {{ mainObject$.servicio.tiempo_alquilacion.minutos }}min
+                <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+              </label>
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" *ngIf="mainObject$.servicio_id">
+            <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;" mat-raised-button matTooltip="Horarios disponibles para agendar" matTooltipClass="tooltip-brand" >
+              <i class="lnr-question-circle"></i>
+              Horario
+            </label>
+            <div class="col-12 mt-1 mb-1 selector-catalogo" style="padding: 9px 15px;">
+              <label *ngIf="!mainObject$.inicio_cita" (click)="getHorario()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                Selecciona
+                <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+              </label>
+              <label *ngIf="mainObject$.inicio_cita" (click)="getHorario()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                <span *ngIf="negocioObj$.categoria_id != '5ee4110b31a9c57966bf37c5'">
+                  De:
+                </span>
+                {{ mainObject$.inicio_cita | date:'hh:mm aa' }}
+                <i *ngIf="negocioObj$.categoria_id != '5ee4110b31a9c57966bf37c5'" class="lnr-arrow-right mr-1 ml-1"></i>
+                <span *ngIf="negocioObj$.categoria_id != '5ee4110b31a9c57966bf37c5'">
+                  {{ mainObject$.fin_cita | date:'hh:mm aa' }}
+                </span>
+                <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+              </label>
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" *ngIf="mainObject$.servicio_id && negocioObj$.categoria_id === '5ee410fe31a9c57966bf37c4'">
+            <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;" mat-raised-button matTooltip="Selecciona un peluqueros disponibles para tu preferencia" matTooltipClass="tooltip-brand" >
+              <i class="lnr-question-circle"></i>
+              Peluquero (opcional)
+            </label>
+            <div class="col-12 mt-1 mb-1 selector-catalogo" style="padding: 9px 15px;">
+              <label *ngIf="!mainObject$.motofast_id" (click)="seleccionarProfesional()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                Selecciona
+                <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+              </label>
+              <label *ngIf="mainObject$.motofast_id" (click)="seleccionarProfesional()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                {{ mainObject$.motofast.nombre }}
+                <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+              </label>
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" *ngIf="negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5'">
+            <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+              Número de personas
+            </label>
+            <div class="position-relative form-group mt-2 mb-2" style="width: 100%;">
+              <input maxlength="2" (change)="cambioNumeroPersonas()" [(ngModel)]="mainObject$.numero_de_personas" name="numero_de_personas" type="number" class="custom-input-cg" required style="font-size: 13px;padding: 10px 15px 10px 15px;">
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" *ngIf="mainObject$.tipo_servicio === 2">
+            <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+              <i class="lnr-question-circle"></i>
+              Dirección de entrega
+            </label>
+            <!-- <div class="col-12" style="padding: 5px 15px 5px 30px;">
+              <mat-radio-group name="entrega_radio" aria-label="Selecciona una opción" [(ngModel)]="mainObject$.tipo_servicio">
+                <mat-radio-button [value]="1" (change)="entregaCambio($event)" *ngIf="negocioObj$.entrega_en_tienda">
+                  Recoger en tienda
+                </mat-radio-button>
+                <mat-radio-button [value]="2" (change)="entregaCambio($event)" *ngIf="negocioObj$.delivery && (negocioObj$.kms_delivery >= (negocioObj$.distance))">
+                  Entrega a domicilio
+                </mat-radio-button>
+              </mat-radio-group>
+            </div> -->
+            <div class="row m-0 pt-2 pb-2">
+              <div (click)="abrirUbicacion()" class="col-10 m-0" style="font-size: 12px;padding-bottom: 1px;color: #169a52;line-height: 1;width: 100%;padding: 5px 15px 5px 30px;">
+                <span style="font-size: 12px;color: #b1b1b1;margin: 5px 0px;">
+                  Tu ubicación
+                </span>
+                <br/>
+                <div class="mt-1" style="font-weight: bold;color: #717171;font-size: 12px;">
+                  <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1">
+                  {{ currentUser$.direccion | limitTo : 50 }}..
+                </div>
+              </div>
+              <div (click)="abrirUbicacion()" class="col-2 m-0 text-center" style="color: #169a52;display: flex;align-items: center;">
+                <i class="lnr-chevron-down" style="font-weight: bold;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="widget-content p-0 pt-2 pb-2 mt-2 mb-1" style="width: 100%;border-radius: 5px;color: #169a52;" *ngIf="mainObject$.servicio.promocion">
+            <div class="widget-content-wrapper" style="padding: 0px 30px 0px 30px !important;font-weight: bold;">
+              <div class="widget-content-left flex2">
+                <div class="widget-heading" style="font-size: 13px;line-height: 1;opacity: 1;">
+                  <i class="lnr-question-circle" mat-raised-button matTooltip="Este servicio cuenta con descuento sobre la reserva" matTooltipClass="tooltip-brand" ></i>
+                  {{ mainObject$.aplica_porcentaje ? "Descuento" : "Promoción" }}
+                </div>
+                <div class="widget-heading" style="font-size: 13px;line-height: 1;opacity: 1;margin-top: 10px;text-decoration: underline;" *ngIf="!mainObject$.aplica_porcentaje">
+                  {{ mainObject$.detalle_promocion }}
+                </div>
+              </div>
+              <div class="widget-content-right" style="padding: 0px;" *ngIf="mainObject$.aplica_porcentaje">
+                <span style="font-size: 13px;">
+                  {{ mainObject$.porcentaje_descuento }}%
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="widget-content p-0 pt-2 pb-2 mt-2 mb-1" style="width: 100%;border-radius: 5px;color: #169a52;" *ngIf="mainObject$.servicio.anticipo">
+            <div class="widget-content-wrapper" style="padding: 0px 30px 0px 30px !important;font-weight: bold;">
+              <div class="widget-content-left flex2">
+                <div class="widget-heading" style="font-size: 13px;line-height: 1;opacity: 1;">
+                  <i class="lnr-question-circle" mat-raised-button matTooltip="Este servicio incluye un anticipo/deposito que debe pagarse antes de agendar la cita" matTooltipClass="tooltip-brand" ></i>
+                  Anticipo
+                </div>
+              </div>
+              <div class="widget-content-right" style="padding: 0px;">
+                <span style="font-size: 13px;">
+                  {{ mainObject$.servicio.anticipo_cantidad | number }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-2 pt-2 pb-2 mt-2" *ngIf="mainObject$.decoracion === 1 && mainObject$.numero_de_personas" style="padding-left: 30px;padding-right: 30px;">
+            <mat-checkbox class="example-margin" [(ngModel)]="mainObject$.agregar_decoracion" (change)="triggerTotalReserva($event)" name="agregar_decoracion" style="color: #169a52; font-weight:bold;">
+              <i class="lnr-question-circle" mat-raised-button matTooltip="Si deseas decoración para este servicio agrega esta opción" matTooltipClass="tooltip-brand" ></i>
+              Agregar decoración
+              <span style="font-size: 13px; float:right;">
+                {{ mainObject$.decoracion_cantidad }}
+              </span>
+            </mat-checkbox>
+          </div>
+          <div class="widget-content p-0 pt-2 pb-2 mt-3 mb-4" style="width: 100%;background: #169a52;border-radius: 5px;color: white;" *ngIf="mainObject$.total">
+            <div class="widget-content-wrapper" style="padding: 0px 30px 0px 30px !important;font-weight: bold;">
+              <div class="widget-content-left flex2">
+                <div class="widget-heading" style="font-size: 15px;line-height: 1;opacity: 1;">
+                  <i class="lnr-question-circle" mat-raised-button matTooltip="Total de la cita" matTooltipClass="tooltip-brand" ></i>
+                  Total
+                </div>
+              </div>
+              <div class="widget-content-right" style="padding: 0px;font-size: 14px;">
+                <span style="font-size: 15px;">
+                  ${{ mainObject$.total | number }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-2 p-0" *ngIf="mainObject$.total && (currentUser$.tipo_usuario_id === '5c40513258209844a83c8629')">
+            <mat-checkbox class="example-margin" [(ngModel)]="mainObject$.pagar_totalidad" (change)="triggerTotalReserva($event)" name="pagar_totalidad" style="color: #169a52">
+              Quiero pagar el total ahora
+            </mat-checkbox>
+          </div>
+          <div *ngIf="mainObject$.servicio_id && (currentUser$.tipo_usuario_id === '5c40513258209844a83c8629')" class="widget-content p-0 pt-2 pb-2 mt-3 mb-4" style="width: 100%;color:#169a52;background: white; border: 1px solid #169a52; border-radius: 5px;">
+            <div class="widget-content-wrapper" style="padding: 0px 30px 0px 30px !important;font-weight: bold;">
+              <div class="widget-content-left flex2">
+                <div class="widget-heading" style="font-size: 15px;line-height: 1;opacity: 1;">
+                  <i class="lnr-question-circle" mat-raised-button matTooltip="Cantidad a pagar ahora" matTooltipClass="tooltip-brand" ></i>
+                  Pagar ahora
+                </div>
+              </div>
+              <div class="widget-content-right" style="padding: 0px;font-size: 14px;">
+                <span style="font-size: 15px;">
+                  ${{ mainObject$.pagar_ahora | number }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row m-0 mb-2 pb-2" *ngIf="mainObject$.pagar_ahora && (currentUser$.tipo_usuario_id === '5c40513258209844a83c8629')">
+            <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;" mat-raised-button matTooltip="Formas de pago para liquidar la cita o el anticipo" matTooltipClass="tooltip-brand" >
+              <i class="lnr-question-circle"></i>
+              Medios de pago
+            </label>
+            <button (click)="seleccionarFormaDePago()" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+              {{ mainObject$.forma_pago_id ? mainObject$.forma_pago.descripcion : "Agregar" }}
+            </button>
+            <button (click)="seleccionarTarjeta()" *ngIf="mainObject$.forma_pago_id === '5e0a904ece07baeb91675dbe'" class="btn-shadow btn btn-success mt-2" style="width: 60%;margin: auto;margin-bottom: 10px;text-align: center;background: white;color: #169a52;box-shadow: 0 0.125rem 0.5rem rgba(204, 204, 204, 0.4), 0 0.0625rem 0.1rem rgba(132, 132, 132, 0.5);" type="button">
+              <span *ngIf="!mainObject$.tarjeta">
+                Seleccionar tarjeta
+              </span>
+              <span *ngIf="mainObject$.tarjeta">
+                {{ mainObject$.tarjeta.brand }} {{ mainObject$.tarjeta.last4 }}
+              </span>
+            </button>
+          </div>
+          <div class="row m-0 mb-2 pb-2">
+            <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+              Comentarios
+            </label>
+            <div class="position-relative form-group mt-2 mb-2" style="width: 100%;">
+              <input [(ngModel)]="mainObject$.comentarios" name="comentarios" type="text" placeholder="Escribe tu mensaje" class="custom-input-cg" required style="font-size: 13px;padding: 10px 15px 10px 15px;">
+            </div>
+          </div>
+          <div class="text-center mt-3 mb-5">
+            <button (click)="validarHacerPedido()" class="boton-confirmar-morado" style="margin: 0px 0px 20px 0px;">
+              Confirmar
+            </button>
+          </div>
+        </div>
+        <!-- <div style="width: 100%; font-family:codigeekfont;">
+          <form style="padding: 0px 5px;">
+            <div class="col-12 p-0" *ngIf="mainObject$.platillos.length > 0" style="margin-bottom: 30% !important;">
+              <div class="col-12 p-0 mb-3" *ngIf="mainObject$.platillos.length > 0 && currentUser$.tipo_usuario_id != '5c4050fa58209844a83c8623'">
+                <label style="position: relative;font-size: 15px;color: black;font-weight: normal;">
+                  Forma de pago
+                </label>
+                <label class="text-success" (click)="seleccionarFormaDePago()" style="position: relative;float: right;">
+                  {{ mainObject$.forma_pago_id ? mainObject$.forma_pago.descripcion : "Selecciona" }}
+                  <i class="lnr-chevron-down"></i>
+                </label>
+              </div>
+              <div class="col-12 p-0 mb-3" *ngIf="mainObject$.forma_pago_id === '5ecf0c9fa5d979def9d74cef' || mainObject$.forma_pago_id === '5ecf0c9fa5d979def9d74cf0' || mainObject$.forma_pago_id === '5ecf0c9fa5d979def9d74cf1' || mainObject$.forma_pago_id === '5ecf0ca0a5d979def9d74cf2'" style="background: #cdcdcd; padding: 5px 10px !important; border-radius: 5px;">
+                <label style="position: relative;font-size: 15px;color: black;font-weight: normal;">
+                  Datos de pago
+                </label>
+                <div class="row m-0" *ngIf="mainObject$.forma_pago_id === '5ecf0c9fa5d979def9d74cef'">
+                  <div class="col-6 p-0 mb-1">
+                    Teléfono:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_telefono_lukita }}
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    Beneficiario:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_beneficiario_lukita }}
+                  </div>
+                </div>
+                <div class="row m-0" *ngIf="mainObject$.forma_pago_id === '5ecf0c9fa5d979def9d74cf0'">
+                  <div class="col-6 p-0 mb-1">
+                    Teléfono:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_telefono_plin }}
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    Beneficiario:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_beneficiario_plin }}
+                  </div>
+                </div>
+                <div class="row m-0" *ngIf="mainObject$.forma_pago_id === '5ecf0c9fa5d979def9d74cf1'">
+                  <div class="col-6 p-0 mb-1">
+                    Teléfono:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_telefono_yape }}
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    Beneficiario:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_beneficiario_yape }}
+                  </div>
+                </div>
+                <div class="row m-0" *ngIf="mainObject$.forma_pago_id === '5ecf0ca0a5d979def9d74cf2'">
+                  <div class="col-6 p-0 mb-1">
+                    Cuenta:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_cuenta_banco }}
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    Banco:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.banco }}
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    Beneficiario:
+                  </div>
+                  <div class="col-6 p-0 mb-1">
+                    {{ negocioObj$.pago_beneficiario }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 p-0 mb-3" *ngIf="mainObject$.forma_pago_id === '5e0a904ece07baeb91675dbe'">
+                <label style="position: relative;font-size: 15px;color: black;font-weight: normal;">
+                  Tarjeta
+                </label>
+                <label class="text-success" (click)="seleccionarTarjeta()" *ngIf="!mainObject$.tarjeta" style="position: relative;float: right;">
+                  Selecciona
+                  <i class="lnr-chevron-down"></i>
+                </label>
+                <label class="text-success" (click)="seleccionarTarjeta()" *ngIf="mainObject$.tarjeta" style="position: relative;float: right;">
+                  {{ mainObject$.tarjeta.brand }} {{ mainObject$.tarjeta.last4 }}
+                  <i class="lnr-chevron-down"></i>
+                </label>
+              </div>
+              <div class="col-12 mb-2 p-0">
+                <mat-checkbox class="example-margin" [(ngModel)]="mainObject$.programar" name="programar" style="color: #169a52">
+                  ¿Quieres programar este pedido?
+                </mat-checkbox>
+              </div>
+              <div class="col-12 mb-4 p-0" *ngIf="mainObject$.programar">
+                <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+                  ¿Que día te enviaremos este pedido?
+                </label>
+                <div class="input-group" style="width:100%">
+                  <input
+                    class="form-control"
+                    name="fecha_pedido"
+                    [(ngModel)]="mainObject$.fecha_pedido"
+                    ngbDatepicker
+                    #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-dark calendar" (click)="d.toggle()" type="button">
+                      <i class="fa text-white fa-calendar pr-1 pl-1"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="cg-input" style="margin-bottom: 25px;" *ngIf="mainObject$.programar" >
+                <input [(ngModel)]="mainObject$.hora_pedido" name="hora_pedido" type="text" class="cg-input-adicional" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="cg-label-input">Hora de entrega del pedido</label>
+              </div>
+              <div class="col-12 p-0 mb-4" style="" *ngIf="mainObject$.platillos.length > 0">
+                <label style="position: relative;font-size: 15px;color: black;font-weight: normal;">
+                  Comentarios
+                </label>
+                <div class="col-sm-12 p-0 m-0 custom-checkbox custom-control custom-control-inline">
+                  <div class="col-sm-12 p-0">
+                    <textarea placeholder="Si vas a recoger en tienda puedes especificar detalles de tu auto aquí para encontrarte más rápido en la entrega y si es a domicilio puedes agregar referencias de tu ubicación" [(ngModel)]="mainObject$.referencia" name="referencia" rows="4" style="width:100%;background: transparent;border-radius: 5px;border: none;box-shadow: 0px 0px 5px 0px #d5d5d5;padding: 7px 10px;color: #616161;font-size: 12px;"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 p-0" *ngIf="mainObject$.platillos.length === 0" style="margin-bottom: 30% !important;">
+              <p style="margin: 8px 0px;cursor:pointer;padding-top: 20px;text-align: center;font-size: 16px;">
+                Tu pedido esta vacío
+              </p>
+              <p (click)="irAMenu()" class="text-success text-center" style="margin: 8px 0px;cursor:pointer;padding-top: 20px;text-align: center;font-size: 16px;">
+                Volver al menú
+              </p>
+            </div>
+            <div *ngIf="mainObject$.platillos.length > 0" class="d-block d-sm-none" (click)="hacerPedido()" style="width: 90%;padding: 10px 15px;position: fixed;bottom: 6%;background: linear-gradient(45deg, #169a52, #169a52);font-family: codigeekfont;border-radius: 3px;box-shadow: 0px 4px 10px 0px #afafaf;text-align: center;color: white;">
+              Confirmar pedido
+            </div>
+            <div *ngIf="mainObject$.platillos.length > 0" class="d-none d-sm-block" (click)="hacerPedido()" style="width: 68%;padding: 10px 15px;position: fixed;bottom: 6%;background: linear-gradient(45deg, #169a52, #169a52);font-family: codigeekfont;border-radius: 3px;box-shadow: 0px 4px 10px 0px #afafaf;text-align: center;color: white;">
+              Confirmar pedido
+            </div>
+          </form>
+        </div> -->
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODALS -->
+
+  <ng-template #mCapturarCliente let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Capturar cliente
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form style="margin-top: 15px;padding: 0px; font-family:codigeekfont;">
+        <div class="position-relative form-group row m-0">
+          <div class="col-12 p-0">
+            <div class="cg-input" style="margin-bottom: 10px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                Correo electrónico
+              </label>
+              <input [(ngModel)]="cliente$.correo" name="correo" type="text" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+          <div class="col-12 p-0">
+            <div class="cg-input" style="margin-bottom: 10px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                Teléfono
+              </label>
+              <input [(ngModel)]="cliente$.telefono" name="telefono" type="text" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+          <div class="col-12 p-0">
+            <div class="cg-input" style="margin-bottom: 10px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                Nombre
+              </label>
+              <input [(ngModel)]="cliente$.nombre" name="nombre" type="text" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="text-center">
+        <button (click)="hacerPedidoNegocio()" class="btn-shadow btn btn-success mt-2" style="width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mVerFoto let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-center">
+      <img src="{{ foto$.foto }}" style="width: 50%;border-radius: 10px;margin-left: auto;margin-right: auto;">
+    </div>
+  </ng-template>
+
+  <ng-template #mProfesionales let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">Peluqueros</h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+      <!-- <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c('General')" *ngFor="let registro_t of sucursalesArray$; index as i">
+        <i class="pe-7s-angle-right"></i>General
+      </p> -->
+      <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of peluquerosArray$; index as i">
+        <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+      </p>
+    </div>
+  </ng-template>
+
+  <ng-template #mNuevaTarjeta let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Nuevo método
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form style="margin-top: 15px;padding: 0px; font-family:codigeekfont;">
+        <div class="position-relative form-group row m-0">
+          <div class="col-8 p-0">
+            <div class="cg-input" style="margin-bottom: 10px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                Número de tarjeta
+              </label>
+              <input [(ngModel)]="tarjetaObject$.number" name="number" type="text" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+          <div class="col-4 p-0">
+            <div class="cg-input" style="margin-bottom: 10px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                CVC
+              </label>
+              <input [(ngModel)]="tarjetaObject$.cvc" name="cvc" type="number" required style=" width: 85%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+          <div class="col-6 p-0">
+            <div class="cg-input" style="margin-bottom: 30px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                Mes de expiración
+              </label>
+              <input [(ngModel)]="tarjetaObject$.exp_month" name="exp_month" type="number" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+          <div class="col-6 p-0">
+            <div class="cg-input" style="margin-bottom: 30px;">
+              <label style="color: black; font-weight: normal; font-size: 13px;">
+                Año de expiración
+              </label>
+              <input [(ngModel)]="tarjetaObject$.exp_year" name="exp_year" type="number" required style=" width: 90%; margin-left: 0px; background: #e6e6e6; color: #5e5e5e; border: none; border-radius: 5px; padding: 10px;">
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="text-center">
+        <button (click)="guardarTarjeta()" class="btn-shadow btn btn-success mt-2" style="width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mTarjetas let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+    <div class="modal-header" style="background: none;padding: 10px 15px;font-family: codigeekfont;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Selecciona un método
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" [ngStyle]="{ 'height' : modalMaxHeight$, 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '0px 15px 10px 15px' }">
+      <div class="text-right">
+        <button (click)="nuevaTarjeta()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success mb-3">
+
+          Agregar
+        </button>
+      </div>
+      <div *ngIf="tarjetas$.length === 0">
+        <div class="text-center pb-5">
+          No hay tarjetas registradas
+        </div>
+      </div>
+      <div class="row pb-4" *ngIf="tarjetas$.length > 0">
+        <div style="color: black; padding: 0px 15px;" class="mt-3 mb-3" (click)="returnTarjeta(tarjeta_t)" *ngFor="let tarjeta_t of tarjetas$; index as i">
+          <img src="https://codigeek.com/projects/rivasgrill/creditcard-outline-filled.png" style="width: 10%; margin-right: 10px;">
+          {{tarjeta_t.brand}}
+          <span style="">**** {{tarjeta_t.last4}}</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mTipoPago let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+    <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Tipo de pago
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="font-family:codigeekfont;margin-bottom: 30px;">
+      <div class="row" (click)="returnFormaDePago(tipo_t)" *ngFor="let tipo_t of tiposPago$; index as i" style="padding: 15px 0px 5px 0px; cursor:pointer;">
+        <div class="col-9">
+          <div style="font-weight: bold; font-size: 14px;">
+            {{ tipo_t.descripcion }}
+          </div>
+        </div>
+        <div class="col-3" style="display: flex; align-items: center; justify-content: center; color: #333333;">
+          <i class="lnr-chevron-right" style="font-size: 18px;"></i>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mTipoServicio let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+    <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Servicio
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="font-family:codigeekfont;margin-bottom: 30px;">
+      <div class="row text-center">
+        <div class="col-12 mb-2 text-left" style="font-weight:bold;" (click)="returnTipoServicio(1)" *ngIf="negocioObj$.entrega_en_tienda">
+          <i class="lnr-chevron-right mr-1" ></i>
+          Entrega en tienda
+        </div>
+        <div class="col-12 mb-2 text-left" style="font-weight:bold;" (click)="returnTipoServicio(2)" *ngIf="negocioObj$.delivery && (negocioObj$.kms_delivery >= (negocioObj$.distance))">
+          <i class="lnr-chevron-right mr-1" ></i>
+          Entrega a domicilio
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mServicios let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Reservar
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+      <div class="row" style="margin: 8px 0px;cursor: pointer;padding: 0px 0px 8px 10px;border-bottom: 1px solid #d6d6d6;" (click)="returnServicio(registro_t)" *ngFor="let registro_t of servicios$; index as i">
+        <img *ngIf="registro_t.promocion && registro_t.aplica_porcentaje" src="https://codigeek.com/projects/bookapp/descuento_icon.png" style="position: absolute;z-index: 9;left: 0px;width: 40px;">
+        <span *ngIf="registro_t.promocion && registro_t.aplica_porcentaje" style="font-size: 7px;position: absolute;z-index: 9;left: 13px;margin-top: 13px;color: white;">
+          {{ registro_t.porcentaje_descuento }}%
+        </span>
+        <div class="col-9">
+          <div style="font-weight: bold; font-size: 15px;">
+            {{ registro_t.servicio.nombre }}
+          </div>
+          <div *ngIf="registro_t.especialidad" style="font-weight: bold; font-size: 15px; color:#169a52;">
+            Especialidad: {{ registro_t.especialidad.nombre }}
+          </div>
+          <div style="font-size: 12px;">
+            Tiempo de la cita:
+            {{ registro_t.tiempo_alquilacion.minutos }} minutos
+          </div>
+          <div style="font-size: 12px;" *ngIf="!(negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5')">
+            Precio:
+            ${{ registro_t.costo }}
+          </div>
+          <div *ngIf="registro_t.promocion && registro_t.aplica_porcentaje" style="font-size: 12px;">
+            Descuento:
+            {{ registro_t.porcentaje_descuento }}%
+          </div>
+          <div *ngIf="registro_t.promocion && !(registro_t.aplica_porcentaje)" style="font-size: 12px;">
+            Promoción:
+            {{ registro_t.detalle_promocion }}
+          </div>
+          <div *ngIf="registro_t.anticipo && !(negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5')" style="font-size: 12px;">
+            Anticipo/Deposito:
+            ${{ registro_t.anticipo_cantidad }}
+          </div>
+        </div>
+        <div class="col-3" style="display: flex; align-items: center; justify-content: center; color: #333333;">
+          <i class="lnr-chevron-right" style="font-size: 18px;"></i>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mHorarios let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;">
+        Horarios disponibles
+        <br/>
+        {{ mainObject$.fecha_cita | date:'dd/MM/yyyy' }}
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+      <div class="row" style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #d6d6d6;" (click)="returnHorario(registro_t)" *ngFor="let registro_t of horarios$; index as i">
+        <div class="col-3">
+          <div style="font-size: 15px;">
+            {{ registro_t.start | date:'hh:mm aa' }}
+          </div>
+        </div>
+        <div class="col-3 text-center" *ngIf="negocioObj$.categoria_id != '5ee4110b31a9c57966bf37c5'">
+          <div style="font-weight: bold; font-size: 15px;">
+            <i class="lnr-arrow-right"></i>
+          </div>
+        </div>
+        <div class="col-3" *ngIf="negocioObj$.categoria_id != '5ee4110b31a9c57966bf37c5'">
+          <div style="font-size: 15px;">
+            {{ registro_t.end | date:'hh:mm aa' }}
+          </div>
+        </div>
+        <div class="col-3" style="display: flex; align-items: center; justify-content: center; color: #333333;">
+          <i class="lnr-chevron-right" style="font-size: 18px;"></i>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mConfirmacionCitaCliente let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+        ¡Excelente!
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="font-family: codigeekfont;">
+      <p>
+        Hiciste tu reservación con éxito, el negocio ya está enterado de tu reserva.
+      </p>
+      <p>
+        ¡Gracias por usar BookApp Business!
+      </p>
+    </div>
+    <button (click)="d('ok')" class="btn-shadow btn btn-success" style="font-family: codigeekfont;width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+      Cerrar
+    </button>
+  </ng-template>
+
+  <ng-template #mConfirmacionCitaNegocio let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+        ¡Excelente!
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="font-family: codigeekfont;">
+      <p>
+        Se registro la reservación con éxito, el cliente ya está enterado de la reserva.
+      </p>
+      <p>
+        ¡Gracias por usar BookApp Business!
+      </p>
+    </div>
+    <button (click)="d('ok')" class="btn-shadow btn btn-success" style="font-family: codigeekfont;width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+      Cerrar
+    </button>
+  </ng-template>
+
+  <ng-template #mMensaje let-c="close" let-d="dismiss">
+    <div class="modal-header" style="background: none;padding: 10px 15px;">
+      <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+        Alerta
+      </h6>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="font-family: codigeekfont;">
+      <p>
+        {{mensaje$}}
+      </p>
+    </div>
+    <button (click)="c('ok')" class="btn-shadow btn btn-success" style="font-family: codigeekfont;width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+      Continuar
+    </button>
+  </ng-template>
+
+  <ng-template #mOpciones let-c="close" let-d="dismiss" style="font-family: codigeekfont;">
+    <div class="modal-body" [ngStyle]="{ 'min-height' : '200px', 'overflow-y' : 'scroll', 'font-family' : 'codigeekfont', 'padding-top' : '0px 15px 10px 15px', 'display' : 'block', 'padding-top' : '0px', 'background' : 'white', 'padding-bottom' : '0px' }">
+      <div class="col-12 mt-4 mb-2" style="text-align: left; font-weight: bold; width: 100%; display: flex; justify-content: center; color: #169a52; font-family: codigeekfont;">
+        <i (click)="d('Cross click')" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+        Pedido
+      </div>
+      <div class="row" style="padding: 0px 15px;">
+        <div class="col-sm-12 p-0 text-center" style="font-size: 12px;color: black;">
+          <ngx-slick-carousel class="slick-slider slick-dotted"
+            #slickModal="slick-carousel"
+            (init)="slickInit2($event)"
+            [config]="slideGaleria">
+            <div *ngIf="platilloSeleccionado$.foto" ngxSlickItem >
+                <img class="imagen_catalogo" src="{{platilloSeleccionado$.foto }}" style="border-radius: 0px !important;width: 80%;margin: auto;">
+            </div>
+            <div
+              ngxSlickItem
+              *ngFor="let registro_t of platilloSeleccionado$.galeria; index as i">
+                <img class="imagen_catalogo" src="{{registro_t.foto }}" style="border-radius: 0px !important;width: 80%;margin: auto;">
+            </div>
+          </ngx-slick-carousel>
+        </div>
+      </div>
+      <div class="row" style="background: #f4f4f4;padding: 0px 15px;box-shadow: 0px -6px 10px 0px #d9d9d9;border-radius: 10px 10px 0px 0px;margin-top: 35px;min-height: 55vh;">
+        <div class="row m-0 pt-2 pb-2" style="padding: 0px 15px;border-radius: 10px;margin-top: -3px;width: 100%;">
+          <div class="row pt-2 pb-2" style="padding: 0px 15px;width: 60%;margin: auto;background: #169a52;align-items: center;justify-content: center;border-radius: 30px;margin-top: -25px;">
+            <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center;">
+              <i *ngIf="platilloSeleccionado$.cantidad > 1" class="pe-7s-less" (click)="triggerCantidadPlatillo(0)" style="font-size: 25px; color:white;"></i>
+            </div>
+            <div class="col-4 text-center text-success" style="font-size: 25px; line-height: 1; color:white;display: flex; align-items: center; justify-content: center;">
+              <span style="color: white;">
+                {{ platilloSeleccionado$.cantidad }}
+              </span>
+            </div>
+            <div class="col-4 text-center" style="display: flex; align-items: center; justify-content: center;">
+              <i class="pe-7s-plus" (click)="triggerCantidadPlatillo(1)" style="font-size: 25px; color:white;"></i>
+            </div>
+          </div>
+          <div class="col-12 text-center">
+            <p style="margin: 20px 0px 10px 0px;color: #20284c;font-weight: bold;">
+              {{platilloSeleccionado$.nombre}}
+            </p>
+            <p style="margin: 0px 0px 0px 0px;padding-bottom: 20px;color: #888c9a;font-size: 10px;line-height: 1.3;font-weight: normal;border-bottom: 1px solid #e4e4e4;">
+              {{platilloSeleccionado$.descripcion}}
+            </p>
+          </div>
+        </div>
+        <div class="row m-0" *ngFor="let grupo_t of platilloSeleccionado$.grupo_ingrediente; index as i" style="padding: 0px 20px;padding-bottom: 15px;border-bottom: 1px solid #e4e4e4;margin-bottom: 10px !important;">
+          <div class="col-sm-12 p-0" style="border-bottom: antiquewhite;margin: 3% 0% 3% 0%;font-size: 13px;color: #169a52;font-weight: bold;text-transform: uppercase;">
+            {{ grupo_t.nombre }}
+            <span style="float: right;font-size: 10px;" *ngIf="grupo_t.genera_costo">
+              Costo adicional
+            </span>
+          </div>
+          <div *ngIf="!grupo_t.seleccion_multiple" class="row p-0 m-0 custom-checkbox custom-control custom-control-inline">
+            <div class="col-sm-12 p-0">
+              <mat-radio-group aria-label="Selecciona una opción" [(ngModel)]="grupo_t.ingrediente_seleccionado">
+                <mat-radio-button *ngFor="let ingrediente_t of grupo_t.ingredientes; index as j" [value]="ingrediente_t.id" [checked]="ingrediente_t.id === grupo_t.ingrediente_seleccionado" style="font-weight: bold; color: #5e5e5e;">
+                  {{ ingrediente_t.nombre }}
+                  <span class="float-right" *ngIf="grupo_t.genera_costo" style="color: black; font-weight: bold; font-size: 14px;">
+                    {{ ingrediente_t.extra }}
+                  </span>
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div *ngIf="grupo_t.seleccion_multiple" class="row p-0 m-0 custom-checkbox custom-control custom-control-inline" style="width: 100%;">
+            <div class="col-sm-12 p-0" *ngFor="let ingrediente_t of grupo_t.ingredientes; index as j">
+              <mat-checkbox class="example-margin" [(ngModel)]="ingrediente_t.seleccionado">
+                {{ ingrediente_t.nombre }}
+                <span class="float-right" *ngIf="grupo_t.genera_costo" style="color: black; font-weight: bold; font-size: 14px;">
+                  {{ ingrediente_t.extra }}
+                </span>
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+        <div class="row m-0 text-center" style="width: 100%; padding: 15px 0px 25px 0px;">
+          <div class="col-6 text-center" style="display: flex; align-items: center; justify-content: center; font-size: 20px; color: #169a52; font-weight: bold;">
+            <button (click)="eliminarPlatillo()" class="boton-confirmar-morado" style="margin: 0px; width:100%;">
+              Eliminar
+            </button>
+          </div>
+          <div class="col-6 text-center" style="display: flex; align-items: center; justify-content: center;">
+            <button (click)="returnOpciones()" class="boton-confirmar-morado" style="margin: 0px; width:100%;">
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

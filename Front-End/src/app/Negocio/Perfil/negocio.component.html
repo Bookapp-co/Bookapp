@@ -1,0 +1,404 @@
+<div style="font-family: codigeekfont;">
+  <div style="margin: -15px -15px 0px -15px;">
+    <div class="main-card card">
+      <div class="card-header" style="padding: 0px;">
+        <div (click)="subirImagen(1)" style="z-index: 9; color: white; position: absolute; right: 15px; top: 10px; text-transform: none; font-size: 10px;">
+          <i class="pe-7s-pen btn-icon-wrapper"></i> Subir banner
+        </div>
+        <div class="position-relative d-flex justify-content-center align-items-center bg-slick-carbon" style="padding: 15px 0px; width: 100%;">
+          <div class="negocio-backgroundcover" [ngStyle]=" { 'background-image' : 'url(' + mainObj$.banner_image + ')', 'background-position' : 'center', 'background-size' : 'cover', 'background-repeat': 'no-repeat' }">
+          </div>
+          <div class="slider-content text-light" style="width: 100%;">
+            <div class="d-flex" style="padding: 0px 15px;font-family: codigeekfont;">
+              <div class="header-btn-md pr-0" style="margin: 0px; padding: 0px;">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="btn-group" ngbDropdown placement="bottom-right">
+                        <button type="button" class="btn btn-link p-0">
+                          <span>
+                            <div class="icon-wrapper icon-wrapper-alt rounded-circle">
+                              <img *ngIf="!mainObj$.foto" width="42" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+                              <img *ngIf="mainObj$.foto" width="42" src="{{ mainObj$.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+                            </div>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="header-btn-md" style="margin: 0px;padding: 0px;display: flex;align-items: center;position: relative;">
+                <h5 style="margin: 0px;font-size: 14px;text-transform: none;font-weight: normal;color: white;">
+                  {{ mainObj$.nombre }}
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-title-actions mt-3" style="padding: 10px 0px; text-align: right;">
+    <button (click)="guardar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+      Guardar
+    </button>
+  </div>
+
+  <div *ngIf="mainObj$.perfil_completo && ( mainObj$.status === 4 || mainObj$.status === 5 )" role="alert" class="alert alert-warning alert-dismissible" style="color: #856404; background-color: #fff3cd; border-color: #ffeeba;">
+    Tu perfil está en revisión
+  </div>
+
+  <div class="card main-card mb-4">
+
+    <form style="margin-top: 15px;padding: 15px;">
+      <div class="position-relative form-group">
+        <h5 style="margin-bottom: 34px;">
+          <span style="font-size: 14px; background: #169a52; color: white; padding: 2px 8px; border-radius: 3px;">
+            Información de la empresa
+          </span>
+        </h5>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Nombre del negocio</label>
+        </div>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.rfc" name="rfc" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">RUC</label>
+        </div>
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <textarea placeholder="Descripción" [(ngModel)]="mainObj$.descripcion" rows="4" class="cg-input-adicional" name="descripcion" required="" type="text" style="border: none; line-height: 1.2;">
+          </textarea>
+        </div>
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="mainObj$.telefono" name="telefono" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Teléfono</label>
+        </div>
+        <!-- <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="mainObj$.costo_cancelacion" name="costo_cancelacion" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Costo mínimo cancelación</label>
+        </div> -->
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="mainObj$.impuesto" name="impuesto" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Impuesto (%)</label>
+        </div>
+        <div class="col-12 p-0" style="margin-bottom: 20px;">
+          <label style="font-size: 14px;color: #169a52;position: relative;">
+            Categoría
+          </label>
+          <label (click)="seleccionarCategoria()" style="position: relative;float: right;color: #999;">
+            {{ mainObj$.categoria_id ? mainObj$.categoria.nombre : "Selecciona" }}
+          </label>
+        </div>
+
+        <div class="col-12 mb-3 p-0">
+          <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.entrega_en_tienda" name="entrega_en_tienda" style="color: #169a52">
+            Entrega en tienda
+          </mat-checkbox>
+        </div>
+
+        <div class="col-12 mb-3 p-0">
+          <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.delivery" name="delivery" style="color: #169a52">
+            Tiene delivery
+          </mat-checkbox>
+        </div>
+
+        <div class="cg-input" style="margin-bottom: 15px;" *ngIf="mainObj$.delivery">
+          <input [(ngModel)]="mainObj$.kms_delivery" name="kms_delivery" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Kilómetros de distancia delivery</label>
+        </div>
+        <!-- <div class="cg-input" style="margin-bottom: 30px;" *ngIf="mainObj$.delivery">
+          <input [(ngModel)]="mainObj$.costo_envio" name="costo_envio" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Costo de envío</label>
+        </div> -->
+
+        <div class="col-12 mb-3 p-0">
+          <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.pago_efectivo" name="pago_efectivo" style="color: #169a52">
+            Pago en efectivo
+          </mat-checkbox>
+        </div>
+
+        <div class="col-12 mb-3 p-0">
+          <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.pago_tarjeta" name="pago_tarjeta" style="color: #169a52">
+            Pago con tarjeta
+          </mat-checkbox>
+        </div>
+
+        <div class="cg-input mt-5" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.direccion" name="direccion" type="text" class="cg-input-adicional" autocorrect="off" autocapitalize="off" spellcheck="off" #search placeholder="" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Busca una dirección</label>
+        </div>
+
+        <agm-map
+          style="height: 200px;"
+          [latitude]="mainObj$.latitude"
+          [longitude]="mainObj$.longitude"
+          [zoom]="zoom"
+          [disableDefaultUI]="true"
+          [zoomControl]="false"
+          (mapClick)="mapClicked($event)"
+          [gestureHandling]="'greedy'"
+          >
+
+          <agm-marker
+            [latitude]="mainObj$.latitude"
+            [longitude]="mainObj$.longitude"
+            [label]="mainObj$.nombre" >
+
+            <!-- <agm-info-window>
+              <strong>InfoWindow content</strong>
+            </agm-info-window> -->
+
+          </agm-marker>
+
+          <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng"
+                      [radius]="5000"
+                      [fillColor]="'red'"
+                      [circleDraggable]="true"
+                      [editable]="true">
+          </agm-circle> -->
+
+        </agm-map>
+
+        <div class="divider" ></div>
+
+        <h5 style="margin-bottom: 34px;">
+          <span style="font-size: 14px; background: #169a52; color: white; padding: 2px 8px; border-radius: 3px;">
+            Información para pagos
+          </span>
+        </h5>
+
+        <div class="col-12 mb-4 p-0">
+          <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+            Fecha de nacimiento
+          </label>
+          <div class="input-group" style="width:100%">
+            <input
+              class="form-control"
+              name="fecha_nacimiento"
+              [(ngModel)]="mainObj$.fecha_nacimiento"
+              ngbDatepicker
+              #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-dark calendar" (click)="d.toggle()" type="button">
+                <i class="fa text-white fa-calendar pr-1 pl-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.id_personal" name="id_personal" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">RUC</label>
+        </div>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.estado" name="estado" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Provincia</label>
+        </div>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.sitio_web" name="sitio_web" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Sitio web</label>
+        </div>
+
+
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.titular_cuenta" name="titular_cuenta" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Nombre del titular de la cuenta</label>
+        </div>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.numero_cuenta" name="numero_cuenta" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Número de cuenta</label>
+        </div>
+        <div class="col-sm-12 p-0" style="margin-bottom: 30px;">
+          <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+            Tipo de cuenta
+          </label>
+          <mat-radio-group aria-label="Selecciona una opción" name="tipo_cuenta_bancaria" [(ngModel)]="mainObj$.tipo_cuenta_bancaria">
+            <mat-radio-button [value]="1" [checked]="mainObj$.tipo_cuenta_bancaria === 1">
+              Ahorros
+            </mat-radio-button>
+            <mat-radio-button [value]="2" [checked]="mainObj$.tipo_cuenta_bancaria === 2">
+              Corriente
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.banco" name="banco" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Banco</label>
+        </div>
+        <div class="cg-input" style="margin-bottom: 25px;">
+          <input [(ngModel)]="mainObj$.cedula" name="cedula" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Cédula</label>
+        </div>
+
+
+        <label class="cg-label-input" style="font-size: 14px;color: #868686;position: relative;width:100%;pointer-events: all;margin-top: 8px;">
+          Foto identificación (frontal)
+        </label>
+        <form style="margin-top: 15px;">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" (change)="fotoFrontalChangeEvent($event)" id="validatedCustomFile" required>
+            <label class="custom-file-label" for="validatedCustomFile">Sube un archivo..</label>
+          </div>
+          <p *ngIf="mainObj$.id_foto_anverso">
+            Archivo: {{ mainObj$.id_foto_anverso.name }}
+          </p>
+        </form>
+        <img *ngIf="mainObj$.id_foto_anverso_url" width="42" src="{{ mainObj$.id_foto_anverso_url }}" alt="" class="mt-2 rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+        <label class="cg-label-input" style="font-size: 14px;color: #868686;position: relative;width:100%;pointer-events: all;margin-top: 8px;">
+          Foto identificación (inverso)
+        </label>
+        <form style="margin-top: 15px;">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" (change)="fotoInversaChangeEvent($event)" id="validatedCustomFile" required>
+            <label class="custom-file-label" for="validatedCustomFile">Sube un archivo..</label>
+          </div>
+          <p *ngIf="mainObj$.id_foto_inverso">
+            Archivo: {{ mainObj$.id_foto_inverso.name }}
+          </p>
+        </form>
+        <img *ngIf="mainObj$.id_foto_inverso_url" width="42" src="{{ mainObj$.id_foto_inverso_url }}" alt="" class="mt-2 rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+
+        <label class="cg-label-input" style="font-size: 14px;color: #868686;position: relative;width:100%;pointer-events: all;margin-top: 8px;">
+          Archivo RUC
+        </label>
+        <form style="margin-top: 15px;">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" (change)="fotoRUCChangeEvent($event)" id="validatedCustomFile" required>
+            <label class="custom-file-label" for="validatedCustomFile">Sube un archivo..</label>
+          </div>
+          <p *ngIf="mainObj$.id_foto_ruc">
+            Archivo: {{ mainObj$.id_foto_ruc.name }}
+          </p>
+        </form>
+        <p class="mt-4 mb-3 ml-2" *ngIf="mainObj$.id_foto_ruc_url">
+          <span (click)="abrirArchivo(mainObj$.id_foto_ruc_url)" style="color: #1f3b7d; text-decoration: underline; cursor: pointer;">
+            Descargar archivo RUC
+          </span>
+        </p>
+
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #listadoUsuarios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Administrador</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of usuariosArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #listadoCategorias let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Categoría</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of categoriasArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

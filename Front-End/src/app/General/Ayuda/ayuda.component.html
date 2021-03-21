@@ -1,0 +1,42 @@
+<div class="col-12 mt-4 mb-4" style="text-align: left;font-weight: bold;width: 100%;display: flex;justify-content: center;color: #169a52;font-family: codigeekfont;">
+  <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+  Ayuda y soporte técnico
+</div>
+<div class="row m-0 mt-2 mb-4 pl-2 pr-2" style="font-family:codigeekfont;">
+  <div class="col-sm-4 offset-sm-4 col-12">
+    <div class="col-12 text-left">
+      <button (click)="enviarMensaje()" class="boton-confirmar-morado" style="display: flex; align-items: center; justify-content: center; margin: 0px;">
+        <i class="pe-7s-chat mr-2 text-white" style="font-size: 22px;"></i>
+        Chatea con nosotros
+      </button>
+    </div>
+    <form style="margin-top: 15px;padding: 15px;">
+      <div class="position-relative form-group">
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Nombre y apellido
+          </h5>
+          <input [(ngModel)]="mainObject$.nombre" name="nombre" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Correo electrónico
+          </h5>
+          <input [(ngModel)]="mainObject$.correo" name="correo" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+        </div>
+        <div class="position-relative form-group" >
+          <h5 class="custom-label-cg">
+            Asunto
+          </h5>
+          <textarea [(ngModel)]="mainObject$.asunto" rows="4" name="asunto" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+          </textarea>
+        </div>
+        <div class="text-center">
+          <button (click)="guardarAyuda()" class="boton-confirmar-morado">
+            Enviar mensaje
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

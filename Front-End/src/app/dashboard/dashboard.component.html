@@ -1,0 +1,437 @@
+<div fxLayout="row wrap">
+   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="33.33" fxFlex.lg="33.33" fxFlex.xl="33.33" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <div class="card-wheather grad-blue">
+            <div class="city">New Orders</div>
+            <div class="date">This Week</div>
+            <div class="weather">
+               <div class="sun d-flex justify-content-between">
+                  <i class="fa fa-shopping-bag fa-3x align-self-center"></i>
+                  <div class="temp align-self-center">190</div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="33.33" fxFlex.lg="33.33" fxFlex.xl="33.33" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <div class="card-wheather grad-green">
+            <div class="city">Total Profit</div>
+            <div class="date">This Week</div>
+            <div class="weather">
+               <div class="sun d-flex justify-content-between">
+                  <i class="fa fa fa-users fa-3x align-self-center"></i>
+                  <div class="temp align-self-center">987</div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="33.33" fxFlex.lg="33.33" fxFlex.xl="33.33" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <div class="card-wheather grad-red">
+            <div class="city">Email</div>
+            <div class="date">This Week</div>
+            <div class="weather">
+               <div class="sun d-flex justify-content-between">
+                  <i class="fa fa-inbox fa-3x align-self-center"></i>
+                  <div class="temp align-self-center">236</div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+</div>
+<div fxLayout="row wrap">
+   <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+            Total Sales &nbsp;
+            <span fxFlex></span>
+            <button mat-icon-button mat-button-sm [mat-menu-trigger-for]="card2" aria-label="Open card menu">
+               <mat-icon>more_vert</mat-icon>
+            </button>
+         </mat-card-title>
+         <hr>
+         <mat-card-content>
+            <div class="w-100 h-300px">
+               <ngx-charts-area-chart [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [autoScale]="autoScale" (select)="onSelect($event)">
+               </ngx-charts-area-chart>
+            </div>
+         </mat-card-content>
+      </mat-card>
+   </div>
+   <div fxFlex.gt-sm="33.33%" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+            Revenue &nbsp;
+            <span fxFlex></span>
+            <button mat-icon-button mat-button-sm [mat-menu-trigger-for]="card1" aria-label="Open card menu">
+               <mat-icon>more_vert</mat-icon>
+            </button>
+         </mat-card-title>
+         <mat-menu #card1="matMenu" x-position="before">
+            <button mat-menu-item>
+               <mat-icon>settings</mat-icon>
+               Settings
+            </button>
+            <button mat-menu-item>
+               <mat-icon>more</mat-icon>
+               View More
+            </button>
+            <button mat-menu-item>
+               <mat-icon>notifications_off</mat-icon>
+               Disable notifications
+            </button>
+            <button mat-menu-item>
+               <mat-icon>exit_to_app</mat-icon>
+               Remove Panel
+            </button>
+         </mat-menu>
+         <hr>
+         <mat-card-content>
+            <canvas height="200" baseChart class="chart"
+            [data]="pieChartData"
+            [options]="doughnutOptions"
+            [colors]="doughnutChartColors"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"></canvas>
+         </mat-card-content>
+      </mat-card>
+   </div>
+   <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="50" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+            Yearly Sales &nbsp;
+            <span fxFlex></span>
+            <button mat-icon-button mat-button-sm [mat-menu-trigger-for]="card2" aria-label="Open card menu">
+               <mat-icon>more_vert</mat-icon>
+            </button>
+         </mat-card-title>
+         <mat-menu #card2="matMenu" x-position="before">
+            <button mat-menu-item>
+               <mat-icon>settings</mat-icon>
+               Settings
+            </button>
+            <button mat-menu-item>
+               <mat-icon>more</mat-icon>
+               View More
+            </button>
+            <button mat-menu-item>
+               <mat-icon>notifications_off</mat-icon>
+               Disable notifications
+            </button>
+            <button mat-menu-item>
+               <mat-icon>exit_to_app</mat-icon>
+               Remove Panel
+            </button>
+         </mat-menu>
+         <hr>
+         <mat-card-content>
+            <canvas height="200" baseChart class="chart" [datasets]="ComboChartData" [labels]="comboChartLabels" [options]="ComboChartOptions" [colors]="chartColors" [legend]="comboChartLegend" [chartType]="barChartType"></canvas>
+         </mat-card-content>
+      </mat-card>
+   </div>
+   <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="50" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+            Sales Report &nbsp;
+            <span fxFlex></span>
+            <button mat-icon-button mat-button-sm [mat-menu-trigger-for]="card3" aria-label="Open card menu">
+               <mat-icon>more_vert</mat-icon>
+            </button>
+         </mat-card-title>
+         <mat-menu #card3="matMenu" x-position="before">
+            <button mat-menu-item>
+               <mat-icon>settings</mat-icon>
+               Settings
+            </button>
+            <button mat-menu-item>
+               <mat-icon>more</mat-icon>
+               View More
+            </button>
+            <button mat-menu-item>
+               <mat-icon>notifications_off</mat-icon>
+               Disable notifications
+            </button>
+            <button mat-menu-item>
+               <mat-icon>exit_to_app</mat-icon>
+               Remove Panel
+            </button>
+         </mat-menu>
+         <hr>
+         <mat-card-content>
+            <canvas height="200" baseChart class="chart" [datasets]="bubbleChartData" [labels]="comboChartLabels" [options]="ComboChartOptions" [colors]="chartColors" [legend]="comboChartLegend" [chartType]="bubbleChartType"></canvas>
+         </mat-card-content>
+      </mat-card>
+   </div>
+</div>
+<div fxLayout="row wrap">
+   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="66.66" fxFlex.lg="66.66" fxFlex.xl="66.66" fxFlex="100" class="m-gap p-gap">
+      <div class='profile' ontouchstart>
+         <aside class='avatar'></aside>
+         <section class='info'>
+            <h1 class="mb-1 mr-1 ml-1">Gabrielle Wee</h1>
+            <h2 class="mb-1 mr-1 ml-1">UI Designer</h2>
+            <a class='follow'>+ Follow</a>
+            <ul class="prof-list">
+               <li>
+                  <a class='link' target='_blank'>
+                  <i class="fa fa-facebook"></i>
+                  </a>
+               </li>
+               <li>
+                  <a class='link'  target='_blank'>
+                  <i class="fa fa-google"></i>
+                  </a>
+               </li>
+               <li>
+                  <a class='link'  target='_blank'>
+                  <i class="fa fa-twitter"></i>
+                  </a>
+               </li>
+            </ul>
+         </section>
+      </div>
+   </div>
+   <div class="column" fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="33.33" fxFlex.lg="33.33" fxFlex.xl="33.33" fxFlex="100">
+      <mat-card>
+         <div class="wheather-widget text-center grad-blue">
+            <div class="wheather-today">
+               <h3 class="mb-3">Today</h3>
+               <i class="wi wi-day-cloudy mat-text-accent"></i>
+               <h3>13 &#8451;</h3>
+               Surrey, Canada
+            </div>
+            <div class="wheather-future">
+               <div fxLayout="row wrap">
+                  <div fxFlex.gt-sm="50%" fxFlex="100" class="m-gap p-gap wheather-child">
+                     <p>Yesterday</p>
+                     <i class="wi wi-day-rain-mix mb-2"></i>
+                     <h3>13 &#8451;</h3>
+                  </div>
+                  <div fxFlex.gt-sm="50%" fxFlex="100" class="m-gap p-gap wheather-child">
+                     <p>Tomorrow</p>
+                     <i class="wi wi-day-cloudy-high mb-2"></i>
+                     <h3>13 &#8451;</h3>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+</div>
+<div fxLayout="row wrap">
+   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="66.66" fxFlex.lg="66.66" fxFlex.xl="66.66" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+            Recent Comments &nbsp;
+            <span fxFlex></span>
+            <button mat-icon-button mat-button-sm [mat-menu-trigger-for]="card3" aria-label="Open card menu">
+               <mat-icon>more_vert</mat-icon>
+            </button>
+         </mat-card-title>
+         <hr>
+         <div class="card-comment-widget">
+            <mat-list>
+               <mat-list-item>
+                  <img mat-list-avatar src="assets/images/face1.jpg" alt="">
+                  <h3 mat-line>John Doe </h3>
+                  <p mat-line> Weekend - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quia natus ullam aperiam expedita aut deserunt officia harum culpa at sed consequuntur quidem eum voluptatibus laudantium saepe, facere, sint quibusdam </p>
+                  <div class="comment-time">
+                     Oct-11,17
+                  </div>
+               </mat-list-item>
+               <mat-list-item>
+                  <img mat-list-avatar src="assets/images/face2.jpg" alt="">
+                  <h3 mat-line> John Doe </h3>
+                  <p mat-line> Sunday - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quia natus ullam aperiam expedita aut deserunt officia harum culpa at sed consequuntur quidem eum voluptatibus laudantium saepe, facere, sint quibusdam </p>
+                  <div class="comment-time">
+                     Oct-11,17
+                  </div>
+               </mat-list-item>
+               <mat-list-item>
+                  <img mat-list-avatar src="assets/images/face3.jpg" alt="">
+                  <h3 mat-line> Mellisha Whill </h3>
+                  <p mat-line> Sturday - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quia natus ullam aperiam expedita aut deserunt officia harum culpa at sed consequuntur quidem eum voluptatibus laudantium saepe, facere, sint quibusdam </p>
+                  <div class="comment-time">
+                     Oct-11,17
+                  </div>
+               </mat-list-item>
+               <mat-list-item>
+                  <img mat-list-avatar src="assets/images/face1.jpg" alt="">
+                  <h3 mat-line> John Doe </h3>
+                  <p mat-line> Tuesday - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quia natus ullam aperiam expedita aut deserunt officia harum culpa at sed consequuntur quidem eum voluptatibus laudantium saepe, facere, sint quibusdam </p>
+                  <div class="comment-time">
+                     Oct-11,17
+                  </div>
+               </mat-list-item>
+               <mat-list-item>
+                  <img mat-list-avatar src="assets/images/face2.jpg" alt="">
+                  <h3 mat-line> Meek Mill </h3>
+                  <p mat-line> Monday - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quia natus ullam aperiam expedita aut deserunt officia harum culpa at sed consequuntur quidem eum voluptatibus laudantium saepe, facere, sint quibusdam </p>
+                  <div class="comment-time">
+                     Oct-11,17
+                  </div>
+               </mat-list-item>
+               <mat-list-item>
+                  <img mat-list-avatar src="assets/images/face3.jpg" alt="">
+                  <h3 mat-line> Kim Jama </h3>
+                  <p mat-line> Thursday - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quia natus ullam aperiam expedita aut deserunt officia harum culpa at sed consequuntur quidem eum voluptatibus laudantium saepe, facere, sint quibusdam </p>
+                  <div class="comment-time">
+                     Oct-11,17
+                  </div>
+               </mat-list-item>
+            </mat-list>
+         </div>
+      </mat-card>
+   </div>
+   <div class="column" fxFlex.sm="100" fxFlex.xs="100" fxFlex.md="33.33" fxFlex.lg="33.33" fxFlex.xl="33.33" fxFlex="100">
+      <!-- Post-->
+      <div class="post-module">
+         <!-- Thumbnail-->
+         <div class="thumbnail">
+            <div class="date">
+               <div class="day">27</div>
+               <div class="month">Mar</div>
+            </div>
+            <img src="assets/images/unsplash/1.jpg" />
+         </div>
+         <!-- Post Content-->
+         <div class="post-content">
+            <div class="category">Photos</div>
+            <h1 class="title">City Lights in New York</h1>
+            <div class="p-data">
+               <p>Lorem ipsum dolor sit amet, conse sicing elit. Quibu nece molestiae similique qui ad icabo, riosam ores autem maiores a.</p>
+            </div>
+            <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-o"></i> 6 mins ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39 comments</a></span></div>
+         </div>
+      </div>
+   </div>
+</div>
+<div fxLayout="row wrap">
+   <div fxFlex.gt-sm="66.66%" fxFlex="100" class="m-gap p-gap">
+      <ngx-datatable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="0" [rowHeight]="'auto'">
+      <ngx-datatable-column name="Project">
+         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{row['project']}}
+         </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Due Date">
+         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{row['date'] | date: 'MMMM dd'}}
+         </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Progress">
+         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <mat-progress-bar mode="determinate" value="{{row['progress']}}" color="primary"></mat-progress-bar>
+         </ng-template>
+      </ngx-datatable-column>
+      </ngx-datatable>
+   </div>
+   <div fxFlex.gt-sm="33.33%" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <mat-card-title>Newsfeed</mat-card-title>
+         <mat-card-subtitle>Stories posted today</mat-card-subtitle>
+         <hr>
+         <mat-list>
+            <ng-template let-item let-last="last" ngFor [ngForOf]="messages">
+               <mat-list-item>
+                  <img mat-list-avatar src="{{item.photo}}" alt="">
+                  <h3 mat-line> {{item.from}} </h3>
+                  <p mat-line> {{item.subject}} - {{item.message}} </p>
+               </mat-list-item>
+            </ng-template>
+         </mat-list>
+      </mat-card>
+   </div>
+</div>
+<div fxLayout="row wrap">
+   <div fxFlex.gt-sm="33.33%" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50%" fxLayoutAlign="center center" fxFlex="100" class="m-gap p-gap mb-0 grad-blue icon-tp">
+               <div class="text-center">
+                  <i class="fa fa-facebook fa-3x"></i>
+                  <div class="d-inline-block">
+                     <h5>Facebook</h5>
+                  </div>
+               </div>
+            </div>
+            <div fxFlex.gt-sm="50%" fxFlex="100" fxLayoutAlign="center center" class="m-gap p-gap mb-0">
+               <div class="card-block text-center">
+                  <div class="row">
+                     <div>
+                        <h2>31</h2>
+                        <p class="text-muted">Online</p>
+                     </div>
+                     <hr>
+                     <div>
+                        <h2>11</h2>
+                        <p class="text-muted">Comment</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+   <div fxFlex.gt-sm="33.33%" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50%" fxLayoutAlign="center center" fxFlex="100" class="m-gap p-gap mb-0 grad-green icon-tp">
+               <div class="text-center">
+                  <i class="fa fa-twitter fa-3x"></i>
+                  <div class="d-inline-block">
+                     <h5>Twitter</h5>
+                  </div>
+               </div>
+            </div>
+            <div fxFlex.gt-sm="50%" fxFlex="100" fxLayoutAlign="center center" class="m-gap p-gap mb-0">
+               <div class="card-block text-center">
+                  <div class="row">
+                     <div>
+                        <h2>76</h2>
+                        <p class="text-muted">Online</p>
+                     </div>
+                     <hr>
+                     <div>
+                        <h2>19</h2>
+                        <p class="text-muted">Comment</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+   <div fxFlex.gt-sm="33.33%" fxFlex="100" class="m-gap p-gap">
+      <mat-card>
+         <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50%" fxLayoutAlign="center center" fxFlex="100" class="m-gap p-gap mb-0 grad-red icon-tp">
+               <div class="text-center">
+                  <i class="fa fa-linkedin fa-3x"></i>
+                  <div class="d-inline-block">
+                     <h5>Linkedin</h5>
+                  </div>
+               </div>
+            </div>
+            <div fxFlex.gt-sm="50%" fxFlex="100" fxLayoutAlign="center center" class="m-gap p-gap mb-0">
+               <div class="card-block text-center">
+                  <div class="row">
+                     <div>
+                        <h2>9</h2>
+                        <p class="text-muted">Online</p>
+                     </div>
+                     <hr>
+                     <div>
+                        <h2>21</h2>
+                        <p class="text-muted">Comment</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </mat-card>
+   </div>
+</div>

@@ -1,0 +1,275 @@
+
+
+<div class="page-title-actions" style="padding: 10px 0px; text-align: right;">
+  <button *ngIf="mainObj$._id" (click)="borrar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-danger mr-2">
+
+    Borrar
+  </button>
+  <button (click)="guardar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+
+    Guardar
+  </button>
+</div>
+
+<div class="card main-card mb-4">
+
+  <form style="margin-top: 15px;padding: 15px;">
+
+    <div class="col-xs-12 text-center">
+      <img (click)="subirImagen(2)" *ngIf="!mainObj$.foto" width="70" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+      <img (click)="subirImagen(2)" *ngIf="mainObj$.foto" width="70" src="{{ mainObj$.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+    </div>
+
+    <div class="position-relative form-group" style="margin-top: 50px;">
+      <div class="cg-input" style="margin-bottom: 25px;">
+        <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="cg-label-input">Nombre del artículo</label>
+      </div>
+      <div class="cg-input" style="margin-bottom: 30px;">
+        <textarea placeholder="Descripción" [(ngModel)]="mainObj$.descripcion" rows="4" class="cg-input-adicional" name="descripcion" required="" type="text" style="border: none; line-height: 1.2;">
+        </textarea>
+      </div>
+      <div class="cg-input" style="margin-bottom: 35px;">
+        <input [(ngModel)]="mainObj$.costo" name="costo" type="text" class="cg-input-adicional" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label class="cg-label-input">Costo del artículo</label>
+      </div>
+      <!-- <div class="col-xs-12" style="margin-bottom: 30px;" *ngIf="mainObj$.categoria">
+        <label style="font-size: 14px;color: #169a52;position: relative;">
+          Categoría
+        </label>
+        <label (click)="seleccionarCategoria()" style="position: relative;float: right;color: #999;">
+          {{ mainObj$.categoria_id ? mainObj$.categoria.nombre : "Selecciona" }}
+        </label>
+      </div> -->
+      <div class="col-xs-12" style="margin-bottom: 50px;">
+        <label style="font-size: 14px;color: #169a52;position: relative;">
+          Disponible
+        </label>
+        <bSwitch name="disponible" [(ngModel)]="mainObj$.disponible" style="float:right;"></bSwitch>
+      </div>
+      <div class="col-xs-12" style="margin-bottom: 30px;">
+        <label style="font-size: 14px;color: #169a52;position: relative;width: 100%;">
+          Grupos de opciones
+          <i (click)="agregarGrupo(undefined)" class="lnr-plus-circle mr-1 mt-1 float-right" style="cursor:pointer;">
+          </i>
+        </label>
+        <table class="table table-striped">
+          <thead>
+            <tr style="background: #d6d6d6;">
+              <th scope="col" ></th>
+              <th scope="col" >Grupo</th>
+              <th scope="col" >Opciones</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let registro_t of mainObj$.grupo_ingrediente; index as i">
+            <tr  style="background: white;border-bottom: 1px solid #dddddd;">
+              <td style="text-align:center; font-size: 12px;">
+                <i (click)="borrarGrupo( registro_t )" class="lnr-trash mr-1" style="cursor:pointer;">
+                </i>
+              </td>
+              <td  style="font-size: 12px;" (click)="agregarGrupo( registro_t )">
+                  {{ registro_t.nombre }}
+              </td>
+              <td  style="font-size: 12px;" (click)="agregarGrupo( registro_t )">
+                  {{ registro_t.ingredientes.length }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </form>
+
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #listadoCategorias let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Categorías
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of categoriasArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<ng-template #mGrupo let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px; font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Grupo de Opciones</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;max-height: 350px;overflow-y: scroll;">
+    <form style="margin-top: 15px;">
+      <div class="position-relative form-group">
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="grupoObj$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Nombre del grupo</label>
+        </div>
+      </div>
+      <div class="position-relative form-group">
+        <label style="font-size: 14px;color: #169a52;position: relative;">
+          Selección múltiple
+        </label>
+        <bSwitch name="genera_costo" [(ngModel)]="grupoObj$.seleccion_multiple" style="float:right;"></bSwitch>
+      </div>
+      <div class="position-relative form-group">
+        <label style="font-size: 14px;color: #169a52;position: relative;">
+          Genera costo
+        </label>
+        <bSwitch name="genera_costo" [(ngModel)]="grupoObj$.genera_costo" style="float:right;"></bSwitch>
+      </div>
+      <div class="position-relative form-group">
+        <label style="font-size: 14px;color: #169a52;position: relative;width: 100%;">
+          Opciones
+          <i (click)="agregarIngrediente( undefined )" class="lnr-plus-circle mr-1 mt-1 float-right" style="cursor:pointer;">
+          </i>
+        </label>
+        <table class="table table-striped">
+          <thead>
+            <tr style="background: #d6d6d6;">
+              <th scope="col" ></th>
+              <th scope="col" >Opción</th>
+              <th scope="col" >Extra</th>
+              <th scope="col" >Disponible</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let registro_t of grupoObj$.ingredientes; index as i">
+            <tr  style="background: white;border-bottom: 1px solid #dddddd;">
+              <td style="text-align:center; font-size: 12px;">
+                <i (click)="borrarIngrediente( registro_t )" class="lnr-trash mr-1" style="cursor:pointer;">
+                </i>
+              </td>
+              <td  style="font-size: 12px;" (click)="agregarIngrediente( registro_t )">
+                  {{ registro_t.nombre }}
+              </td>
+              <td  style="font-size: 12px;" (click)="agregarIngrediente( registro_t )">
+                  {{ registro_t.extra }}
+              </td>
+              <td  style="font-size: 12px;" (click)="agregarIngrediente( registro_t )">
+                  {{ registro_t.disponible ? "Sí" : "No" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="returnGrupo()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mIngrediente let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px; font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Opción</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family:codigeekfont;">
+    <form style="margin-top: 15px;">
+      <div class="position-relative form-group">
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="ingredienteObj$.nombre" name="nombre" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Nombre de la opción</label>
+        </div>
+      </div>
+      <div class="position-relative form-group">
+        <div class="cg-input" style="margin-bottom: 30px;">
+          <input [(ngModel)]="ingredienteObj$.extra" name="extra" type="text" class="cg-input-adicional" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label class="cg-label-input">Costo extra</label>
+        </div>
+      </div>
+      <div class="col-xs-12" style="margin-bottom: 30px;">
+        <label style="font-size: 14px;color: #169a52;position: relative;">
+          Disponible
+        </label>
+        <bSwitch name="disponible" [(ngModel)]="ingredienteObj$.disponible" style="float:right;"></bSwitch>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="returnIngrediente()">Guardar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

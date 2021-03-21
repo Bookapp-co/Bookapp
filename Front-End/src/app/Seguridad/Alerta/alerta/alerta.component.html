@@ -1,0 +1,163 @@
+
+
+<div class="page-title-actions" style="padding: 10px 0px; text-align: right;">
+  <button *ngIf="mainObj$._id" (click)="borrar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-danger mr-2">
+    Borrar
+  </button>
+  <button (click)="guardar()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+    Guardar
+  </button>
+</div>
+
+<div class="card main-card mb-4">
+
+  <form style="padding: 15px 25px;">
+
+    <div class="row">
+      <!-- <div class="col-sm-12 mb-2 pt-1 pb-2" style="border-bottom: 1px solid #d4d4d4;">
+        <label style="background: black; color: white; padding: 1px 15px; border-radius: 3px;">
+          {{ 'alertas.alcance' | translate }}:
+        </label>
+        <mat-radio-group name="filter_alcance" [(ngModel)]="mainObj$.alcance">
+          <mat-radio-button [value]="1">
+            {{ 'alertas.alcance_1' | translate }}
+          </mat-radio-button>
+          <mat-radio-button [value]="2">
+            {{ 'alertas.alcance_2' | translate }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div> -->
+      <div class="col-sm-12 mb-2 pt-1 pb-2" style="border-bottom: 1px solid #d4d4d4;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          Perfiles
+        </label>
+        <div class="row p-0 m-0 custom-checkbox custom-control custom-control-inline">
+          <div class="col-sm-12 p-0">
+            <mat-checkbox name="filter_admins" class="example-margin" [(ngModel)]="mainObj$.administradores">
+              Administradores
+            </mat-checkbox>
+            <mat-checkbox name="filter_clientes" class="example-margin" [(ngModel)]="mainObj$.clientes">
+              Clientes
+            </mat-checkbox>
+            <mat-checkbox name="filter_sucursales" class="example-margin" [(ngModel)]="mainObj$.sucursales">
+              Negocios
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 mb-2 pt-1 pb-2" style="border-bottom: 1px solid #d4d4d4;">
+        <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+          Filtro de ubicación:
+        </label>
+        <mat-radio-group name="filter_ubicacion" [(ngModel)]="mainObj$.ubicacion_toggle">
+          <mat-radio-button [value]="1">
+            Si
+          </mat-radio-button>
+          <mat-radio-button [value]="2">
+            No
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div *ngIf="mainObj$.ubicacion_toggle === 1" class="col-sm-12 mt-2 mb-2" style="padding: 0px 10px;">
+
+        <div class="cg-input" style="margin-bottom: 15px;">
+          <div class="cg-input" style="margin-bottom: 0px;">
+            <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+              Dirección
+            </label>
+            <input [(ngModel)]="mainObj$.direccion" name="direccion" type="text" class="cg-input-adicional" placeholder="" autocorrect="off" autocapitalize="off" spellcheck="off" #search placeholder="" required style="background: #f0f0f0; border-radius: 3px; border: none !important; padding: 10px; color: #909090;">
+          </div>
+        </div>
+
+        <agm-map
+          style="height: 200px;"
+          [latitude]="mainObj$.latitude"
+          [longitude]="mainObj$.longitude"
+          [zoom]="zoom"
+          [disableDefaultUI]="true"
+          [zoomControl]="false"
+          [gestureHandling]="'greedy'"
+          >
+
+          <agm-marker
+            [latitude]="mainObj$.latitude"
+            [longitude]="mainObj$.longitude"
+            [label]="mainObj$.nombre" >
+          </agm-marker>
+
+        </agm-map>
+      </div>
+
+      <div class="col-sm-12 mt-2 mb-2" style="padding: 0px 10px;">
+        <div class="cg-input" style="margin-bottom: 0px;">
+          <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+            Título
+          </label>
+          <input [(ngModel)]="mainObj$.titulo" name="titulo" type="text" class="cg-input-adicional" placeholder="" required style="background: #f0f0f0; border-radius: 3px; border: none !important; padding: 10px; color: #909090;">
+        </div>
+      </div>
+
+      <div class="col-sm-12 mt-2 mb-2" style="padding: 0px 10px;">
+        <div class="cg-input" style="margin-bottom: 15px;">
+          <label class="cg-label-input" style="font-size: 13px;color: #505050;position: relative;width: 100%;left: 2px;top: 0;margin-bottom: 5px;font-weight: bold;">
+            Mensaje
+          </label>
+          <textarea [(ngModel)]="mainObj$.mensaje" rows="6" class="cg-input-adicional" name="mensaje" required="" type="text" style="border: none;line-height: 1.2;color: #9e9e9e;padding: 10px;background: #f0f0f0;font-size: 12px;">
+          </textarea>
+        </div>
+      </div>
+
+    </div>
+
+
+  </form>
+
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mListadoUsuarios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Usuarios
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of tiposArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.descripcion }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mConfirmacion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Confirmación
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      {{ usuariosArray$.length }} Usuarios encontrados
+    </p>
+    <p *ngIf="usuariosArray$.length > 0" style="margin: 5px 0px;">
+      ¿Deseas enviar esta alerta?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">
+      Cerrar
+    </button>
+    <button *ngIf="usuariosArray$.length > 0" type="button" class="btn btn-info" (click)="enviarNotificacion()">
+      Enviar
+    </button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

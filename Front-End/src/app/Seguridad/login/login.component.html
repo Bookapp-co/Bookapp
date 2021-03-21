@@ -1,0 +1,66 @@
+<div class="h-100">
+  <div class="row no-gutters" style="font-family: codigeekfont;">
+    <div style="text-align: center;padding: 0px;z-index: 1;background: white;width: 100%;">
+      <img class="d-sm-none d-block mt-4 mb-2" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 40%;margin: auto;" />
+      <img class="d-sm-block d-none mt-5 mb-2" src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 15%;margin: auto;" />
+    </div>
+    <div class="h-50 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-12">
+      <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-12 row" style="margin-bottom: 50px !important;">
+        <div class="col-sm-4 offset-sm-4 col-12">
+           <div class="col-12 text-center mt-1" style="color: #545454; font-weight: bold; margin-bottom: 25px;">
+              <h6 style="margin-bottom: 5px;font-weight: bold;font-size: 18px;">
+                ¡Hola!
+              </h6>
+              <h6 style="font-size: 12px;font-weight: bold;">
+                Inicia sesión para continuar
+              </h6>
+           </div>
+           <div class="position-relative form-group" >
+             <h5 class="custom-label-cg">
+               Correo electrónico
+             </h5>
+             <input [(ngModel)]="mainObj$.correo" name="correo" type="text" class="custom-input-cg" required style="font-size: 13px; ">
+             <img src="https://codigeek.com/projects/bookapp/user_icon.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+           </div>
+           <div class="position-relative form-group" >
+             <h5 class="custom-label-cg">
+               Contraseña
+             </h5>
+             <input [(ngModel)]="mainObj$.contrasena" name="contrasena" type="password" class="custom-input-cg" required style="font-size: 13px; ">
+             <img src="https://codigeek.com/projects/bookapp/icon_contrasena.png" style="width: 15px; position: absolute; bottom: 12px; left: 12px;">
+           </div>
+           <div class="col-12 text-right mt-4 mb-4 p-0" style="color: #b7b7b7;">
+              <h6 (click)="irA(2)" style="margin-bottom: 5px;font-size: 12px;text-decoration: underline;">
+                ¿Olvidaste tu contraseña?
+              </h6>
+           </div>
+           <div class="text-center">
+             <button (click)="login()" class="boton-confirmar-morado" style="margin: 5px 0px 0px 0px;">
+               Iniciar sesión
+             </button>
+           </div>
+           <div class="col-12 text-center mt-3" style="color: #545454;">
+			   <h6 class="brand-full-bg-button">
+				 ¿Tienes un comercio?
+				 <span (click)="irARegistroNegocio()" style="font-weight: bold;">
+				   Regístrate
+				 </span>
+			   </h6>
+		   </div>
+           <div class="col-12 text-center" style="color: #545454;">
+              <h6 style="margin-bottom: 5px;font-size: 12px;margin-top: 25px;">
+                Continuar implica que has leido y aceptado los
+                <span (click)="abrirLink(1)" style="font-weight: bold; text-decoration:underline;">
+                  Términos y condiciones
+                </span>
+                y nuestra
+                <span (click)="abrirLink(2)" style="font-weight: bold; text-decoration:underline;">
+                  Política de privacidad
+                </span>
+              </h6>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+
+
+<div class="page-title-actions mb-3 text-center" >
+  <ul class="header-megamenu nav">
+    <li class="nav-item">
+      <div class="search-wrapper" [class.active]="isActive" style="display: inline-block;">
+        <div class="input-holder">
+          <input [(ngModel)]="searchText" name="searchText" type="text" placeholder="¿Qué deseas buscar?" class="search-input">
+          <button class="search-icon" (click)="isActive = true"><span></span></button>
+        </div>
+        <button class="close" (click)="isActive = false"></button>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button (click)="nuevoRegistro()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+
+        Crear nuevo
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row m-0">
+  <div class="col-12 col-sm-4" *ngFor="let registro_t of mainArray$ | filter : searchText : 'nombre'; index as i">
+    <div class="card main-card mb-3" (click)="editarRegistro(registro_t)" style="padding: 10px;">
+      <div class="card-header" style="padding: 0px;border: none;">
+        <div class="position-relative d-flex justify-content-center align-items-center" style="padding: 10px 0px;">
+          <div class="slider-content text-light" style="width: 100%;">
+            <div class="d-flex" style="padding: 0px 15px;font-family: codigeekfont;">
+              <div class="header-btn-md pr-0" style="margin: 0px; padding: 0px;">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="btn-group" ngbDropdown placement="bottom-right">
+                        <button type="button" class="btn btn-link p-0">
+                          <span>
+                            <div class="icon-wrapper icon-wrapper-alt rounded-circle">
+                              <img *ngIf="!registro_t.foto" width="42" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;width:100%;">
+                              <img *ngIf="registro_t.foto" width="42" src="{{ registro_t.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;width:100%;">
+                            </div>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="header-btn-md" style="margin: 0px;padding: 0px;display: flex;align-items: center;position: relative; margin-left:15px;">
+                <h5 style="margin: 0px;font-size: 12px;text-transform: none;font-weight: bold;color: black;text-align: left;">
+                  {{ registro_t.nombre }}
+                  <br/>
+                  <span style="font-size: 10px;font-weight:normal;">
+                    {{ registro_t.tipo_usuario.descripcion }}
+                  </span>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

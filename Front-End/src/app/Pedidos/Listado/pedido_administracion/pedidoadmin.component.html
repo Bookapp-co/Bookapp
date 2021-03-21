@@ -1,0 +1,372 @@
+<div style="height: 100%;">
+
+  <div class="col-12 col-sm-6 offset-sm-3 p-0" style="font-family: codigeekfont;display: flex;flex-flow: column;height: 100%;">
+    <div class="mt-4 mb-4" style="text-align: left;font-weight: bold;width: 100%;display: flex;justify-content: center;color: #169a52;font-family: codigeekfont;">
+      <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+      Detalle de la cita
+    </div>
+    <div class="row m-0" style="display: flex; flex-flow: column; height: 100%;">
+      <div class="pl-3 pr-3 mt-2" style="font-family:codigeekfont; width: 100%;">
+        <ul class="list-group list-group-flush mb-3 pb-2">
+          <li class="list-group-item" style="padding: 5px;border: none;">
+            <div class="row m-0 p-0">
+              <div class="col-12 pl-0 pr-2" style="align-items: center;">
+                <div class="widget-heading" style="font-size: 14px;color: #20284c;margin-bottom: 10px;line-height: 1;opacity: 1;font-weight: bold;text-align: center;">
+                  Cita: {{ mainObj$._id | limitTo : 8 }}
+                </div>
+                <div class="widget-heading" style="font-size: 12px;color: #929292;margin-top: 5px;margin-bottom: 2px;font-weight: normal;line-height: 1;opacity: 1;text-align: center;">
+                  Fecha de cita: {{ mainObj$.inicio_cita | date:'dd/MM/yyyy' }}
+                </div>
+                <div class="widget-heading" style="font-size: 12px;color: #929292;margin-top: 5px;margin-bottom: 2px;font-weight: normal;line-height: 1;opacity: 1;text-align: center;">
+                  De:
+                  <b>{{ mainObj$.inicio_cita | date:'hh:mm' }}</b>
+                  A:
+                  <b>{{ mainObj$.fin_cita | date:'hh:mm' }}</b>
+                </div>
+              </div>
+            </div>
+            <div class="row m-0 mt-3 mb-3 p-0">
+              <div class="col-3 text-center">
+                <i class="pe-7s-chat" (click)="llamarTelefono(mainObj$.usuario.telefono,2)" style="background: #169a52; color: white; padding: 8px; border-radius: 20px;"></i>
+              </div>
+              <div class="col-6 pl-0 pr-0 text-center">
+                <div style="font-size: 14px;color: #169a52;margin-top: 5px;margin-bottom: 2px;font-weight: bold;line-height: 1;opacity: 1;">
+                  {{ mainObj$.usuario.nombre }}
+                </div>
+                <div style="font-size: 12px;color: #20284c;margin-top: 3px;margin-bottom: 2px;font-weight: bold;line-height: 1;opacity: 1;">
+                  Total {{ configuracion$.tipo_de_moneda.descripcion }}{{ mainObj$.total }}
+                </div>
+              </div>
+              <div class="col-3 text-center">
+                <i class="pe-7s-call" (click)="llamarTelefono(mainObj$.usuario.telefono,1)" style="background: #169a52; color: white; padding: 8px; border-radius: 20px;"></i>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="row m-0" style="width: 100%;background: #f4f4f4;padding: 15px 8px;border-radius: 20px 20px 0px 0px;box-shadow: 0px -1px 5px 1px #d3d3d3; flex: 1 1 auto;">
+        <div class="mt-2" style="font-family:codigeekfont;width:100%;">
+          <div class="row m-0 mb-3 pb-2">
+            <div *ngIf="mainObj$.numero_de_personas" class=" col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Número de personas: {{ mainObj$.numero_de_personas}}
+              </span>
+            </div>
+            <div *ngIf="mainObj$.anticipo && !(this.currentUser$.negocio.categoria_id === '5ee4110b31a9c57966bf37c5')" class="col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Anticipo pagado ${{ mainObj$.anticipo_cantidad | number }}
+              </span>
+            </div>
+            <div *ngIf="mainObj$.anticipo && (this.currentUser$.negocio.categoria_id === '5ee4110b31a9c57966bf37c5') && mainObj$.agregar_decoracion" class=" col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Anticipo pagado ${{ mainObj$.anticipo_cantidad | number }}
+              </span>
+            </div>
+            <div *ngIf="mainObj$.agregar_decoracion" class=" col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Decoración incluida ${{ mainObj$.decoracion_cantidad | number }}
+              </span>
+            </div>
+            <div *ngIf="mainObj$.pagar_totalidad" class=" col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Totalidad de la reserva pagada
+              </span>
+            </div>
+          </div>
+          <div class="row m-0 mt-3 p-0" *ngIf="mainObj$.status === 2 && mainObj$.motofast">
+            <div class="col-12 pl-3 pr-0 text-left">
+              <div style="font-size: 14px;color: #169a52;margin-top: 5px;margin-bottom: 2px;font-weight: bold;line-height: 1;opacity: 1;">
+                Peluquero
+              </div>
+              <div style="font-size: 14px;color: #20284c;margin-top: 5px;margin-bottom: 2px;font-weight: bold;line-height: 1;opacity: 1;">
+                {{ mainObj$.motofast.nombre }}
+              </div>
+            </div>
+          </div>
+          <div *ngIf="mainObj$.servicio" class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;margin: 0px 20px 0px 20px !important;">
+            <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+              Servicio
+            </label>
+            <div style="color: gray; padding-left: 10px;">
+              {{ mainObj$.servicio.nombre }}
+            </div>
+          </div>
+          <div *ngIf="mainObj$.comentarios" class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;margin: 0px 20px 0px 20px !important;">
+            <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+              Comentarios
+            </label>
+            <div style="color: gray; padding-left: 10px;">
+              {{ mainObj$.comentarios }}
+            </div>
+          </div>
+          <div class="row m-0 mt-3" *ngIf="vista$ === 1 && (isAdmin || isAdminNeg)">
+            <div class="col-6" *ngIf="mainObj$.status === 10 && !mainObj$.confirmacion_cliente">
+              <button (click)="actualizarPedido(10)" class="btn-shadow btn btn-success" style="width: 100%;margin: auto;margin-top: 15px;margin-bottom: 10px;padding: 10px 0px;text-align: center;box-shadow: 0 0.125rem 0.5rem #9aceb1, 0 0.0625rem 0.1rem #8cb9a0;background: #31bf70;border: #31bf70;" type="button">
+                Confirmar cita
+              </button>
+            </div>
+            <div class="col-6" *ngIf="mainObj$.status === 10">
+              <button (click)="actualizarPedido(15)" class="btn-shadow btn btn-success" style="padding: 10px 0px;width: 100%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+                Rechazar cita
+              </button>
+            </div>
+            <div class="col-12 text-center" *ngIf="mainObj$.status === 1 && mainObj$.tipo_servicio === 2">
+              <button (click)="seleccionarMotofast()" class="btn-shadow btn btn-success" style="padding: 10px 0px;width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+                Asignar profesional
+              </button>
+            </div>
+            <div class="col-6 text-center" *ngIf="mainObj$.status === 1 && mainObj$.tipo_servicio === 1">
+              <button (click)="actualizarPedido(2)" class="btn-shadow btn btn-success" style="padding: 10px 0px;width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+                Confirmar asistencia
+              </button>
+            </div>
+            <div class="col-6" *ngIf="mainObj$.status === 1 && mainObj$.tipo_servicio === 1">
+              <button (click)="actualizarPedido(15)" class="btn-shadow btn btn-danger" style="padding: 10px 0px;width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+                No asistencia
+              </button>
+            </div>
+          </div>
+          <div class="row m-0 mt-3" *ngIf="(isAdmin || isAdminNeg || isMotofast) && mainObj$.status === 2 && mainObj$.pideloquequieras">
+            <div class="col-12" *ngIf="isMotofast">
+              <div class="text-center mt-3 mb-3">
+                <span (click)="actualizarPedido(16)" style="font-weight: bold;text-decoration: underline;color: #666666;">
+                  Rechazar cita
+                </span>
+              </div>
+            </div>
+            <div class="col-12" *ngIf="!mainObj$.confirmacion_total && !mainObj$.solicitar_confirmacion_cliente">
+              <button (click)="actualizarTotalConfirmacionCliente()" class="btn-shadow btn btn-success" style="width: 100%;margin: auto;margin-top: 15px;margin-bottom: 10px;padding: 10px 0px;text-align: center;box-shadow: 0 0.125rem 0.5rem #9aceb1, 0 0.0625rem 0.1rem #8cb9a0;background: #31bf70;border: #31bf70;" type="button">
+                Actualizar total
+              </button>
+            </div>
+            <div class="col-12 text-center" *ngIf="mainObj$.confirmacion_total">
+              <button (click)="actualizarPedido(3)" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;padding: 10px 0px;text-align: center;box-shadow: 0 0.125rem 0.5rem #9aceb1, 0 0.0625rem 0.1rem #8cb9a0;background: #31bf70;border: #31bf70;" type="button">
+                Completar cita
+              </button>
+            </div>
+          </div>
+          <div class="row m-0 mt-3" *ngIf="(isAdmin || isAdminNeg || isMotofast) && mainObj$.status === 2 && !mainObj$.pideloquequieras">
+            <div class="col-12 text-center">
+              <button (click)="actualizarPedido(3)" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;padding: 10px 0px;text-align: center;box-shadow: 0 0.125rem 0.5rem #9aceb1, 0 0.0625rem 0.1rem #8cb9a0;background: #31bf70;border: #31bf70;" type="button">
+                Completar cita
+              </button>
+            </div>
+          </div>
+          <div class="row m-0 mt-3" *ngIf="vista$ === 2 && (isAdmin || isAdminNeg)">
+            <div class="col-6">
+              <button (click)="guardarModificacionPlatillosPedido()" class="btn-shadow btn btn-success" style="width: 100%;margin: auto;margin-top: 15px;margin-bottom: 10px;padding: 10px 0px;text-align: center;box-shadow: 0 0.125rem 0.5rem #9aceb1, 0 0.0625rem 0.1rem #8cb9a0;background: #31bf70;border: #31bf70;" type="button">
+                Modificar pedido
+              </button>
+            </div>
+            <div class="col-6">
+              <button (click)="revertirCambios()" class="btn-shadow btn btn-success" style="padding: 10px 0px;width: 100%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;box-shadow: 0 0.125rem 0.5rem #2f2d4c, 0 0.0625rem 0.1rem #2f2d4c;background-color: #2f2d4c;border: #2f2d4c;" type="button">
+                Revertir cambios
+              </button>
+            </div>
+          </div>
+          <div class="text-center mt-5" *ngIf="(isAdmin || isAdminNeg || isClient) && mainObj$.status === 1">
+            <span (click)="actualizarPedido(15)" style="font-weight: bold;text-decoration: underline;color: #666666;cursor:pointer;">
+              Cancelar cita
+            </span>
+          </div>
+        </div>
+        <div class="col-12 m-0 mb-3 pb-2" style="width: 100%; padding: 0px 20px;">
+          <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600; width:100%;">
+            Medio de pago
+          </label>
+          <div style="color:#169a52;">
+            {{ mainObj$.forma_pago.descripcion }}
+          </div>
+        </div>
+        <div class="row m-0 mb-3 pb-2 pl-4 pr-4" *ngIf="mainObj$.status === 3" style="width:100%;">
+          <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600;width: 100%;">
+            Calificación del cliente
+          </label>
+          <div class="col-12 p-0">
+            <ngb-rating [(rate)]="mainObj$.calificacion_cliente" [readonly]="mainObj$.calificado_cliente" max="5">
+              <ng-template let-fill="fill" let-index="index">
+                <span class="star" [class.filled]="fill === 100" >&#9733;</span>
+              </ng-template>
+            </ngb-rating>
+            <div *ngIf="mainObj$.calificado_cliente" class="col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Comentarios: {{ mainObj$.calificacion_comentarios_cliente }}
+              </span>
+            </div>
+            <textarea *ngIf="!mainObj$.calificado_cliente" placeholder="Comentarios" rows="2" name="calificacion_comentarios_cliente" [(ngModel)]="mainObj$.calificacion_comentarios_cliente"  type="text" class="custom-input-cg" style="padding: 15px; box-shadow: 0px 0px 2px 0px #9c9c9c; margin-top: 10px;" ></textarea>
+          </div>
+          <button *ngIf="mainObj$.status === 3 && !mainObj$.calificado_cliente && (isAdmin || isAdminNeg)" (click)="calificarPedidoCliente()" class="btn-shadow btn btn-success" style="width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+            Calificar reserva
+          </button>
+        </div>
+        <div class="row m-0 mb-3 pb-2 pl-4 pr-4" *ngIf="mainObj$.calificado_negocio">
+          <label style="font-size: 14px;color: #169a52;margin-bottom: 2px;font-weight: 600;width: 100%;">
+            Calificación de la reserva
+          </label>
+          <div class="col-12 p-0">
+            <ngb-rating [(rate)]="mainObj$.calificacion_negocio" [readonly]="mainObj$.calificado_negocio" max="5">
+              <ng-template let-fill="fill" let-index="index">
+                <span class="star" [class.filled]="fill === 100" >&#9733;</span>
+              </ng-template>
+            </ngb-rating>
+            <div *ngIf="mainObj$.calificacion_negocio" class="col-12 mt-2 mb-2" style="font-size: 14px;color: #20284c;line-height: 1;font-weight: bold;text-align: left;width: 100%;">
+              <span style="font-size: 14px;color: #484848;">
+                <i class="lnr-arrow-right"></i>
+                Comentarios: {{ mainObj$.calificacion_comentarios_negocio }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-3 text-center" style="font-weight: bold;" *ngIf="mainObj$.solicitar_confirmacion_cliente && mainObj$.status === 2 && !mainObj$.confirmacion_total">
+          Esperando confirmación de cliente
+        </div>
+        <div class="col-12 mt-3 text-center" style="font-weight: bold;" *ngIf="mainObj$.status === 3">
+          Reserva completada
+          <br/>
+          <span style="color: #6e7681;">
+            {{ mainObj$.fecha_entregue_productos | date:'dd/MM/yyyy' }} {{ mainObj$.fecha_entregue_productos | date:'hh:mm' }}
+          </span>
+        </div>
+        <div class="col-12 mt-3 text-center" style="font-weight: bold;" *ngIf="mainObj$.status === 15">
+          Reserva cancelada
+          <br/>
+          <span style="color: #6e7681;">
+            {{ mainObj$.fecha_cancelacion | date:'dd/MM/yyyy' }} {{ mainObj$.fecha_cancelacion | date:'hh:mm' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mConfirmarEliminarPlatillo let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+      Confirmación
+    </h6>
+  </div>
+  <div class="modal-body" style="font-family: codigeekfont;">
+    <div class="col-12 mb-3 p-0">
+      <h5 style="font-size: 16px; text-align: center;">
+        ¿Deseas remover este producto?
+      </h5>
+    </div>
+  </div>
+  <button (click)="confimarEliminarPlatillo()" class="btn-shadow btn btn-success" style="font-family: codigeekfont;width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+    Continuar
+  </button>
+</ng-template>
+
+<ng-template #mConfirmarGeneral let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+      Confirmación
+    </h6>
+  </div>
+  <div class="modal-body" style="font-family: codigeekfont; padding-bottom:40px;">
+    <div class="col-12 mb-3 p-0">
+      <h5 style="font-size: 13px;text-align: center;font-weight: bold;">
+        {{ mensajeAlerta$ }}
+      </h5>
+    </div>
+    <div class="col-12 p-0 text-center">
+      <button (click)="c(true)" class="btn-shadow btn btn-success" style="padding: 10px 0px;width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+        Confirmar
+      </button>
+      <button (click)="d()" class="btn-shadow btn btn-success" style="padding: 10px 0px;width: 60%;margin: auto;margin-top: 15px;margin-bottom: 10px;text-align: center;" type="button">
+        Regresar
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mModificarInfo let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;font-family: codigeekfont;">
+      Modificar pedido
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="c('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="font-family: codigeekfont;">
+    <div class="col-12 mb-3 p-0">
+      <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+        Fecha del pedido
+      </label>
+      <div class="input-group" style="width:100%">
+        <input
+          class="form-control"
+          name="fecha_pedido"
+          [(ngModel)]="mainObj$.fecha_pedido"
+          ngbDatepicker
+          #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-dark calendar" (click)="d.toggle()" type="button">
+            <i class="fa text-white fa-calendar pr-1 pl-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mb-3 p-0">
+      <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+        Hora del pedido
+      </label>
+      <div class="cg-input" style="margin-bottom: 25px;">
+        <ngb-timepicker name="hora_pedido" [(ngModel)]="mainObj$.hora_pedido" [minuteStep]="15"></ngb-timepicker>
+      </div>
+    </div>
+    <div class="col-12 mb-3 p-0" *ngIf="isAdmin || isAdminNeg">
+      <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+        Total del pedido:
+      </label>
+      <input [(ngModel)]="mainObj$.total" name="total" type="text" class="cg-input-adicional" placeholder="" required style="background: #f0f0f0; border-radius: 3px; border: none !important; padding: 10px; color: #909090;">
+    </div>
+    <div class="col-12 mb-3 p-0">
+      <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+        Comentarios:
+      </label>
+      <textarea [(ngModel)]="mainObj$.comentarios" name="comentarios" rows="4" style="width:100%;background: transparent;border-radius: 5px;border: none;box-shadow: 0px 0px 5px 0px #d5d5d5;padding: 7px 10px;color: #616161;font-size: 12px;"></textarea>
+    </div>
+  </div>
+  <button (click)="guardarModificacionPedido()" class="btn-shadow btn btn-success" style="font-family: codigeekfont;width: 60%;margin: auto;margin-bottom: 20px;text-align: center;" type="button">
+    Continuar
+  </button>
+</ng-template>
+
+<ng-template #listadoUsuarios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Seleccione un profesional</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;font-family:codigeekfont;padding-bottom:30px;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of usuariosArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mDireccion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Dirección</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="overflow-y: scroll;font-family:codigeekfont;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" >
+      {{ pointSeleccionado.direccion }}
+    </p>
+    <button (click)="abrirNavegacion()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success mb-1" style="display: inline-block; margin-top: 5px;background: linear-gradient(45deg, #169a52, #169a52);">
+      Abrir navegación
+    </button>
+  </div>
+</ng-template>

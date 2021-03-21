@@ -1,0 +1,151 @@
+<div style="height: 100%;">
+
+  <div class="col-12 col-sm-6 offset-sm-3 p-0" style="font-family: codigeekfont;display: flex;flex-flow: column;height: 100%;">
+
+    <div class="pt-4 mb-4" style="text-align: left; font-weight: bold; width: 100%; display: flex; justify-content: center; color: #169a52; font-family: codigeekfont;">
+      <i (click)="regresar()" class="lnr-chevron-left mr-3" style="font-weight: bold;font-size: 20px;position: absolute;left: 15px;"></i>
+      Inicio
+    </div>
+    <div style="font-family:codigeekfont;padding: 0px 15px;">
+      <h5 *ngIf="currentUser$" class="m-0 mt-4" style="font-size: 16px;font-weight: bold;display: flex;color: #20284c;">
+        {{ currentUser$.nombre }}
+      </h5>
+	  <h5 *ngIf="!currentUser$" class="m-0 mt-4" style="font-size: 16px;font-weight: bold;display: flex;color: #20284c;">
+        Invitado
+      </h5>
+      <div class="row m-0 mt-3">
+        <div *ngIf="currentUser$" class="col-12 col-sm-6">
+          <label *ngIf="!currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+            <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1">
+            Registra la zona donde deseas reservar
+          </label>
+          <label *ngIf="currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+            Tu ubicación
+          </label>
+          <div *ngIf="currentUser$.direccion && currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'" (click)="abrirUbicacion()" class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+            <label class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+              <img src="https://codigeek.com/projects/bookapp/pin_ubication.png" class="mr-1">
+              {{ currentUser$.direccion | limitTo : 25 }}..
+              <i class="lnr-chevron-down"></i>
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6" *ngIf="categoriaObj$._id === '5ee410dc31a9c57966bf37c2'">
+          <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+            Especialidad:
+          </label>
+          <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+            <label *ngIf="!filtroNegocio$.categoria_id" (click)="seleccionarEspecialidadFiltro()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+              Todos
+              <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+            </label>
+            <label *ngIf="filtroNegocio$.categoria_id" (click)="seleccionarEspecialidadFiltro()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+              {{ filtroNegocio$.categoria.nombre }}
+              <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 p-0">
+          <div class="mt-3 page-title-actions text-center" style="padding: 0px 15px;">
+            <ul class="header-megamenu nav">
+              <li class="nav-item">
+                <div class="search-wrapper" [class.active]="isActive" style="display: inline-block;">
+                  <div class="input-holder">
+                    <input [(ngModel)]="searchText" name="searchText" type="text" placeholder="Buscar comercio.." class="search-input">
+                    <button class="search-icon" (click)="isActive = true"><span></span></button>
+                  </div>
+                  <!-- <button class="close" (click)="isActive = false"></button> -->
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-0 mt-3" *ngIf="mainArray$.length > 0" style="font-family: codigeekfont;background: #f4f4f4;padding-top: 15px;border-radius: 20px 20px 0px 0px;box-shadow: 0px -1px 5px 1px #d3d3d3;margin: 0px -8px;min-height: 70vh;">
+      <!-- <div @restaurantes class="col-4" *ngFor="let registro_t of mainArray$; index as i" style="padding: 0px 5px 0px 5px;">
+        <div (click)="seleccionarRestaurante(registro_t)" class="dropdown-menu-header mt-2" >
+          <div class="dropdown-menu-header-inner" style="min-height: 105px;border-radius: 5px;box-shadow: 0px 0px 8px 0px #858585;">
+            <div  class="menu-header-image"
+                  [ngStyle]=" { 'background-image' : 'url(' + registro_t.foto + ')' , 'border-radius' : '5px' , 'filter' : 'none', 'opacity' : 1 }" >
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="pl-0 pr-0 card-body mb-5" style="font-family:codigeekfont;">
+        <div class="row m-0 mb-3">
+          <div class="col-12 col-sm-6 mb-2" *ngFor="let registro_t of mainArray$ | filter : searchText : 'nombre'; index as i" (click)="seleccionarRestaurante(registro_t)">
+            <div @restaurantes class="col-12" style="padding: 15px 10px;border: none;background: white;border-radius: 10px;box-shadow: 0px 7px 15px 0px #e4e4e4;">
+              <div style="position: absolute;right: 15px;top: 10px;color: #20284c;font-weight: bold;text-align: center;line-height: 1.3;">
+                5.0
+                <img src="https://codigeek.com/projects/bookapp/estrella_amarilla.png" style="width: 14px;" />
+                <div style="font-size: 10px; font-weight: bold; color: #02b53d;">
+                  ABIERTO
+                </div>
+              </div>
+              <div class="widget-content p-0">
+                <div class="widget-content-wrapper">
+                  <div class="widget-content-left mr-3">
+                      <div class="widget-content-left">
+                        <img *ngIf="registro_t.foto" width="90" class="rounded-circle" src="{{ registro_t.foto }}" style="border-radius: 5% !important;box-shadow: 0px 0px 5px 0px #b8b8b8;">
+                        <img *ngIf="!registro_t.foto" width="90" class="rounded-circle" src="{{ registro_t.categoria.foto }}" style="border-radius: 5% !important;">
+                      </div>
+                  </div>
+                  <div class="widget-content-left flex2">
+                      <div class="widget-heading" style="font-size: 14px;color: #20284c;margin-bottom: 2px;font-weight: 600;">
+                        {{ registro_t.nombre }}
+                      </div>
+                      <p style="margin: 0px 0px 5px;text-align: justify;font-size: 9px;line-height: 1;color: rgb(140, 140, 140);">
+                        {{ (registro_t.distance / 1000) | number : '1.2-2' }}kms
+                      </p>
+                      <!-- <p *ngIf="registro_t.tiempo_estimado" style="margin: 0px 0px 4px;text-align: justify;font-size: 10px;line-height: 1;color: rgb(140, 140, 140);display: flex;align-items: center;">
+                        <img src="https://codigeek.com/projects/bookapp/tiempo_icon.png" class="mr-1">
+                        {{ registro_t.tiempo_estimado }}
+                      </p>
+                      <p *ngIf="registro_t.delivery && (registro_t.kms_delivery >= (registro_t.distance / 1000))" style="margin: 0px 0px 4px;text-align: justify;font-size: 10px;line-height: 1;color: rgb(140, 140, 140);display: flex;align-items: center;">
+                        <img src="https://codigeek.com/projects/bookapp/delivery_icon.png" class="mr-1">
+                        Tiene entrega a domicilio
+                      </p>
+                      <p *ngIf="registro_t.entrega_en_tienda" style="margin: 0px 0px 4px;text-align: justify;font-size: 10px;line-height: 1;color: rgb(140, 140, 140);display: flex;align-items: center;">
+                        <img src="https://codigeek.com/projects/bookapp/20-Restaurantes_Listas.png" class="mr-1">
+                        Retiro en tienda
+                      </p>
+                      <p *ngIf="registro_t.costo_minimo" style="margin: 0px 0px 4px;text-align: justify;font-size: 9px;line-height: 1;color: rgb(140, 140, 140);">
+                        Pedido mínimo: {{ registro_t.costo_minimo }}
+                      </p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-0 mt-3 text-center" *ngIf="noRecords$">
+      <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+        No encontramos negocios con esta búsqueda :(
+      </label>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL -->
+
+<ng-template #mEspecialidades let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;font-family:codigeekfont;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Especialidades</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;font-family:codigeekfont;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c('todos')">
+      <i class="pe-7s-angle-right"></i>Todos
+    </p>
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of especialidades$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>

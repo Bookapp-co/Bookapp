@@ -1,0 +1,390 @@
+<div style="font-family: codigeekfont;">
+
+  <div class="row mb-4">
+
+    <div class="mb-3" *ngIf="mainObj$.perfil_completo && mainObj$.status != 4 && mainObj$.status != 4" [type]="info" style="width: 100%;color: #155724; background-color: #d4edda; border-color: #c3e6cb;padding: 10px;">
+      Negocio aprobado
+    </div >
+    <div class="mb-3" *ngIf="mainObj$.perfil_completo && mainObj$.status === 4" [type]="info" style="width: 100%;color: #948112; background-color: #fff7c9; border-color: #f0e49a;padding: 10px;">
+      Negocio en revisión o desactivado
+    </div >
+    <div class="mb-3" *ngIf="!mainObj$.perfil_completo" [type]="info" style="width: 100%;color: #941224; background-color: #ffdfdf; border-color: #ff9696;padding: 10px;">
+      Pendiente de completar perfil
+    </div >
+
+    <div class="col-12 mb-4 text-center">
+      <img (click)="subirImagen(2)" *ngIf="!mainObj$.foto" width="70" src="./assets/images/avatars/nophoto.png" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+      <img (click)="subirImagen(2)" *ngIf="mainObj$.foto" width="70" src="{{ mainObj$.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+    </div>
+
+    <ngb-tabset class="tabs-animated tabs-animated-line" style="width: 100%;">
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          <span>
+            Información del comercio
+          </span>
+        </ng-template>
+        <ng-template ngbTabContent>
+
+          <form style="margin-top: 15px;padding: 15px;">
+
+            <div class="position-relative form-group">
+
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Nombre del negocio
+                </h5>
+                <input [(ngModel)]="mainObj$.nombre" name="nombre" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Descripción
+                </h5>
+                <input [(ngModel)]="mainObj$.descripcion" name="descripcion" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Teléfono
+                </h5>
+                <input [(ngModel)]="mainObj$.telefono" name="telefono" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;" *ngIf="isAdmin">
+                <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+                  Administrador
+                </label>
+                <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+                  <label (click)="seleccionarAdministrador()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                    {{ mainObj$.usuario_id ? mainObj$.usuario.nombre : "Selecciona" }}
+                    <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+                  </label>
+                </div>
+              </div>
+              <div class="row m-0 mb-3 pb-2" style="border-bottom: 2px solid #dedede;" *ngIf="isAdmin">
+                <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+                  Categoría
+                </label>
+                <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+                  <label (click)="seleccionarCategoria()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+                    {{ mainObj$.categoria_id ? mainObj$.categoria.nombre : "Selecciona" }}
+                    <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+                  </label>
+                </div>
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Busca una dirección
+                </h5>
+                <input [(ngModel)]="mainObj$.direccion" name="direccion" autocorrect="off" autocapitalize="off" spellcheck="off" #search type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+
+              <agm-map
+                style="height: 200px;"
+                [latitude]="mainObj$.latitude"
+                [longitude]="mainObj$.longitude"
+                [zoom]="zoom"
+                [disableDefaultUI]="true"
+                [zoomControl]="false"
+                (mapClick)="mapClicked($event)"
+                [gestureHandling]="'greedy'"
+                >
+
+                <agm-marker
+                  [latitude]="mainObj$.latitude"
+                  [longitude]="mainObj$.longitude"
+                  [label]="mainObj$.nombre" >
+
+                  <!-- <agm-info-window>
+                    <strong>InfoWindow content</strong>
+                  </agm-info-window> -->
+
+                </agm-marker>
+
+                <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng"
+                            [radius]="5000"
+                            [fillColor]="'red'"
+                            [circleDraggable]="true"
+                            [editable]="true">
+                </agm-circle> -->
+
+              </agm-map>
+
+            </div>
+
+          </form>
+        </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <span>
+              Información adicional
+            </span>
+          </ng-template>
+          <ng-template ngbTabContent>
+
+            <form style="margin-top: 15px;padding: 15px;">
+
+
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Identificador fiscal
+                </h5>
+                <input [(ngModel)]="mainObj$.rfc" name="rfc" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="position-relative form-group" *ngIf="isAdmin">
+                <h5 class="custom-label-cg">
+                  Comisión (%)
+                </h5>
+                <input [(ngModel)]="mainObj$.comision" name="comision" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="col-sm-12 p-0" style="margin-bottom: 30px;">
+                <label class="" style="position: relative;font-size: 13px;color: black;font-weight: normal;">
+                  Tipo de cuenta
+                </label>
+                <mat-radio-group aria-label="Selecciona una opción" name="tipo_cuenta_bancaria" [(ngModel)]="mainObj$.tipo_cuenta_bancaria">
+                  <mat-radio-button [value]="1" [checked]="mainObj$.tipo_cuenta_bancaria === 1">
+                    Ahorros
+                  </mat-radio-button>
+                  <mat-radio-button [value]="2" [checked]="mainObj$.tipo_cuenta_bancaria === 2">
+                    Corriente
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Número de cuenta
+                </h5>
+                <input [(ngModel)]="mainObj$.numero_cuenta" name="numero_cuenta" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <div class="position-relative form-group" >
+                <h5 class="custom-label-cg">
+                  Banco
+                </h5>
+                <input [(ngModel)]="mainObj$.banco" name="banco" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+              </div>
+              <label class="cg-label-input" style="font-size: 14px;color: #868686;position: relative;width:100%;pointer-events: all;margin-top: 8px;">
+                Foto identificación frontal (opcional)
+              </label>
+              <form style="margin-top: 15px;">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" (change)="fotoFrontalChangeEvent($event)" id="validatedCustomFile" required>
+                  <label class="custom-file-label" for="validatedCustomFile">Sube un archivo..</label>
+                </div>
+                <p *ngIf="mainObj$.id_foto_anverso">
+                  Archivo: {{ mainObj$.id_foto_anverso.name }}
+                </p>
+              </form>
+              <img *ngIf="mainObj$.id_foto_anverso_url" width="42" src="{{ mainObj$.id_foto_anverso_url }}" alt="" class="mt-2 rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+              <label class="cg-label-input" style="font-size: 14px;color: #868686;position: relative;width:100%;pointer-events: all;margin-top: 8px;">
+                Foto identificación inverso (opcional)
+              </label>
+              <form style="margin-top: 15px;">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" (change)="fotoInversaChangeEvent($event)" id="validatedCustomFile" required>
+                  <label class="custom-file-label" for="validatedCustomFile">Sube un archivo..</label>
+                </div>
+                <p *ngIf="mainObj$.id_foto_inverso">
+                  Archivo: {{ mainObj$.id_foto_inverso.name }}
+                </p>
+              </form>
+              <img *ngIf="mainObj$.id_foto_inverso_url" width="42" src="{{ mainObj$.id_foto_inverso_url }}" alt="" class="mt-2 rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+              <label class="cg-label-input" style="font-size: 14px;color: #868686;position: relative;width:100%;pointer-events: all;margin-top: 8px;">
+                Archivo formal de negocio (opcional)
+              </label>
+              <form style="margin-top: 15px;">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" (change)="fotoRUCChangeEvent($event)" id="validatedCustomFile" required>
+                  <label class="custom-file-label" for="validatedCustomFile">Sube un archivo..</label>
+                </div>
+                <p *ngIf="mainObj$.id_foto_ruc">
+                  Archivo: {{ mainObj$.id_foto_ruc.name }}
+                </p>
+              </form>
+              <p class="mt-4 mb-3 ml-2" *ngIf="mainObj$.id_foto_ruc_url">
+                <span (click)="abrirArchivo(mainObj$.id_foto_ruc_url)" style="color: #1f3b7d; text-decoration: underline; cursor: pointer;">
+                  Descargar archivo RUC
+                </span>
+              </p>
+            </form>
+            <div class="col-12" style="margin-bottom: 30px;" *ngIf="mainObj$._id">
+              <label style="font-size: 14px;color: #169a52;position: relative;width: 100%;">
+                <i (click)="agregarGaleria(undefined)" class="lnr-plus-circle mr-1 mt-1" style="cursor:pointer;font-size: 18px">
+                </i>
+                Fotos del comercio
+              </label>
+              <table class="table table-striped">
+                <thead>
+                  <tr style="background: #f2f2f2;">
+                    <th scope="col" ></th>
+                    <th scope="col" >Foto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let registro_t of mainObj$.galeria; index as i" style="background: white;border-bottom: 1px solid #dddddd;">
+                    <td style="text-align:center; font-size: 12px;">
+                      <i (click)="borrarGaleria( registro_t )" class="lnr-trash mr-1" style="cursor:pointer;">
+                      </i>
+                    </td>
+                    <td  style="font-size: 12px;text-align: center;">
+                        <img width="70" src="{{ registro_t.foto }}" alt="" class="rounded-circle" style="border: 2px solid white; box-shadow: 0px 0px 10px 0px #acacac;">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+
+      <div *ngIf="isAdmin">
+        <div class="row m-0" *ngIf="mainObj$.sucursales.length > 0" style="width:100%;">
+          <label style="font-size: 14px; color: #169a52; margin-bottom: 2px; font-weight: 600; width: 100%;">
+            Sucursales
+          </label>
+          <div class="col-12 mt-2 mb-2" (click)="editarRegistro(registro_t)" *ngFor="let registro_t of mainObj$.sucursales; index as i" style="cursor:pointer;">
+            <span style="background: #ececec; color: #858585; padding: 5px 15px; border-radius: 3px;">
+              <i class="lnr-arrow-right mr-2"></i>
+              {{ registro_t.nombre }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-4 offset-sm-4 text-center">
+        <button *ngIf="mainObj$._id" (click)="borrar()" class="boton-confirmar-morado">
+          Borrar
+        </button>
+      </div>
+      <div class="col-12 col-sm-4 offset-sm-4 text-center">
+        <button (click)="verificarGuardado()" class="boton-confirmar-morado">
+          Actualizar
+        </button>
+      </div>
+
+  </div>
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mImagenNegocio let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="256"
+        [cropperMinWidth]="256"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarGaleria()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #listadoUsuarios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Administrador</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of usuariosArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #listadoCategorias let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Categoría</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px; overflow-y: scroll;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of categoriasArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->

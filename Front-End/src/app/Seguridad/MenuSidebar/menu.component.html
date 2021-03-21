@@ -1,0 +1,257 @@
+<div style="font-family: codigeekfont;">
+  <img src="https://codigeek.com/projects/bookapp/logo_business.png" style="width: 15%;float: right;margin: 10px 0px 0px 0px;">
+  <div class="row mb-3">
+    <app-user-box style="width:100%;"></app-user-box>
+  </div>
+
+  <div *ngIf="currentUser$">
+
+    <!-- Administración -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c4050f358209844a83c8622'">
+      <div class="col-12 p-0">
+        <div (click)="irA('/pedidos/admin')" class="card-header card-header-menu" [ngClass]="1 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(1)" [ngClass]="1 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(1)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-book" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Reservas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/configuraciones')" class="card-header card-header-menu" [ngClass]="2 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(2)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-cog" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Configuraciones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/categorias')" class="card-header card-header-menu" [ngClass]="3 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(3)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-database" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Categorías
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/usuarios')" class="card-header card-header-menu" [ngClass]="4 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(4)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-user" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mis Colaboradores
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/negocios')" class="card-header card-header-menu" [ngClass]="5 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(5)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-apartment" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Negocios
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion-negocio/publicidades')" class="card-header card-header-menu" [ngClass]="15 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(15)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-picture" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Publicidades
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/dashboard')" class="card-header card-header-menu" [ngClass]="16 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(16)" [ngClass]="16 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(16)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-chart-bars" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Estadísticas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/seguridad/alertas')" class="card-header card-header-menu" [ngClass]="6 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(6)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-alarm" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Alertas
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Administración Negocio -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c4050fa58209844a83c8623'">
+      <div class="col-12 p-0">
+        <div (click)="irA('/pedidos/admin')" class="card-header card-header-menu" [ngClass]="1 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(1)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-book" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mis reservas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="!currentUser$.negocio.main">
+        <div (click)="irA('/pedidos/checkout')" class="card-header card-header-menu" [ngClass]="25 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(25)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-pencil" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Registrar reserva
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irAMiComercio()" class="card-header card-header-menu" [ngClass]="2 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(2)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-apartment" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mi comercio
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="currentUser$.negocio.main">
+        <div (click)="irA('/negocio/usuarios')" class="card-header card-header-menu" [ngClass]="3 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(3)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-user" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mis Colaboradores
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion-negocio/categorias')" class="card-header card-header-menu" [ngClass]="4 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(4)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-database" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Tipo de reserva
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-12 p-0">
+        <div (click)="irA('/administracion-negocio/menu')" class="card-header card-header-menu" [ngClass]="5 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(5)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-chart-bars" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Catálogo
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 p-0" *ngIf="currentUser$.negocio.main">
+        <div (click)="irA('/administracion/sucursales')" class="card-header card-header-menu" [ngClass]="6 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(6)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-map" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Sucursales
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="currentUser$.negocio.main">
+        <div (click)="irA('/administracion-negocio/publicidades')" class="card-header card-header-menu" [ngClass]="15 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(15)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-picture" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Publicidades
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/administracion/dashboard')" class="card-header card-header-menu" [ngClass]="16 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(16)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-chart-bars" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Estadísticas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/general/ayuda')" class="card-header card-header-menu" [ngClass]="7 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(7)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-bubble" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Ayuda y soporte técnico
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Cliente -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c40513258209844a83c8629'">
+      <!-- <div class="col-12 p-0">
+        <div (click)="irA('/cliente/seleccion-categoria')" class="card-header card-header-menu" [ngClass]="1 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(1)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="pe-7s-home" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            ¡Pide ahora!
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 p-0">
+        <div (click)="irA('/cliente/seleccion-categoria')" class="card-header card-header-menu" [ngClass]="1 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(1)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-home" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Inicio
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/pedidos/listado')" class="card-header card-header-menu" [ngClass]="21 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(21)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-book" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mis reservas
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/cliente/promociones')" class="card-header card-header-menu" [ngClass]="6 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(6)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-tag" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Promociones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/pages/ubicaciones')" class="card-header card-header-menu" [ngClass]="7 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(7)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-map-marker" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mis direcciones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/general/ayuda')" class="card-header card-header-menu" [ngClass]="2 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(2)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-bubble" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Ayuda y soporte técnico
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repartidor -->
+    <div class="row" *ngIf="currentUser$.tipo_usuario_id === '5c40513658209844a83c862a'">
+      <div class="col-12 p-0">
+        <div (click)="irA('/pedidos/admin')" class="card-header card-header-menu" [ngClass]="1 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(1)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-book" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Mis reservas
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Repartidor -->
+
+    <!-- General -->
+    <div class="row">
+      <div class="col-12 p-0">
+        <div (click)="irA('/cliente/perfil')" class="card-header card-header-menu" [ngClass]="11 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(11)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-user" style="font-size: 17px;position: absolute;left: 15px;top: 10px;"></i>
+            Mi información personal
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="irA('/general/notificaciones')" class="card-header card-header-menu" [ngClass]="13 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(13)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-alarm" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Notificaciones
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div (click)="userLogout()" class="card-header card-header-menu" [ngClass]="14 === activeElement ? 'menusidebarelementactive' : 'menusidebarelement'" (click)="selectedItem(14)">
+          <div style="text-align: left;font-weight: normal;margin-left: 20px;">
+            <i class="lnr-exit" style="font-size: 18px;position: absolute;left: 18px;top: 10px;"></i>
+            Cerrar sesión
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

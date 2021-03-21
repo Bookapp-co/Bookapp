@@ -1,0 +1,74 @@
+
+<div class="page-title-actions mb-3 text-center" *ngIf="isAdminNeg">
+  <ul class="header-megamenu nav">
+    <li class="nav-item">
+      <button (click)="nuevoRegistro()" type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success" style="display: inline-block; margin-top: 5px;">
+        Nueva publicidad
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div class="row mt-4" style="font-family: codigeekfont;">
+  <div class="col-12 col-sm-4" (click)="accionesPublicidad(registro_t)" *ngFor="let registro_t of mainArray$; index as i">
+    <div class="card main-card mb-3" style="padding: 10px;">
+      <div class="row m-0">
+        <div class="col-12 p-0 mt-2">
+          <img src="{{ registro_t.foto }}" style="width:100%;">
+        </div>
+        <div class="col-12 p-0 mt-2">
+          <h5 style="margin: 5px 0px 0px 0px;font-size: 14px;text-transform: none;color: black;font-weight: bold;">
+            {{ registro_t.nombre }}
+          </h5>
+        </div>
+        <div class="col-6 p-0 mt-1">
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: #169a52;">
+            {{ registro_t.status === 1 ? "Por aprobar" : registro_t.status === 2 ? "Activa" : registro_t.status === 3 ? "Terminada" : registro_t.status === 4 ? "No aprobada" : "Inactiva" }}
+          </h5>
+        </div>
+        <div class="col-6 p-0 mt-1" *ngIf="isAdmin">
+          <h5 style="margin: 0px;font-size: 12px;text-transform: none;color: #169a52;">
+            {{ registro_t.negocio.nombre }}
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mAcciones let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Acciones
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p (click)="returnAccion(2)" style="margin: 5px 0px 0px 0px;">
+      <span style="cursor:pointer;">
+        <i class="lnr-chevron-right mr-2"></i>
+        Activar (se hará el cobro a la tarjeta del cliente)
+      </span>
+    </p>
+    <p (click)="returnAccion(4)" style="margin: 5px 0px 0px 0px;">
+      <span style="cursor:pointer;">
+        <i class="lnr-chevron-right mr-2"></i>
+        No aprobar
+      </span>
+    </p>
+    <p (click)="returnAccion(6)" style="margin: 5px 0px 0px 0px;">
+      <span style="cursor:pointer;">
+        <i class="lnr-chevron-right mr-2"></i>
+        Desactivar
+      </span>
+    </p>
+    <p (click)="returnAccion(5)" style="margin: 5px 0px 0px 0px;">
+      <span style="cursor:pointer;">
+        <i class="lnr-chevron-right mr-2"></i>
+        Borrar
+      </span>
+    </p>
+  </div>
+</ng-template>

@@ -1,0 +1,336 @@
+
+<div class="row m-0 mt-2 mb-5 pl-2 pr-2">
+  <div class="col-sm-8 offset-sm-2 col-12">
+    <div class="row">
+      <div class="col-12 mt-4" >
+        <h5 class="custom-label-cg">
+          ¿Con cuántas horas de anticipación permite que sus clientes reserven?
+        </h5>
+        <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+          <label (click)="seleccionarTiempo1()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+            {{ mainObj$.tiempo_id ? mainObj$.tiempo.nombre : "Selecciona" }}
+            <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+          </label>
+        </div>
+      </div>
+      <div class="col-12 mt-4" >
+        <h5 class="custom-label-cg">
+          Duración del servicio
+        </h5>
+        <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+          <label (click)="seleccionarTiempo2()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+            {{ mainObj$.tiempo_alquilacion_id ? mainObj$.tiempo_alquilacion.nombre : "Selecciona" }}
+            <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+          </label>
+        </div>
+      </div>
+      <div class="col-12 mt-4" >
+        <h5 class="custom-label-cg">
+          Tiempo de tolerancia de la reserva
+        </h5>
+        <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+          <label (click)="seleccionarTiempo3()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+            {{ mainObj$.tiempo_tolerancia_id ? mainObj$.tiempo_tolerancia.nombre : "Selecciona" }}
+            <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+          </label>
+        </div>
+      </div>
+      <div class="col-12 mt-4" >
+        <h5 class="custom-label-cg">
+          {{
+            currentUser$.negocio.categoria_id === "5ee410ec31a9c57966bf37c3" ? "Cancha" :
+            currentUser$.negocio.categoria_id === "5ee410fe31a9c57966bf37c4" ? "Servicio" :
+            currentUser$.negocio.categoria_id === "5ee4110b31a9c57966bf37c5" ? "Mesa" :
+            currentUser$.negocio.categoria_id === "5ee410dc31a9c57966bf37c2" ? "Servicio" :
+            "------"
+          }}
+        </h5>
+        <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+          <label (click)="seleccionarServicio()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+            {{ mainObj$.servicio_id ? mainObj$.servicio.nombre : "Selecciona" }}
+            <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+          </label>
+        </div>
+      </div>
+      <div class="col-12 mt-4" *ngIf="isMedico">
+        <h5 class="custom-label-cg">
+          Especialidades
+        </h5>
+        <div class="col-12 mt-2 mb-1 selector-catalogo" style="padding: 9px 15px;">
+          <label (click)="seleccionarEspecialidad()" class="m-0" style="position: relative;color: #858585;font-weight: bold;width: 100%;display: flex;align-items: center;">
+            {{ mainObj$.especialidad_id ? mainObj$.especialidad.nombre : "Selecciona" }}
+            <i class="lnr-chevron-down ml-1" style="color: #169a52; font-weight: bold; float: right;"></i>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row" *ngIf="isCancha">
+
+    </div> -->
+    <div class="row" *ngIf="!(negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5')">
+      <div class="col-12 mt-4" >
+        <h5 class="custom-label-cg" mat-raised-button matTooltip="Escribir el precio sin comas ni puntos" matTooltipClass="tooltip-brand">
+          <i class="lnr-question-circle"></i>
+          Precio del servicio
+        </h5>
+        <input [(ngModel)]="mainObj$.costo" name="costo" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+    </div>
+    <div class="col-12 mt-4 mb-3 p-0">
+      <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.promocion" name="promocion" style="color: #169a52">
+        Promoción
+      </mat-checkbox>
+      <div class="col-12 col-sm-6 offset-sm-3 mt-3 mb-4 text-center" *ngIf="mainObj$.promocion">
+        <img (click)="subirImagenPromocion()" *ngIf="mainObj$.foto_promocion" width="70" src="{{ mainObj$.foto_promocion }}" alt="" style="border: 2px solid white;box-shadow: 0px 0px 10px 0px #acacac;width: 50%;margin-bottom: 15px;">
+        <button (click)="subirImagenPromocion()" class="boton-confirmar-morado m-0" style="width: 100%;">
+          Subir imagen
+        </button>
+      </div>
+      <div class="col-12 mt-3" *ngIf="mainObj$.promocion">
+        <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.aplica_porcentaje" name="aplica_porcentaje" style="color: #169a52">
+          Aplica porcentaje
+        </mat-checkbox>
+      </div>
+      <div class="col-12 mt-3" *ngIf="(!mainObj$.aplica_porcentaje) && mainObj$.promocion">
+        <h5 class="custom-label-cg">
+          Detalle de la promoción
+        </h5>
+        <input [(ngModel)]="mainObj$.detalle_promocion" name="detalle_promocion" type="text" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+      <div class="col-12 mt-3" *ngIf="mainObj$.aplica_porcentaje && mainObj$.promocion">
+        <h5 class="custom-label-cg">
+          Porcentaje de promoción (%)
+        </h5>
+        <input [(ngModel)]="mainObj$.porcentaje_descuento" name="porcentaje_descuento" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+    </div>
+    <div class="col-12 mt-4 mb-3 p-0" *ngIf="!(negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5')">
+      <mat-checkbox class="example-margin" [(ngModel)]="mainObj$.anticipo" name="anticipo" style="color: #169a52">
+        Anticipo
+      </mat-checkbox>
+      <div class="col-12 mt-3" *ngIf="mainObj$.anticipo">
+        <h5 class="custom-label-cg" mat-raised-button matTooltip="Cantidad de anticipo por la reserva el valor es reembolsable" matTooltipClass="tooltip-brand">
+          Cantidad de anticipo
+          <i class="lnr-question-circle"></i>
+        </h5>
+        <input [(ngModel)]="mainObj$.anticipo_cantidad" name="anticipo_cantidad" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+      </div>
+    </div>
+    <div class="col-sm-12 p-0 mt-3" style="margin-bottom: 30px;" *ngIf="(negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5')">
+      <label style="position: relative;font-size: 13px;color: #169a52;font-weight: normal;">
+        Decoración opcional
+      </label>
+      <mat-radio-group aria-label="Selecciona una opción" name="decoracion" [(ngModel)]="mainObj$.decoracion">
+        <mat-radio-button [value]="1" [checked]="mainObj$.decoracion === 1">
+          Activar
+        </mat-radio-button>
+        <mat-radio-button [value]="2" [checked]="mainObj$.decoracion === 2">
+          Desactivar
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col-12 mt-4 mb-3 p-0" *ngIf="(negocioObj$.categoria_id === '5ee4110b31a9c57966bf37c5') && mainObj$.decoracion === 1">
+      <div class="col-row mb-3" style="background: #169a52; color: white; padding: 5px 10px; border-radius: 3px;">
+        Precios de decoración
+        <span (click)="agregarPrecioDecoracion()" style="float: right; background: white; color: #169a52; padding: 0px 5px; font-size: 12px; margin-top: 1px; border-radius: 2px;">
+          Agregar
+        </span>
+      </div>
+      <div class="row m-0 pb-3" *ngFor="let registro_t of mainObj$.precio_decoracion; index as i" style="border-bottom: 2px solid #a4a4a4;">
+        <div class="col-12 col-sm-1 mt-3">
+          <i class="lnr-trash mr-2" (click)="borrarPrecioDecoracion( i )" style="cursor: pointer; font-weight: bold;"></i>
+        </div>
+        <div class="col-6 col-sm-2 mt-3">
+          <h5 class="custom-label-cg">
+            Desde # Personas
+          </h5>
+          <input [(ngModel)]="registro_t.numero_personas_desde" name="numero_personas_desde" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+        </div>
+        <div class="col-6 col-sm-2 mt-3">
+          <h5 class="custom-label-cg">
+            Hasta # Personas
+          </h5>
+          <input [(ngModel)]="registro_t.numero_personas_hasta" name="numero_personas_hasta" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+        </div>
+        <div class="col-6 col-sm-3 mt-3">
+          <h5 class="custom-label-cg">
+            Precio
+          </h5>
+          <input [(ngModel)]="registro_t.costo" name="costo" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+        </div>
+        <div class="col-6 col-sm-3 mt-3">
+          <h5 class="custom-label-cg">
+            Anticipo
+          </h5>
+          <input [(ngModel)]="registro_t.anticipo" name="anticipo" type="number" class="custom-input-cg-np" required style="font-size: 13px; ">
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 offset-sm-3 mt-2 text-center" *ngIf="mainObj$._id">
+      <button (click)="borrar()" class="boton-confirmar-morado" style="width: 100%;">
+        Borrar
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 offset-sm-3 mt-2 text-center" *ngIf="mainObj$._id">
+      <button (click)="clonar()" class="boton-confirmar-morado" style="width: 100%;">
+        Clonar
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 offset-sm-3 mt-2 text-center">
+      <button (click)="guardar()" class="boton-confirmar-morado" style="width: 100%;">
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODALS -->
+
+<ng-template #mTiempos let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Tiempo
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of tiemposArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mServicios let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      {{
+        currentUser$.negocio.categoria_id === "5ee410ec31a9c57966bf37c3" ? "Canchas" :
+        currentUser$.negocio.categoria_id === "5ee410fe31a9c57966bf37c4" ? "Servicios" :
+        currentUser$.negocio.categoria_id === "5ee4110b31a9c57966bf37c5" ? "Mesas" :
+        currentUser$.negocio.categoria_id === "5ee410dc31a9c57966bf37c2" ? "Servicios" :
+        "------"
+      }}
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of serviciosArray$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mEspecialidades let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">
+      Especialidades
+    </h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 400px;overflow-y: scroll;padding-bottom: 40px;">
+    <p style="margin: 8px 0px;cursor:pointer;padding-bottom: 8px;border-bottom: 1px solid #eaeaea;" (click)="c(registro_t)" *ngFor="let registro_t of especialidades$; index as i">
+      <i class="pe-7s-angle-right"></i>{{ registro_t.nombre }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #mImagen let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagen()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mImagenPromocion let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Imagen</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="margin-top: 15px;">
+      <div class="custom-file mb-3">
+        <input type="file" class="custom-file-input" (change)="fileChangeEvent($event)" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Selecciona una imagen...</label>
+      </div>
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="2 / 1"
+        [resizeToWidth]="500"
+        [cropperMinWidth]="500"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        format="png"
+        outputType="base64"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+        [style.display]="showCropper ? null : 'none'"
+      ></image-cropper>
+    </form>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="guardarImagenPromocion()">Guardar</button>
+  </div>
+</ng-template>
+
+<ng-template #mBorrar let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background: none;padding: 10px 15px;">
+    <h6 class="modal-title" style="color: black; font-weight: 500;">Borrar registro</h6>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" style="padding: 10px 15px;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p style="margin: 5px 0px;">
+      ¿Deseas borrar este registro?
+    </p>
+  </div>
+  <div class="modal-footer" style="background: none;">
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cerrar</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
+
+<!-- MODALS -->
